@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">NutriFit</string>
+    <string name="title_activity_main">NutriFit</string>
+    <string name="package_name">com.nutrifit.app</string>
+    <string name="custom_url_scheme">com.nutrifit.app</string>
+</resources>

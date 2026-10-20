@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { DailyMealPlan, GroceryItem } from '../types';
 import { ShoppingBag, CheckSquare, Square, Copy, Check } from 'lucide-react';
 
@@ -7,27 +7,45 @@ interface GroceryListProps {
 }
 
 export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan }) => {
-  // Extract all ingredients from current meal plan
-  const rawItems: GroceryItem[] = [];
-
-  Object.values(mealPlan.meals).forEach((food) => {
-    food.ingredients.forEach((ing) => {
-      rawItems.push({
-        name: ing.item,
-        amount: ing.amount,
-        category: ing.category,
-        checked: false
-      });
-    });
-  });
-
-  const [items, setItems] = useState<GroceryItem[]>(rawItems);
+  const [checkedNames, setCheckedNames] = useState<Set<string>>(new Set());
   const [copied, setCopied] = useState(false);
 
-  const toggleCheck = (index: number) => {
-    const updated = [...items];
-    updated[index].checked = !updated[index].checked;
-    setItems(updated);
+  // Consolidate ingredients from current meal plan and preserve uniqueness
+  const items = useMemo<GroceryItem[]>(() => {
+    const map = new Map<string, GroceryItem>();
+
+    Object.values(mealPlan.meals).forEach((food) => {
+      food.ingredients.forEach((ing) => {
+        const key = `${ing.category}_${ing.item.toLowerCase()}`;
+        if (map.has(key)) {
+          const existing = map.get(key)!;
+          if (!existing.amount.includes(ing.amount)) {
+            existing.amount = `${existing.amount} + ${ing.amount}`;
+          }
+        } else {
+          map.set(key, {
+            name: ing.item,
+            amount: ing.amount,
+            category: ing.category,
+            checked: false
+          });
+        }
+      });
+    });
+
+    return Array.from(map.values());
+  }, [mealPlan]);
+
+  const toggleCheck = (name: string) => {
+    setCheckedNames((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) {
+        next.delete(name);
+      } else {
+        next.add(name);
+      }
+      return next;
+    });
   };
 
   const categories: { key: GroceryItem['category']; title: string; icon: string }[] = [
@@ -38,7 +56,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan }) => {
     { key: 'spices_pantry', title: 'Spices, Oils & Nuts (मसाले और ड्राई फ्रूट्स)', icon: '🧂' }
   ];
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     const listText = categories
       .map((cat) => {
         const catItems = items.filter((i) => i.category === cat.key);
@@ -48,9 +66,23 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan }) => {
       .filter(Boolean)
       .join('\n\n');
 
-    navigator.clipboard.writeText(`🛒 *NutriBharat Weekly Kirana Shopping List*\n\n${listText}`);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 3000);
+    const fullContent = `🛒 *NutriFit Weekly Kirana Shopping List*\n\n${listText}`;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(fullContent);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = fullContent;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      console.warn('Clipboard write failed:', err);
+    }
   };
 
   return (
@@ -96,21 +128,21 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan }) => {
               </h2>
 
               <div className="space-y-2">
-                {items.map((item, idx) => {
-                  if (item.category !== cat.key) return null;
-
+                {categoryItems.map((item) => {
+                  const isChecked = checkedNames.has(item.name);
                   return (
-                    <div
-                      key={idx}
-                      onClick={() => toggleCheck(idx)}
-                      className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
-                        item.checked
+                    <button
+                      type="button"
+                      key={item.name}
+                      onClick={() => toggleCheck(item.name)}
+                      className={`w-full text-left flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                        isChecked
                           ? 'bg-slate-900/40 border-slate-800 text-slate-500 line-through'
                           : 'bg-slate-900/80 border-slate-700/60 text-slate-200 hover:border-slate-600'
                       }`}
                     >
                       <div className="flex items-center space-x-3">
-                        {item.checked ? (
+                        {isChecked ? (
                           <CheckSquare className="w-4 h-4 text-emerald-500 shrink-0" />
                         ) : (
                           <Square className="w-4 h-4 text-slate-500 shrink-0" />
@@ -120,7 +152,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan }) => {
                       <span className="text-xs bg-slate-800 px-2 py-0.5 rounded text-amber-300 font-mono">
                         {item.amount}
                       </span>
-                    </div>
+                    </button>
                   );
                 })}
               </div>

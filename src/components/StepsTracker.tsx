@@ -27,7 +27,7 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
 
   // Interval timer for tracking steps
   useEffect(() => {
-    let interval: any = null;
+    let interval: ReturnType<typeof setInterval> | null = null;
     if (isTracking) {
       interval = setInterval(() => {
         // Increment steps based on activity type
@@ -35,10 +35,12 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
         setCurrentSteps((prev) => prev + stepIncrement);
         setActiveMins((prev) => prev + 0.1);
       }, 1000);
-    } else {
+    } else if (interval) {
       clearInterval(interval);
     }
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isTracking, activityType]);
 
   // Calculate metrics based on steps & profile weight
@@ -111,12 +113,25 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
           text: text,
           url: window.location.href,
         });
-      } catch (err) {
+      } catch {
         console.log('Share dismissed');
       }
     } else {
-      navigator.clipboard.writeText(text);
-      alert('Activity summary copied to clipboard! You can paste and share it on WhatsApp, Instagram, or Strava.');
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+        }
+        alert('Activity summary copied to clipboard! You can paste and share it on WhatsApp, Instagram, or Strava.');
+      } catch (err) {
+        console.warn('Clipboard write failed:', err);
+      }
     }
   };
 
@@ -195,7 +210,7 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
               <select
                 disabled={isTracking}
                 value={activityType}
-                onChange={(e) => setActivityType(e.target.value as any)}
+                onChange={(e) => setActivityType(e.target.value as StepsLogEntry['activityType'])}
                 className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:border-orange-500 focus:outline-none disabled:opacity-50"
               >
                 <option value="walk">🚶 Outdoor Walk</option>

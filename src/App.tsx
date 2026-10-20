@@ -29,7 +29,7 @@ export function App() {
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = localStorage.getItem('ahaarfit_profile');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return {
       name: 'Indian Fitness Enthusiast',
@@ -57,7 +57,7 @@ export function App() {
   const [fastingState, setFastingState] = useState<FastingState>(() => {
     const saved = localStorage.getItem('ahaarfit_fasting');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return {
       isFasting: false,
@@ -75,7 +75,7 @@ export function App() {
   const [savedCustomRecipes, setSavedCustomRecipes] = useState<CustomRecipe[]>(() => {
     const saved = localStorage.getItem('ahaarfit_custom_recipes');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return [];
   });
@@ -98,7 +98,7 @@ export function App() {
   const [workouts, setWorkouts] = useState<WorkoutEntry[]>(() => {
     const saved = localStorage.getItem('ahaarfit_workouts');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return [
       {
@@ -121,7 +121,7 @@ export function App() {
   const [stepsLogs, setStepsLogs] = useState<StepsLogEntry[]>(() => {
     const saved = localStorage.getItem('ahaarfit_steps_logs');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return [
       {
@@ -151,7 +151,7 @@ export function App() {
   const [weightLogs, setWeightLogs] = useState<WeightEntry[]>(() => {
     const saved = localStorage.getItem('ahaarfit_weight_logs');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return [
       { date: 'Aug 15', weightKg: 73.5, bmi: 24.0 },
@@ -173,7 +173,7 @@ export function App() {
   const [mealPlan, setMealPlan] = useState<DailyMealPlan>(() => {
     const saved = localStorage.getItem('ahaarfit_mealplan');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return generateDailyMealPlan(profile, macroGoals.calories);
   });
@@ -223,15 +223,20 @@ export function App() {
     };
   }, [selectedRecipe, swappingSlot, isMoreOpen, activeTab]);
 
+  const [planSeed, setPlanSeed] = useState(0);
+
   // Handle regenerating meal plan
   const handleRegeneratePlan = () => {
-    setMealPlan(generateDailyMealPlan(profile, macroGoals.calories));
+    const nextSeed = planSeed + 1;
+    setPlanSeed(nextSeed);
+    setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, nextSeed));
   };
 
   // Handle saving new profile from calculator
-  const handleProfileUpdated = () => {
-    const newGoals = calculateMacroGoals(profile);
-    setMealPlan(generateDailyMealPlan(profile, newGoals.calories));
+  const handleProfileUpdated = (updatedProfile?: UserProfile) => {
+    const targetProfile = updatedProfile || profile;
+    const newGoals = calculateMacroGoals(targetProfile);
+    setMealPlan(generateDailyMealPlan(targetProfile, newGoals.calories));
     setActiveTab('planner');
   };
 

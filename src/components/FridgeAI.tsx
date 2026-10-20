@@ -79,45 +79,56 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
       </div>
 
       {/* Results Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {matchingFoods.map((food) => (
-          <div
-            key={food.id}
-            onClick={() => onSelectRecipe(food)}
-            className="bg-slate-800/70 border border-slate-700/60 hover:border-amber-500/50 p-5 rounded-3xl space-y-3 cursor-pointer transition-all duration-200 shadow-md hover:shadow-xl hover:scale-[1.02] flex flex-col justify-between"
-          >
-            <div className="space-y-2">
-              <div className="flex justify-between items-start">
-                <span className="text-xs bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-400/20 font-semibold uppercase">
-                  {food.slot.replace('_', ' ')}
-                </span>
-                <span className="text-xs text-slate-400 flex items-center space-x-1">
-                  <Clock className="w-3 h-3" />
-                  <span>{food.prepTimeMins}m</span>
-                </span>
+      {matchingFoods.length === 0 ? (
+        <div className="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl text-center space-y-2 text-slate-400">
+          <ChefHat className="w-10 h-10 mx-auto text-slate-600" />
+          <h3 className="text-base font-bold text-slate-300">No Matching Fitness Dishes Found</h3>
+          <p className="text-xs max-w-sm mx-auto">
+            Try selecting additional Indian ingredients (like Paneer, Besan, Eggs, or Oats) above to discover recipes!
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {matchingFoods.map((food) => (
+            <button
+              type="button"
+              key={food.id}
+              onClick={() => onSelectRecipe(food)}
+              className="w-full text-left bg-slate-800/70 border border-slate-700/60 hover:border-amber-500/50 p-5 rounded-3xl space-y-3 cursor-pointer transition-all duration-200 shadow-md hover:shadow-xl hover:scale-[1.02] flex flex-col justify-between"
+            >
+              <div className="space-y-2 w-full">
+                <div className="flex justify-between items-start">
+                  <span className="text-xs bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-400/20 font-semibold uppercase">
+                    {food.slot.replace('_', ' ')}
+                  </span>
+                  <span className="text-xs text-slate-400 flex items-center space-x-1">
+                    <Clock className="w-3 h-3" />
+                    <span>{food.prepTimeMins}m</span>
+                  </span>
+                </div>
+
+                <h3 className="font-extrabold text-base text-white">{food.name}</h3>
+                {food.hindiName && (
+                  <p className="text-xs text-amber-300/80 font-serif">({food.hindiName})</p>
+                )}
+                <p className="text-xs text-slate-400">{food.servingSize}</p>
               </div>
 
-              <h3 className="font-extrabold text-base text-white">{food.name}</h3>
-              {food.hindiName && (
-                <p className="text-xs text-amber-300/80 font-serif">({food.hindiName})</p>
-              )}
-              <p className="text-xs text-slate-400">{food.servingSize}</p>
-            </div>
+              <div className="w-full pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs">
+                <div className="space-x-2">
+                  <span className="font-bold text-amber-400">{food.calories} kcal</span>
+                  <span className="font-bold text-emerald-400">{food.protein}g Prot</span>
+                </div>
 
-            <div className="pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs">
-              <div className="space-x-2">
-                <span className="font-bold text-amber-400">{food.calories} kcal</span>
-                <span className="font-bold text-emerald-400">{food.protein}g Prot</span>
+                <span className="flex items-center space-x-1 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-xl font-semibold hover:bg-amber-500/30">
+                  <ChefHat className="w-3.5 h-3.5" />
+                  <span>View</span>
+                </span>
               </div>
-
-              <button className="flex items-center space-x-1 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-xl font-semibold hover:bg-amber-500/30">
-                <ChefHat className="w-3.5 h-3.5" />
-                <span>View</span>
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

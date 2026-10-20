@@ -93,25 +93,32 @@ export const Analytics: React.FC<AnalyticsProps> = ({
             <span>Weight Progress Trend (kg)</span>
           </h2>
 
-          <div className="h-64 w-full pt-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={weightLogs}>
-                <defs>
-                  <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
-                <YAxis domain={['dataMin - 2', 'dataMax + 2']} stroke="#94a3b8" fontSize={12} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px', color: '#fff' }}
-                />
-                <Area type="monotone" dataKey="weightKg" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#weightGrad)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          {weightLogs.length === 0 ? (
+            <div className="h-64 flex flex-col items-center justify-center text-slate-500 text-xs">
+              <span>No weight check-ins recorded yet.</span>
+              <span className="text-[11px] text-slate-600 mt-1">Log your first scale weight on the right to start tracking.</span>
+            </div>
+          ) : (
+            <div className="h-64 w-full pt-4">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                <AreaChart data={weightLogs}>
+                  <defs>
+                    <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} />
+                  <YAxis domain={['dataMin - 2', 'dataMax + 2']} stroke="#94a3b8" fontSize={12} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px', color: '#fff' }}
+                  />
+                  <Area type="monotone" dataKey="weightKg" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#weightGrad)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </div>
 
         {/* Log Entry Form */}

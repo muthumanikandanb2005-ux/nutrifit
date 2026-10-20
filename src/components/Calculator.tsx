@@ -6,7 +6,7 @@ import { Calculator as CalcIcon, Dumbbell, Flame, Sparkles, ChevronRight, Info }
 interface CalculatorProps {
   profile: UserProfile;
   setProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
-  onCalculateComplete: () => void;
+  onCalculateComplete: (updatedProfile?: UserProfile) => void;
 }
 
 export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onCalculateComplete }) => {
@@ -19,7 +19,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setProfile(formData);
-    onCalculateComplete();
+    onCalculateComplete(formData);
   };
 
   const dietOptions: { id: DietType; label: string; desc: string; badge: string }[] = [
@@ -154,10 +154,11 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {goalOptions.map((goal) => (
-                <div
+                <button
+                  type="button"
                   key={goal.id}
                   onClick={() => setFormData({ ...formData, goal: goal.id })}
-                  className={`p-3.5 rounded-2xl border cursor-pointer transition-all ${
+                  className={`p-3.5 rounded-2xl border cursor-pointer text-left transition-all ${
                     formData.goal === goal.id
                       ? 'bg-amber-500/15 border-amber-500 text-white shadow-md'
                       : 'bg-slate-900/60 border-slate-700/60 text-slate-300 hover:border-slate-600'
@@ -170,7 +171,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 mt-1">{goal.desc}</p>
-                </div>
+                </button>
               ))}
             </div>
           </div>

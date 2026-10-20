@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import type { UserProfile, DailyMealPlan } from '../types';
 import { generateDailyMealPlan } from '../utils/mealPlanGenerator';
 import { Calendar, Printer } from 'lucide-react';
@@ -8,18 +8,18 @@ interface WeeklyPlannerProps {
   targetCalories: number;
 }
 
-export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCalories }) => {
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
 
-  const [weeklyPlans] = useState<Record<string, DailyMealPlan>>(() => {
+export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCalories }) => {
+  const weeklyPlans = useMemo<Record<string, DailyMealPlan>>(() => {
     const plans: Record<string, DailyMealPlan> = {};
-    daysOfWeek.forEach((day) => {
-      const plan = generateDailyMealPlan(profile, targetCalories);
+    DAYS_OF_WEEK.forEach((day, index) => {
+      const plan = generateDailyMealPlan(profile, targetCalories, index);
       plan.dayName = `${day} Thali`;
       plans[day] = plan;
     });
     return plans;
-  });
+  }, [profile, targetCalories]);
 
   const [selectedDay, setSelectedDay] = useState<string>('Monday');
 
@@ -27,7 +27,8 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
     window.print();
   };
 
-  const activePlan = weeklyPlans[selectedDay];
+  const activePlan = weeklyPlans[selectedDay] || weeklyPlans['Monday'];
+  if (!activePlan) return null;
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 print:p-0 print:bg-white print:text-black">
@@ -57,7 +58,7 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
 
       {/* Days Tabs */}
       <div className="flex space-x-2 overflow-x-auto pb-2 border-b border-slate-700/60 print:hidden">
-        {daysOfWeek.map((day) => (
+        {DAYS_OF_WEEK.map((day) => (
           <button
             key={day}
             onClick={() => setSelectedDay(day)}

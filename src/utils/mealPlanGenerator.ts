@@ -12,21 +12,39 @@ export function filterCompatibleFoods(
     if (food.slot !== slot) return false;
 
     // Filter by Diet Type
-    if (profile.dietType === 'pure_veg' || profile.dietType === 'jain' || profile.dietType === 'sattvic' || profile.dietType === 'vegan') {
+    if (
+      profile.dietType === 'pure_veg' ||
+      profile.dietType === 'jain' ||
+      profile.dietType === 'sattvic' ||
+      profile.dietType === 'vegan' ||
+      profile.dietType === 'high_protein_veg'
+    ) {
       if (food.dietType.includes('non_veg') && !food.dietType.includes('pure_veg')) return false;
       if (food.dietType.includes('eggetarian') && !food.dietType.includes('pure_veg')) return false;
+    }
+
+    if (profile.dietType === 'pure_veg') {
+      if (!food.dietType.includes('pure_veg')) return false;
     }
 
     if (profile.dietType === 'jain') {
       if (!food.dietType.includes('jain')) return false;
     }
 
+    if (profile.dietType === 'sattvic') {
+      if (!food.dietType.includes('sattvic')) return false;
+    }
+
     if (profile.dietType === 'vegan') {
       if (!food.dietType.includes('vegan')) return false;
     }
 
+    if (profile.dietType === 'high_protein_veg') {
+      if (!food.dietType.includes('high_protein_veg')) return false;
+    }
+
     if (profile.dietType === 'eggetarian') {
-      if (food.dietType.includes('non_veg') && !food.dietType.includes('eggetarian')) return false;
+      if (food.dietType.includes('non_veg') && !food.dietType.includes('eggetarian') && !food.dietType.includes('pure_veg')) return false;
     }
 
     return true;
@@ -35,8 +53,13 @@ export function filterCompatibleFoods(
 
 /**
  * Generate a complete 1-day Meal Plan optimized for target macros
+ * @param variationIndex Optional index/seed used to rotate candidate meals for daily variety or shuffle
  */
-export function generateDailyMealPlan(profile: UserProfile, _targetCalories: number): DailyMealPlan {
+export function generateDailyMealPlan(
+  profile: UserProfile,
+  _targetCalories?: number,
+  variationIndex?: number
+): DailyMealPlan {
   const slots: MealSlot[] = ['early_morning', 'breakfast', 'lunch', 'snack', 'dinner'];
   const selectedMeals: Partial<Record<MealSlot, FoodItem>> = {};
 
@@ -47,22 +70,61 @@ export function generateDailyMealPlan(profile: UserProfile, _targetCalories: num
   let totalFiber = 0;
 
   for (const slot of slots) {
-    const candidates = filterCompatibleFoods(slot, profile);
+    let candidates = filterCompatibleFoods(slot, profile);
     
-    // Pick the best food item (or first matching)
-    let bestMatch = candidates[0];
-    
-    // If user wants high protein or non-veg, prioritize highest protein food in candidates
-    if (profile.goal === 'muscle_gain' || profile.goal === 'fat_loss') {
+    // Fallback if no exact candidates matched
+    if (candidates.length === 0) {
+      candidates = INDIAN_FOOD_DATABASE.filter((f) => {
+        if (f.slot !== slot) return false;
+        if (
+          profile.dietType === 'pure_veg' ||
+          profile.dietType === 'jain' ||
+          profile.dietType === 'sattvic' ||
+          profile.dietType === 'vegan' ||
+          profile.dietType === 'high_protein_veg'
+        ) {
+          return f.dietType.includes('pure_veg');
+        }
+        if (profile.dietType === 'eggetarian') {
+          return f.dietType.includes('eggetarian') || f.dietType.includes('pure_veg');
+        }
+        return true;
+      });
+    }
+
+    let bestMatch: FoodItem;
+
+    if (variationIndex !== undefined && candidates.length > 1) {
+      // Prioritize top protein candidates if muscle gain/fat loss, but offset by variationIndex
+      const sorted = (profile.goal === 'muscle_gain' || profile.goal === 'fat_loss')
+        ? [...candidates].sort((a, b) => b.protein - a.protein)
+        : candidates;
+      bestMatch = sorted[variationIndex % sorted.length];
+    } else if (profile.goal === 'muscle_gain' || profile.goal === 'fat_loss') {
       const sortedByProtein = [...candidates].sort((a, b) => b.protein - a.protein);
-      if (sortedByProtein.length > 0) {
-        bestMatch = sortedByProtein[0];
-      }
+      bestMatch = sortedByProtein[0] || candidates[0];
+    } else {
+      bestMatch = candidates[0];
     }
 
     if (!bestMatch) {
-      // Fallback to any food in slot
-      bestMatch = INDIAN_FOOD_DATABASE.find((f) => f.slot === slot) || INDIAN_FOOD_DATABASE[0];
+      const safeFood = INDIAN_FOOD_DATABASE.find((f) => {
+        if (f.slot !== slot) return false;
+        if (
+          profile.dietType === 'pure_veg' ||
+          profile.dietType === 'jain' ||
+          profile.dietType === 'sattvic' ||
+          profile.dietType === 'vegan' ||
+          profile.dietType === 'high_protein_veg'
+        ) {
+          return f.dietType.includes('pure_veg');
+        }
+        if (profile.dietType === 'eggetarian') {
+          return f.dietType.includes('eggetarian') || f.dietType.includes('pure_veg');
+        }
+        return true;
+      });
+      bestMatch = safeFood || candidates[0] || INDIAN_FOOD_DATABASE[0];
     }
 
     selectedMeals[slot] = bestMatch;

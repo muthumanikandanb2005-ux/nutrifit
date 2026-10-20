@@ -79,56 +79,63 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
 
         {/* Options List */}
         <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
-          {compatibleOptions.map((item) => {
-            const isSelected = item.id === currentFood.id;
+          {compatibleOptions.length === 0 ? (
+            <div className="text-center py-8 text-slate-400 text-xs">
+              No direct alternatives found for this slot and diet combination.
+            </div>
+          ) : (
+            compatibleOptions.map((item) => {
+              const isSelected = item.id === currentFood.id;
 
-            return (
-              <div
-                key={item.id}
-                onClick={() => handleSelect(item)}
-                className={`p-4 rounded-2xl border cursor-pointer transition-all duration-150 flex items-center justify-between gap-4 ${
-                  isSelected
-                    ? 'bg-amber-500/20 border-amber-500 text-white ring-1 ring-amber-500'
-                    : 'bg-slate-900/60 border-slate-700 hover:border-slate-500 text-slate-200'
-                }`}
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <h3 className="font-bold text-sm text-white">{item.name}</h3>
-                    {item.hindiName && (
-                      <span className="text-xs text-amber-300/80 font-serif">({item.hindiName})</span>
+              return (
+                <button
+                  type="button"
+                  key={item.id}
+                  onClick={() => handleSelect(item)}
+                  className={`w-full text-left p-4 rounded-2xl border cursor-pointer transition-all duration-150 flex items-center justify-between gap-4 ${
+                    isSelected
+                      ? 'bg-amber-500/20 border-amber-500 text-white ring-1 ring-amber-500'
+                      : 'bg-slate-900/60 border-slate-700 hover:border-slate-500 text-slate-200'
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="flex items-center space-x-2">
+                      <h3 className="font-bold text-sm text-white">{item.name}</h3>
+                      {item.hindiName && (
+                        <span className="text-xs text-amber-300/80 font-serif">({item.hindiName})</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400">Portion: {item.servingSize}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {item.tags.map((t, i) => (
+                        <span key={i} className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4 shrink-0">
+                    <div className="text-right text-xs">
+                      <div className="font-bold text-amber-400">{item.calories} kcal</div>
+                      <div className="font-bold text-emerald-400">{item.protein}g Prot</div>
+                      <div className="text-[10px] text-slate-400">{item.carbs}g C • {item.fats}g F</div>
+                    </div>
+
+                    {isSelected ? (
+                      <div className="p-2 bg-amber-500 text-slate-950 rounded-xl font-bold">
+                        <Check className="w-4 h-4" />
+                      </div>
+                    ) : (
+                      <span className="px-3 py-1.5 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 text-xs font-semibold rounded-xl transition-all">
+                        Select
+                      </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-400">Portion: {item.servingSize}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {item.tags.map((t, i) => (
-                      <span key={i} className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-4 shrink-0">
-                  <div className="text-right text-xs">
-                    <div className="font-bold text-amber-400">{item.calories} kcal</div>
-                    <div className="font-bold text-emerald-400">{item.protein}g Prot</div>
-                    <div className="text-[10px] text-slate-400">{item.carbs}g C • {item.fats}g F</div>
-                  </div>
-
-                  {isSelected ? (
-                    <div className="p-2 bg-amber-500 text-slate-950 rounded-xl font-bold">
-                      <Check className="w-4 h-4" />
-                    </div>
-                  ) : (
-                    <button className="px-3 py-1.5 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 text-xs font-semibold rounded-xl transition-all">
-                      Select
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+                </button>
+              );
+            })
+          )}
         </div>
       </div>
     </div>

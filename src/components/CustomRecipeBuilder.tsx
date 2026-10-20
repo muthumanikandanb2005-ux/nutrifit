@@ -9,7 +9,7 @@ interface CustomRecipeBuilderProps {
 
 export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
   onSaveCustomRecipe,
-  savedRecipes: _savedRecipes
+  savedRecipes
 }) => {
   const [recipeName, setRecipeName] = useState('');
   const [servings, setServings] = useState(2);
@@ -49,10 +49,11 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
     totalFat += ing.fatPer100g * factor;
   });
 
-  const calPerServing = Math.round(totalCal / servings);
-  const protPerServing = Math.round(totalProt / servings);
-  const carbPerServing = Math.round(totalCarb / servings);
-  const fatPerServing = Math.round(totalFat / servings);
+  const validServings = Math.max(1, servings || 1);
+  const calPerServing = Math.round(totalCal / validServings);
+  const protPerServing = Math.round(totalProt / validServings);
+  const carbPerServing = Math.round(totalCarb / validServings);
+  const fatPerServing = Math.round(totalFat / validServings);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
     const recipe: CustomRecipe = {
       id: `cust_${Date.now()}`,
       name: recipeName,
-      servingCount: servings,
+      servingCount: validServings,
       caloriesPerServing: calPerServing,
       proteinPerServing: protPerServing,
       carbsPerServing: carbPerServing,
@@ -153,7 +154,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
                         value={ing.grams}
                         onChange={(e) => {
                           const updated = [...ingredients];
-                          updated[i].grams = Number(e.target.value);
+                          updated[i].grams = Math.max(0, Number(e.target.value) || 0);
                           setIngredients(updated);
                         }}
                         className="w-16 bg-slate-800 border border-slate-700 rounded px-2 py-1 text-center text-white font-mono text-xs"
@@ -191,7 +192,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
             <div className="bg-slate-900 p-5 rounded-2xl border border-amber-500/30 space-y-1">
               <span className="text-xs text-amber-400 font-bold uppercase">Calories / Serving</span>
               <div className="text-4xl font-extrabold text-white">{calPerServing} <span className="text-sm font-normal text-amber-300">kcal</span></div>
-              <p className="text-[10px] text-slate-400">Yields {servings} total servings</p>
+              <p className="text-[10px] text-slate-400">Yields {validServings} total servings</p>
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-xs">
@@ -209,6 +210,32 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Saved Custom Recipes Card */}
+          {savedRecipes && savedRecipes.length > 0 && (
+            <div className="bg-slate-800/80 border border-slate-700/60 p-5 rounded-3xl space-y-3 shadow-xl">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center justify-between">
+                <span>My Saved Custom Dishes</span>
+                <span className="bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full text-[10px]">
+                  {savedRecipes.length} saved
+                </span>
+              </h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                {savedRecipes.map((r) => (
+                  <div key={r.id} className="bg-slate-900/80 p-3 rounded-2xl border border-slate-700/70 space-y-1">
+                    <div className="flex justify-between items-start">
+                      <h4 className="text-xs font-bold text-white">{r.name}</h4>
+                      <span className="text-[10px] text-amber-400 font-semibold">{r.caloriesPerServing} kcal</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] text-slate-400">
+                      <span>Yields {r.servingCount} servings</span>
+                      <span className="text-emerald-400 font-bold">{r.proteinPerServing}g P</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

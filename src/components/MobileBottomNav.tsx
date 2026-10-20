@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Utensils, Camera, Droplet, MoreHorizontal, Dumbbell, TrendingUp, ShoppingBag, Sparkles, Pill, ChefHat, Flame, X, Footprints, Bot } from 'lucide-react';
+import { Utensils, Camera, Droplet, MoreHorizontal, Dumbbell, TrendingUp, ShoppingBag, Sparkles, Pill, ChefHat, Flame, X, Footprints, Bot, Timer } from 'lucide-react';
 import { haptic } from '../utils/haptics';
 
 interface MobileBottomNavProps {
@@ -49,6 +49,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
     {
       title: 'Health & Science',
       items: [
+        { id: 'fasting' as const, label: 'Fasting & Vrat', icon: <Timer className="w-5 h-5 text-indigo-400" />, desc: 'Intermittent fast clock' },
         { id: 'calculator' as const, label: 'Macro Calculator', icon: <Flame className="w-5 h-5 text-orange-400" />, desc: 'BMR & TDEE goals' },
         { id: 'supplements' as const, label: 'Supplement Guide', icon: <Pill className="w-5 h-5 text-purple-400" />, desc: 'Whey & creatine science' },
       ]

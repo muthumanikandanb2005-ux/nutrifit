@@ -7,18 +7,21 @@ interface AICoachProps {
   macroGoals: MacroGoals;
 }
 
+const generateMessageId = (prefix: string) => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+const formatMessageTime = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
 export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const saved = localStorage.getItem('nutrifit_coach_chat');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { /* fallback */ }
+      try { return JSON.parse(saved); } catch { /* fallback */ }
     }
     return [
       {
         id: 'msg_init',
         sender: 'coach',
         text: `Namaste ${profile.name || 'Fitness Enthusiast'}! 🙏 I am your NutriFit AI Personal Fitness & Nutrition Coach.\n\nI have analyzed your profile:\n• Goal: ${profile.goal.replace('_', ' ').toUpperCase()}\n• Daily Calorie Target: ${macroGoals.calories} kcal (${macroGoals.proteinGrams}g Protein)\n• Diet Type: ${profile.dietType.replace('_', ' ').toUpperCase()}\n\nHow can I help you crush your fitness goals today?`,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: formatMessageTime(),
         suggestedActions: [
           'How can I get more protein on a veg diet?',
           'Suggest high protein Indian evening snacks',
@@ -88,10 +91,10 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
     if (!queryText.trim()) return;
 
     const userMsg: ChatMessage = {
-      id: `user_${Date.now()}`,
+      id: generateMessageId('user'),
       sender: 'user',
       text: queryText,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      timestamp: formatMessageTime()
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -101,10 +104,10 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
     setTimeout(() => {
       const botResult = generateCoachResponse(queryText);
       const coachMsg: ChatMessage = {
-        id: `coach_${Date.now()}`,
+        id: generateMessageId('coach'),
         sender: 'coach',
         text: botResult.response,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: formatMessageTime(),
         suggestedActions: botResult.suggestions
       };
       setMessages((prev) => [...prev, coachMsg]);

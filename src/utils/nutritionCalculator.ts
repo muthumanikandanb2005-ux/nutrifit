@@ -6,10 +6,13 @@ import type { UserProfile, MacroGoals } from '../types';
  * For Women: BMR = 10W + 6.25H - 5A - 161
  */
 export function calculateBMR(weightKg: number, heightCm: number, age: number, gender: 'male' | 'female'): number {
+  const safeWeight = Math.max(1, weightKg || 0);
+  const safeHeight = Math.max(1, heightCm || 0);
+  const safeAge = Math.max(1, age || 0);
   if (gender === 'male') {
-    return Math.round(10 * weightKg + 6.25 * heightCm - 5 * age + 5);
+    return Math.round(10 * safeWeight + 6.25 * safeHeight - 5 * safeAge + 5);
   } else {
-    return Math.round(10 * weightKg + 6.25 * heightCm - 5 * age - 161);
+    return Math.round(10 * safeWeight + 6.25 * safeHeight - 5 * safeAge - 161);
   }
 }
 
@@ -58,6 +61,10 @@ export function calculateMacroGoals(profile: UserProfile): MacroGoals {
       break;
   }
 
+  // Safe metabolic floor recommended by ICMR and WHO to prevent severe metabolic crashes
+  const minSafeFloor = profile.gender === 'male' ? 1400 : 1200;
+  targetCalories = Math.max(minSafeFloor, targetCalories);
+
   // 1. Protein Target (grams per kg bodyweight based on diet & goal)
   let proteinMultiplier = 1.8;
   if (profile.goal === 'muscle_gain' || profile.goal === 'fat_loss') {
@@ -79,10 +86,14 @@ export function calculateMacroGoals(profile: UserProfile): MacroGoals {
   const proteinCalories = proteinGrams * 4;
   const fatsCalories = fatsGrams * 9;
   const remainingCarbCalories = Math.max(0, targetCalories - (proteinCalories + fatsCalories));
-  const carbsGrams = Math.round(remainingCarbCalories / 4);
+  let carbsGrams = Math.round(remainingCarbCalories / 4);
 
   // Re-verify exact target calorie summation: (P * 4) + (F * 9) + (C * 4)
-  const exactCalculatedCalories = (proteinGrams * 4) + (fatsGrams * 9) + (carbsGrams * 4);
+  let exactCalculatedCalories = (proteinGrams * 4) + (fatsGrams * 9) + (carbsGrams * 4);
+  if (exactCalculatedCalories < minSafeFloor) {
+    carbsGrams += Math.ceil((minSafeFloor - exactCalculatedCalories) / 4);
+    exactCalculatedCalories = (proteinGrams * 4) + (fatsGrams * 9) + (carbsGrams * 4);
+  }
 
   // Recommended daily fiber (in grams) based on ICMR guidelines
   const fiberGrams = profile.gender === 'male' ? 35 : 28;

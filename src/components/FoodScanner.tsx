@@ -30,6 +30,15 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
     };
   }, []);
 
+  useEffect(() => {
+    if (isCameraActive && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch((err) => {
+        console.error('Video play error:', err);
+      });
+    }
+  }, [isCameraActive]);
+
   const startLiveCamera = async () => {
     setCameraError(null);
     try {
@@ -37,12 +46,8 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
         video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
       });
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      }
       setIsCameraActive(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Camera access error:', err);
       setCameraError('Unable to access device camera. Please check camera permissions.');
       setIsCameraActive(false);

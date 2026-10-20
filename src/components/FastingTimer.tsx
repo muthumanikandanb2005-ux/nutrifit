@@ -11,23 +11,20 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   fastingState,
   setFastingState
 }) => {
-  const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+  const [now, setNow] = useState<number>(() => Date.now());
 
   useEffect(() => {
-    let interval: any = null;
-    if (fastingState.isFasting && fastingState.startTime) {
-      interval = setInterval(() => {
-        const now = Date.now();
-        const diffSecs = Math.floor((now - fastingState.startTime!) / 1000);
-        setElapsedSeconds(diffSecs);
-      }, 1000);
-    } else {
-      setElapsedSeconds(0);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [fastingState]);
+    if (!fastingState.isFasting || !fastingState.startTime) return;
+
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [fastingState.isFasting, fastingState.startTime]);
+
+  const elapsedSeconds = fastingState.isFasting && fastingState.startTime
+    ? Math.max(0, Math.floor((now - fastingState.startTime) / 1000))
+    : 0;
 
   const targetSeconds = fastingState.targetDurationHours * 3600;
   const progressPercent = Math.min(100, Math.round((elapsedSeconds / targetSeconds) * 100));
@@ -63,12 +60,14 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   }
 
   const handleStartFasting = (protocol: FastingProtocol, hours: number) => {
-    setFastingState({
+    setFastingState((prev) => ({
+      ...prev,
       isFasting: true,
-      startTime: Date.now(),
+      startTime: prev.isFasting && prev.startTime ? prev.startTime : Date.now(),
       targetDurationHours: hours,
       protocol
-    });
+    }));
+    setNow(Date.now());
   };
 
   const handleStopFasting = () => {

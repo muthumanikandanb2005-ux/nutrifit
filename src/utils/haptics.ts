@@ -16,6 +16,17 @@ export const haptic = {
     }
   },
 
+  // Selection change feedback for tab switches and option chips
+  selection: async () => {
+    try {
+      await Haptics.selectionChanged();
+    } catch {
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(8);
+      }
+    }
+  },
+
   // Medium impact: logging workout, saving recipe, swapping meal
   medium: async () => {
     try {

@@ -35,107 +35,143 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
       {/* Backdrop touch to close */}
       <div className="absolute inset-0" onClick={handleClose} />
 
-      <div className="relative bg-slate-800 border-t sm:border border-slate-700/80 rounded-t-[32px] sm:rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-4 sm:space-y-6 shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-250 max-h-[88vh] overflow-y-auto pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-        
+      <div 
+        className="relative border-t sm:border rounded-t-[26px] sm:rounded-3xl max-w-2xl w-full p-5 sm:p-6 space-y-4 sm:space-y-5 shadow-2xl animate-in slide-in-from-bottom sm:zoom-in-95 duration-250 max-h-[88vh] overflow-y-auto pb-[max(1.5rem,env(safe-area-inset-bottom))]"
+        style={{
+          background: 'var(--surface)',
+          borderColor: 'var(--line)',
+          color: 'var(--ink)'
+        }}
+      >
         {/* Native Android Drag Handle */}
-        <div className="sm:hidden w-12 h-1.5 bg-slate-600 rounded-full mx-auto" />
+        <div className="sm:hidden w-12 h-1.5 rounded-full mx-auto" style={{ background: 'var(--line)' }} />
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-700 pb-3 sm:pb-4">
+        <div className="flex items-center justify-between pb-3 sm:pb-4" style={{ borderBottom: '1px solid var(--line)' }}>
           <div className="flex items-center space-x-2.5 sm:space-x-3">
-            <div className="p-2 sm:p-2.5 bg-amber-500/20 text-amber-400 rounded-2xl border border-amber-500/30">
-              <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 animate-spin-slow" />
+            <div 
+              className="p-2 sm:p-2.5 rounded-2xl"
+              style={{
+                background: 'var(--greenSoft)',
+                color: 'var(--greenDark)',
+                border: '1px solid var(--line)'
+              }}
+            >
+              <RefreshCw className="w-5 h-5 animate-spin-reverse" />
             </div>
             <div>
-              <h2 className="text-lg sm:text-xl font-black text-white">Swap Meal ({slot.replace('_', ' ').toUpperCase()})</h2>
-              <p className="text-[11px] sm:text-xs text-slate-400">Select alternative Indian food matching your macros</p>
+              <h2 className="text-lg sm:text-xl font-bold" style={{ color: 'var(--ink)' }}>
+                Swap {slot.charAt(0).toUpperCase() + slot.slice(1)}
+              </h2>
+              <p className="text-xs" style={{ color: 'var(--muted)' }}>
+                Showing alternatives for {profile.dietType.replace('_', ' ')}
+              </p>
             </div>
           </div>
-
           <button
             onClick={handleClose}
-            className="p-1.5 sm:p-2 text-slate-400 hover:text-white bg-slate-900 rounded-xl border border-slate-700 cursor-pointer active:scale-90"
+            className="p-2 rounded-xl transition-all cursor-pointer"
+            style={{
+              background: 'var(--surface2)',
+              color: 'var(--muted)',
+              border: '1px solid var(--line)'
+            }}
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Current Food Badge */}
-        <div className="bg-slate-900/80 border border-amber-500/30 p-4 rounded-2xl flex items-center justify-between text-xs text-slate-300">
+        {/* Current Selection Pill */}
+        <div 
+          className="p-3 sm:p-3.5 rounded-2xl flex items-center justify-between text-xs"
+          style={{
+            background: 'var(--surface2)',
+            border: '1px solid var(--line)'
+          }}
+        >
           <div>
-            <span className="text-[10px] uppercase font-bold text-amber-400">Currently Selected</span>
-            <div className="text-sm font-bold text-white">{currentFood.name}</div>
-            <span className="text-slate-400">{currentFood.servingSize}</span>
+            <span className="font-semibold" style={{ color: 'var(--muted)' }}>Current dish:</span>
+            <span className="ml-2 font-bold" style={{ color: 'var(--ink)' }}>{currentFood.name}</span>
           </div>
-          <div className="text-right">
-            <div className="font-extrabold text-amber-400 text-sm">{currentFood.calories} kcal</div>
-            <div className="text-emerald-400 font-bold">{currentFood.protein}g Protein</div>
-          </div>
+          <span className="font-bold font-mono" style={{ color: 'var(--greenDark)' }}>
+            {currentFood.calories} kcal · {currentFood.protein}g protein
+          </span>
         </div>
 
         {/* Options List */}
-        <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
-          {compatibleOptions.length === 0 ? (
-            <div className="text-center py-8 text-slate-400 text-xs">
-              No direct alternatives found for this slot and diet combination.
-            </div>
-          ) : (
-            compatibleOptions.map((item) => {
-              const isSelected = item.id === currentFood.id;
+        <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+          {compatibleOptions.map((item) => {
+            const isSelected = item.id === currentFood.id;
 
-              return (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => handleSelect(item)}
-                  className={`w-full text-left p-4 rounded-2xl border cursor-pointer transition-all duration-150 flex items-center justify-between gap-4 ${
-                    isSelected
-                      ? 'bg-amber-500/20 border-amber-500 text-white ring-1 ring-amber-500'
-                      : 'bg-slate-900/60 border-slate-700 hover:border-slate-500 text-slate-200'
-                  }`}
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
-                      <h3 className="font-bold text-sm text-white">{item.name}</h3>
-                      {item.hindiName && (
-                        <span className="text-xs text-amber-300/80 font-serif">({item.hindiName})</span>
-                      )}
-                    </div>
-                    <p className="text-xs text-slate-400">Portion: {item.servingSize}</p>
-                    <div className="flex flex-wrap gap-1">
-                      {item.tags.map((t, i) => (
-                        <span key={i} className="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded border border-slate-700">
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-4 shrink-0">
-                    <div className="text-right text-xs">
-                      <div className="font-bold text-amber-400">{item.calories} kcal</div>
-                      <div className="font-bold text-emerald-400">{item.protein}g Prot</div>
-                      <div className="text-[10px] text-slate-400">{item.carbs}g C • {item.fats}g F</div>
-                    </div>
-
-                    {isSelected ? (
-                      <div className="p-2 bg-amber-500 text-slate-950 rounded-xl font-bold">
-                        <Check className="w-4 h-4" />
-                      </div>
-                    ) : (
-                      <span className="px-3 py-1.5 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 border border-slate-700 text-xs font-semibold rounded-xl transition-all">
-                        Select
-                      </span>
+            return (
+              <div
+                key={item.id}
+                onClick={() => handleSelect(item)}
+                className={`p-3.5 sm:p-4 rounded-2xl border cursor-pointer transition-all duration-150 flex items-center justify-between gap-4`}
+                style={{
+                  background: isSelected ? 'var(--greenSoft)' : 'var(--surface)',
+                  borderColor: isSelected ? 'var(--green)' : 'var(--line)',
+                  color: 'var(--ink)'
+                }}
+              >
+                <div className="space-y-1">
+                  <div className="flex items-center space-x-2">
+                    <h3 className="font-bold text-sm" style={{ color: 'var(--ink)' }}>{item.name}</h3>
+                    {item.hindiName && (
+                      <span className="text-xs font-serif" style={{ color: 'var(--muted)' }}>({item.hindiName})</span>
                     )}
                   </div>
-                </button>
-              );
-            })
-          )}
+                  <p className="text-xs" style={{ color: 'var(--muted)' }}>Portion: {item.servingSize}</p>
+                  <div className="flex flex-wrap gap-1">
+                    {item.tags.map((t, i) => (
+                      <span 
+                        key={i} 
+                        className="text-[9px] px-1.5 py-0.5 rounded"
+                        style={{
+                          background: 'var(--surface2)',
+                          color: 'var(--muted)',
+                          border: '1px solid var(--line)'
+                        }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3 shrink-0">
+                  <div className="text-right text-xs">
+                    <div className="font-bold" style={{ color: 'var(--greenDark)' }}>{item.calories} kcal</div>
+                    <div className="font-semibold" style={{ color: 'var(--green)' }}>{item.protein}g P</div>
+                  </div>
+
+                  {isSelected ? (
+                    <div 
+                      className="p-1.5 rounded-xl font-bold"
+                      style={{ background: 'var(--green)', color: '#fffefa' }}
+                    >
+                      <Check className="w-4 h-4" />
+                    </div>
+                  ) : (
+                    <button 
+                      className="px-2.5 py-1 text-xs font-semibold rounded-xl transition-all"
+                      style={{
+                        background: 'var(--surface2)',
+                        border: '1px solid var(--line)',
+                        color: 'var(--ink)'
+                      }}
+                    >
+                      Select
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

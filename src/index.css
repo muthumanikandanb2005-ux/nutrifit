@@ -1,50 +1,1613 @@
 @import "tailwindcss";
 
-@layer base {
-  html {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    overscroll-behavior-y: none;
-    user-select: none;
-    -webkit-user-select: none;
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: #edf1e8;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior-y: none;
+}
+
+body {
+  padding: 12px 0 20px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  transition: background 0.25s ease;
+}
+
+body.dark-mode {
+  background: #121a15;
+}
+
+#morrow-app {
+  --ink: light-dark(#24352d, #eaf0e8);
+  --muted: light-dark(#718078, #a6b4a9);
+  --paper: light-dark(#f4f5ef, #17221b);
+  --surface: light-dark(#fffefa, #202e25);
+  --surface2: light-dark(#edf1e8, #2b3a30);
+  --line: light-dark(#e4e8df, #39483e);
+  --green: light-dark(#3d684f, #a4c5a3);
+  --greenDark: light-dark(#294d3a, #d4e6d0);
+  --greenSoft: light-dark(#e3eee2, #314638);
+  --peach: light-dark(#f5e0cf, #4d3930);
+  --yellow: light-dark(#f2e8bd, #51482e);
+  --shadow: light-dark(0 14px 36px rgba(37,57,44,.07), 0 14px 36px rgba(0,0,0,.18));
+  color-scheme: light dark;
+  color: var(--ink);
+  background: transparent;
+  font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#morrow-app[data-theme=light] {
+  --ink: #24352d;
+  --muted: #718078;
+  --paper: #f4f5ef;
+  --surface: #fffefa;
+  --surface2: #edf1e8;
+  --line: #e4e8df;
+  --green: #3d684f;
+  --greenDark: #294d3a;
+  --greenSoft: #e3eee2;
+  --peach: #f5e0cf;
+  --yellow: #f2e8bd;
+  --shadow: 0 14px 36px rgba(37,57,44,.07);
+  color-scheme: light;
+}
+
+#morrow-app[data-theme=dark] {
+  color-scheme: dark;
+  --ink: #eaf0e8;
+  --muted: #a6b4a9;
+  --paper: #17221b;
+  --surface: #202e25;
+  --surface2: #2b3a30;
+  --line: #39483e;
+  --green: #a4c5a3;
+  --greenDark: #d4e6d0;
+  --greenSoft: #314638;
+  --peach: #4d3930;
+  --yellow: #51482e;
+  --shadow: 0 14px 36px rgba(0,0,0,.18);
+}
+
+#morrow-app * {
+  box-sizing: border-box;
+}
+
+#morrow-app button,
+#morrow-app input,
+#morrow-app select {
+  font: inherit;
+}
+
+#morrow-app button {
+  color: inherit;
+}
+
+#morrow-app .window {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  width: 100%;
+  max-width: 1240px;
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  min-height: 840px;
+}
+
+#morrow-app .side {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-height: 760px;
+  padding: 23px 15px 18px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+#morrow-app .brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 2px 11px 7px;
+  color: var(--greenDark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 23px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+  cursor: pointer;
+}
+
+#morrow-app .brandmark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--green);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+}
+
+#morrow-app .navlabel {
+  margin: 0 11px 8px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+}
+
+#morrow-app .navlist {
+  display: grid;
+  gap: 4px;
+}
+
+#morrow-app .navbtn {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+
+#morrow-app .navbtn:hover {
+  background: var(--surface2);
+  color: var(--ink);
+}
+
+#morrow-app .navbtn[aria-current=page] {
+  background: var(--greenSoft);
+  color: var(--greenDark);
+  font-weight: 650;
+}
+
+#morrow-app .navicon {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  font-size: 16px;
+}
+
+#morrow-app .sidebottom {
+  margin-top: auto;
+}
+
+#morrow-app .sidebar-tip {
+  padding: 15px 14px;
+  border-radius: 15px;
+  background: var(--surface2);
+}
+
+#morrow-app .sidebar-tip strong {
+  display: block;
+  margin: 6px 0 4px;
+  font-size: 13px;
+}
+
+#morrow-app .sidebar-tip p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .accountmini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px 7px 3px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+#morrow-app .avatar {
+  display: grid;
+  flex: 0 0 auto;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--peach);
+  color: #684a38;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#morrow-app .accountmeta {
+  min-width: 0;
+}
+
+#morrow-app .accountmeta strong,
+#morrow-app .accountmeta span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#morrow-app .accountmeta strong {
+  font-size: 12px;
+}
+
+#morrow-app .accountmeta span {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .main {
+  min-width: 0;
+  padding: 25px 28px 30px;
+}
+
+#morrow-app .topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+#morrow-app .crumb {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#morrow-app .topactions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+#morrow-app .iconbtn {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.16s ease, border-color 0.16s ease;
+}
+
+#morrow-app .iconbtn:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+#morrow-app .pagehead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 19px;
+}
+
+#morrow-app .eyebrow {
+  margin: 0 0 6px;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+#morrow-app h1,
+#morrow-app h2,
+#morrow-app h3,
+#morrow-app p {
+  margin-top: 0;
+}
+
+#morrow-app h1 {
+  margin-bottom: 5px;
+  font-size: clamp(23px, 3.2vw, 30px);
+  letter-spacing: -1.1px;
+  line-height: 1.12;
+  font-weight: 700;
+}
+
+#morrow-app h2 {
+  margin-bottom: 0;
+  font-size: 16px;
+  letter-spacing: -0.25px;
+  font-weight: 700;
+}
+
+#morrow-app h3 {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+#morrow-app .subline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#morrow-app .primary,
+#morrow-app .secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+#morrow-app .primary {
+  background: var(--green);
+  color: #fffefa;
+}
+
+#morrow-app .primary:hover {
+  background: var(--greenDark);
+  transform: translateY(-1px);
+}
+
+#morrow-app .secondary {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+#morrow-app .secondary:hover {
+  background: var(--surface2);
+}
+
+#morrow-app .textbtn {
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: opacity 0.16s ease;
+}
+
+#morrow-app .textbtn:hover {
+  opacity: 0.85;
+}
+
+#morrow-app .surface {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+#morrow-app .grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(238px, 0.9fr);
+  gap: 18px;
+  align-items: start;
+}
+
+#morrow-app .stack {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+#morrow-app .hero {
+  position: relative;
+  display: flex;
+  min-height: 185px;
+  align-items: center;
+  overflow: hidden;
+  padding: 22px;
+  border: 0;
+  background: var(--greenDark);
+  color: #fffefa;
+}
+
+#morrow-app .herocopy {
+  position: relative;
+  z-index: 1;
+  max-width: 66%;
+}
+
+#morrow-app .hero .eyebrow {
+  color: #d0e1ca;
+}
+
+#morrow-app .hero h2 {
+  max-width: 320px;
+  margin-bottom: 8px;
+  font-size: 22px;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+}
+
+#morrow-app .hero p {
+  margin-bottom: 15px;
+  color: #e2ece0;
+  font-size: 12px;
+}
+
+#morrow-app .hero-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  width: 58%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+}
+
+#morrow-app .hero:after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, #294d3a 0%, rgba(41, 77, 58, 0.96) 42%, rgba(41, 77, 58, 0.4) 75%, rgba(41, 77, 58, 0.05) 100%);
+  content: "";
+}
+
+#morrow-app .hero .primary {
+  background: #f6f2e7;
+  color: #294d3a;
+}
+
+#morrow-app .hero .primary:hover {
+  background: #ffffff;
+}
+
+#morrow-app .sectionhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+#morrow-app .sectionhead p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .meals {
+  display: grid;
+  gap: 9px;
+}
+
+#morrow-app .mealrow {
+  display: grid;
+  grid-template-columns: 58px 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+#morrow-app .mealrow:first-child {
+  border-top: 0;
+}
+
+#morrow-app .mealtime,
+#morrow-app .mealcal {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .mealemoji {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--surface2);
+  font-size: 21px;
+}
+
+#morrow-app .mealname {
+  min-width: 0;
+}
+
+#morrow-app .mealname strong {
+  display: block;
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#morrow-app .mealname span {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .progresscard {
+  background: var(--surface2);
+  border: 0;
+}
+
+#morrow-app .statline {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+#morrow-app .statnum {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+#morrow-app .unit {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .track {
+  height: 7px;
+  margin: 13px 0 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--line);
+}
+
+#morrow-app .fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+  transition: width 0.3s ease;
+}
+
+#morrow-app .ring {
+  display: grid;
+  width: 112px;
+  height: 112px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(var(--green) var(--angle, 73%), var(--line) 0);
+  transition: background 0.25s ease;
+}
+
+#morrow-app .ringinner {
+  display: grid;
+  width: 91px;
+  height: 91px;
+  place-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  text-align: center;
+}
+
+#morrow-app .ringinner strong {
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+#morrow-app .ringinner span {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+#morrow-app .stepslayout {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#morrow-app .stepslayout .statnum {
+  font-size: 25px;
+}
+
+#morrow-app .stepslayout p {
+  margin: 5px 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .mealprogress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#morrow-app .mealprogress strong {
+  font-size: 25px;
+  letter-spacing: -0.8px;
+}
+
+#morrow-app .mealprogress span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .weekdots {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+#morrow-app .weekdots i {
+  width: 19px;
+  height: 6px;
+  border-radius: 8px;
+  background: var(--line);
+}
+
+#morrow-app .weekdots i.done {
+  background: var(--green);
+}
+
+#morrow-app .tipstrip {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 13px 14px;
+  border-radius: 13px;
+  background: var(--yellow);
+}
+
+#morrow-app .tipstrip strong {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+}
+
+#morrow-app .tipstrip span {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .weekselect {
+  display: flex;
+  gap: 7px;
+  margin: 18px 0;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+#morrow-app .daychip {
+  display: grid;
+  min-width: 61px;
+  gap: 2px;
+  justify-items: center;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+#morrow-app .daychip strong {
+  color: var(--ink);
+  font-size: 12px;
+}
+
+#morrow-app .daychip span {
+  font-size: 10px;
+}
+
+#morrow-app .daychip.active {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fffefa;
+}
+
+#morrow-app .daychip.active strong {
+  color: #fffefa;
+}
+
+#morrow-app .plannerlist {
+  display: grid;
+  gap: 10px;
+}
+
+#morrow-app .plannerday {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+#morrow-app .plannerdate {
+  display: grid;
+  align-content: center;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#morrow-app .plannerdate strong {
+  color: var(--ink);
+  font-size: 12px;
+}
+
+#morrow-app .plannerslots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+#morrow-app .slot {
+  min-height: 62px;
+  padding: 9px;
+  border-radius: 11px;
+  background: var(--surface2);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+#morrow-app .slot:hover {
+  background: var(--greenSoft);
+}
+
+#morrow-app .slot small {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#morrow-app .slot strong {
+  display: block;
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#morrow-app .slot.empty {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#morrow-app .tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+#morrow-app .searchwrap {
+  flex: 1 1 180px;
+}
+
+#morrow-app .input,
+#morrow-app .select {
+  width: 100%;
+  min-height: 41px;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline-color: var(--green);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+#morrow-app .filter {
+  min-height: 39px;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+#morrow-app .filter[aria-pressed=true] {
+  border-color: var(--green);
+  background: var(--greenSoft);
+  color: var(--greenDark);
+  font-weight: 650;
+}
+
+#morrow-app .recipes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#morrow-app .recipecard {
+  overflow: hidden;
+  padding: 0;
+}
+
+#morrow-app .recipeimage {
+  display: block;
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  object-position: center;
+  background: var(--surface2);
+}
+
+#morrow-app .recipecopy {
+  padding: 12px;
+}
+
+#morrow-app .recipecopy h3 {
+  font-size: 13px;
+}
+
+#morrow-app .recipecopy p {
+  margin-bottom: 9px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .recipemeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .recipe-total {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 20px;
+  background: var(--greenSoft);
+  color: var(--greenDark);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#morrow-app .groceryhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 13px 0 10px;
+}
+
+#morrow-app .grocerygroup {
+  margin: 14px 0 9px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+#morrow-app .groceryitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  border-bottom: 1px solid var(--line);
+}
+
+#morrow-app .check {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#morrow-app .check[aria-pressed=true] {
+  border-color: var(--green);
+  background: var(--green);
+  color: #fffefa;
+}
+
+#morrow-app .groceryname {
+  flex: 1;
+  font-size: 12px;
+}
+
+#morrow-app .groceryitem.checked .groceryname {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+#morrow-app .amount {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .additem {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+#morrow-app .additem .input {
+  min-width: 0;
+}
+
+#morrow-app .stepshero {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+#morrow-app .stepscopy {
+  flex: 1;
+  min-width: 0;
+}
+
+#morrow-app .stepscopy .statnum {
+  font-size: 34px;
+}
+
+#morrow-app .history {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 12px;
+  height: 150px;
+  margin-top: 17px;
+  padding-bottom: 21px;
+  border-bottom: 1px solid var(--line);
+}
+
+#morrow-app .stepday {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  height: 100%;
+  align-content: end;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#morrow-app .barwrap {
+  display: flex;
+  align-items: flex-end;
+  height: 105px;
+}
+
+#morrow-app .bar {
+  width: 25px;
+  min-height: 10px;
+  border-radius: 7px 7px 3px 3px;
+  background: #94ad81;
+}
+
+#morrow-app .stepday.today .bar {
+  background: var(--green);
+}
+
+#morrow-app .goalcard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#morrow-app .goalicon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--peach);
+  font-size: 19px;
+}
+
+#morrow-app .formgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+#morrow-app .field {
+  display: grid;
+  gap: 6px;
+}
+
+#morrow-app .field.full {
+  grid-column: 1 / -1;
+}
+
+#morrow-app .field label {
+  font-size: 11px;
+  font-weight: 650;
+}
+
+#morrow-app .hint {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#morrow-app .choice {
+  position: relative;
+}
+
+#morrow-app .choice input {
+  position: absolute;
+  opacity: 0;
+}
+
+#morrow-app .choice span {
+  display: inline-flex;
+  min-height: 37px;
+  align-items: center;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#morrow-app .choice input:checked + span {
+  border-color: var(--green);
+  background: var(--greenSoft);
+  color: var(--greenDark);
+  font-weight: 650;
+}
+
+#morrow-app .choice input:focus-visible + span {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+#morrow-app .formfooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+#morrow-app .settingslist {
+  display: grid;
+}
+
+#morrow-app .setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+#morrow-app .setting:first-child {
+  border-top: 0;
+}
+
+#morrow-app .settingcopy strong {
+  display: block;
+  font-size: 12px;
+}
+
+#morrow-app .settingcopy span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#morrow-app .switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+#morrow-app .switch:after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--surface);
+  content: "";
+  transition: transform 0.18s ease;
+}
+
+#morrow-app .switch[aria-pressed=true] {
+  background: var(--green);
+}
+
+#morrow-app .switch[aria-pressed=true]:after {
+  transform: translateX(18px);
+}
+
+#morrow-app .toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99;
+  width: fit-content;
+  max-width: 90%;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--greenDark);
+  color: #fffefa;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#morrow-app .toast.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+#morrow-app .sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#morrow-app .mini-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .watercard {
+  background: linear-gradient(135deg, var(--surface), var(--greenSoft));
+}
+
+#morrow-app .water-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+#morrow-app .water-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+#morrow-app .water-glasses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 14px 0;
+}
+
+#morrow-app .water-glass {
+  display: grid;
+  width: 28px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 7px 7px 10px 10px;
+  color: transparent;
+  font-size: 13px;
+  font-style: normal;
+}
+
+#morrow-app .water-glass.filled {
+  border-color: #9dbfb4;
+  background: linear-gradient(to top, #8eb6aa 72%, transparent 72%);
+  color: #fff;
+}
+
+#morrow-app .goal-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 2px;
+}
+
+#morrow-app .goal-option {
+  position: relative;
+}
+
+#morrow-app .goal-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+#morrow-app .goal-option span {
+  display: block;
+  min-height: 68px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#morrow-app .goal-option strong {
+  display: block;
+  font-size: 11px;
+}
+
+#morrow-app .goal-option small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+#morrow-app .goal-option input:checked + span {
+  border-color: var(--green);
+  background: var(--greenSoft);
+  box-shadow: inset 0 0 0 1px var(--green);
+}
+
+#morrow-app .goal-option input:focus-visible + span {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+#morrow-app .hydration-glasses {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 7px;
+  margin: 18px 0;
+}
+
+#morrow-app .hydration-glass {
+  display: grid;
+  aspect-ratio: 1 / 1.25;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .hydration-glass.filled {
+  border-color: #a9c7be;
+  background: linear-gradient(to top, #8db8ab 66%, var(--surface) 66%);
+  color: #345d51;
+}
+
+#morrow-app .goal-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 13px;
+  background: var(--greenSoft);
+  overflow-wrap: anywhere;
+}
+
+#morrow-app .goal-summary-mark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--green);
+  font-size: 18px;
+}
+
+#morrow-app .goal-summary strong {
+  display: block;
+  font-size: 13px;
+}
+
+#morrow-app .goal-summary span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#morrow-app .history-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+}
+
+#morrow-app .history-row:first-of-type {
+  border-top: 0;
+}
+
+#morrow-app .mobilebtn {
+  display: flex;
+  min-height: 48px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+#morrow-app .mobilebtn span:first-child {
+  font-size: 18px;
+  line-height: 1;
+}
+
+#morrow-app .mobilebtn[aria-current=page] {
+  background: var(--greenSoft);
+  color: var(--greenDark);
+  font-weight: 700;
+}
+
+#morrow-app .mobile-nav {
+  display: none;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 3px;
+  margin: 12px -6px 0;
+  padding: 7px 6px calc(7px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  box-shadow: 0 -5px 16px rgba(37, 57, 44, 0.04);
+}
+
+#morrow-app .mobile-wordmark {
+  display: none;
+  font-size: 20px;
+}
+
+#morrow-app .mobile-wordmark .brandmark {
+  width: 29px;
+  height: 29px;
+  font-size: 16px;
+}
+
+#morrow-app .more-link {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+#morrow-app .inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+#morrow-app .inline-actions .secondary {
+  min-height: 44px;
+}
+
+#morrow-app .watercard .track {
+  margin-top: 16px;
+}
+
+#morrow-app .watercard .water-top {
+  align-items: flex-start;
+}
+
+#morrow-app .watercard .ring {
+  width: 88px;
+  height: 88px;
+}
+
+#morrow-app .watercard .ringinner {
+  width: 70px;
+  height: 70px;
+}
+
+#morrow-app .watercard .ringinner strong {
+  font-size: 17px;
+}
+
+/* Responsive styles */
+@media (max-width: 820px) {
+  #morrow-app .window {
+    grid-template-columns: 1fr;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
   }
-
-  body {
-    @apply bg-slate-900 text-slate-100 font-sans antialiased min-h-screen selection:bg-orange-500 selection:text-white overflow-x-hidden;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-    overscroll-behavior: none;
+  #morrow-app .side {
+    display: none !important;
   }
-
-  /* Native touch feedback on active press */
-  button:active, a:active {
-    transform: scale(0.97);
-    transition: transform 0.08s ease-out;
+  #morrow-app .mobile-wordmark {
+    display: flex !important;
+  }
+  #morrow-app .mobile-nav {
+    display: grid !important;
+  }
+  #morrow-app .main {
+    padding: 16px 14px 20px !important;
+  }
+  #morrow-app .crumb {
+    display: none;
+  }
+  #morrow-app .grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  #morrow-app .stack {
+    gap: 14px !important;
+  }
+  #morrow-app .recipes {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px;
   }
 }
 
-/* Custom laser scanning animation for camera view */
-@keyframes scanLine {
-  0% { transform: translateY(-100%); }
-  50% { transform: translateY(100%); }
-  100% { transform: translateY(-100%); }
+@media (max-width: 480px) {
+  #morrow-app .pagehead {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  #morrow-app .pagehead .primary {
+    width: 100%;
+    min-height: 46px;
+  }
+  #morrow-app .hero {
+    min-height: 180px;
+    padding: 18px;
+  }
+  #morrow-app .herocopy {
+    max-width: 75%;
+  }
+  #morrow-app .hero h2 {
+    font-size: 20px;
+  }
+  #morrow-app .hero-photo {
+    width: 64%;
+  }
+  #morrow-app .mealrow {
+    grid-template-columns: 48px 38px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+  #morrow-app .mealemoji {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+  #morrow-app .recipeimage {
+    height: 120px;
+  }
+  #morrow-app .plannerday {
+    grid-template-columns: 1fr;
+  }
+  #morrow-app .plannerdate {
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+  }
+  #morrow-app .plannerslots {
+    gap: 6px;
+  }
+  #morrow-app .slot {
+    min-height: 58px;
+    padding: 7px;
+  }
+  #morrow-app .formgrid {
+    grid-template-columns: 1fr;
+  }
+  #morrow-app .goal-options {
+    grid-template-columns: 1fr 1fr;
+  }
+  #morrow-app .stepshero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  #morrow-app .ring {
+    align-self: center;
+  }
+  #morrow-app .hydration-glasses {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  #morrow-app .additem {
+    flex-wrap: wrap;
+  }
+  #morrow-app .additem .input {
+    flex: 1 1 100%;
+  }
+  #morrow-app .additem .primary {
+    width: 100%;
+  }
 }
 
-.animate-scan {
-  animation: scanLine 2.5s ease-in-out infinite;
+@media (max-width: 360px) {
+  #morrow-app .recipes {
+    grid-template-columns: 1fr !important;
+  }
+  #morrow-app .goal-options {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-/* Custom scrollbar for mobile drawers */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(245, 158, 11, 0.5);
-  border-radius: 4px;
+@media (prefers-reduced-motion: reduce) {
+  #morrow-app *, #morrow-app *:before, #morrow-app *:after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

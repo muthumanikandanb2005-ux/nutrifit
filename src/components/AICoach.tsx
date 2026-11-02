@@ -20,7 +20,7 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
       {
         id: 'msg_init',
         sender: 'coach',
-        text: `Namaste ${profile.name || 'Fitness Enthusiast'}! 🙏 I am your NutriFit AI Personal Fitness & Nutrition Coach.\n\nI have analyzed your profile:\n• Goal: ${profile.goal.replace('_', ' ').toUpperCase()}\n• Daily Calorie Target: ${macroGoals.calories} kcal (${macroGoals.proteinGrams}g Protein)\n• Diet Type: ${profile.dietType.replace('_', ' ').toUpperCase()}\n\nHow can I help you crush your fitness goals today?`,
+        text: `Namaste ${profile.name || 'Fitness Enthusiast'}! I am your NutriFit AI Personal Fitness & Nutrition Coach.\n\nI have analyzed your profile:\n- Goal: ${profile.goal.replace('_', ' ').toUpperCase()}\n- Daily Calorie Target: ${macroGoals.calories} kcal (${macroGoals.proteinGrams}g Protein)\n- Diet Type: ${profile.dietType.replace('_', ' ').toUpperCase()}\n\nHow can I help you support your fitness goals today?`,
         timestamp: formatMessageTime(),
         suggestedActions: [
           'How can I get more protein on a veg diet?',
@@ -46,28 +46,28 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
 
     if (query.includes('protein') && (query.includes('veg') || query.includes('vegetarian'))) {
       return {
-        response: `Great question! Getting high protein on an Indian vegetarian diet is completely achievable. Here are top natural sources:\n\n1. 🥣 **Roasted Chana Sattu (Desi Whey):** 20.6g protein per 100g. Have 40g sattu drink daily for ~8g clean protein.\n2. 🧀 **Low-Fat Paneer / Tofu:** 100g paneer gives ~18g protein.\n3. 🌱 **Sprouted Moong & Black Chana:** Sprouting increases bioavailable amino acids and digestibility.\n4. 🥛 **Greek Yogurt / Hung Curd:** 100g contains ~10g protein.\n5. 🥛 **Amul High Protein Lassi/Milk:** Quick 15g-25g protein boost.\n\nYour target is **${macroGoals.proteinGrams}g protein/day**. Splitting it into 4 thali meals of ~${Math.round(macroGoals.proteinGrams / 4)}g each will maximize muscle protein synthesis!`,
+        response: `Getting high protein on an Indian vegetarian diet is completely achievable. Here are top natural sources:\n\n1. **Roasted Chana Sattu (Desi Whey):** 20.6g protein per 100g. Have 40g sattu drink daily for ~8g clean protein.\n2. **Low-Fat Paneer / Tofu:** 100g paneer gives ~18g protein.\n3. **Sprouted Moong & Black Chana:** Sprouting increases bioavailable amino acids and digestibility.\n4. **Greek Yogurt / Hung Curd:** 100g contains ~10g protein.\n5. **High Protein Lassi/Milk:** Quick 15g-25g protein boost.\n\nYour target is **${macroGoals.proteinGrams}g protein/day**. Splitting it into 4 thali meals of ~${Math.round(macroGoals.proteinGrams / 4)}g each will maximize muscle protein synthesis!`,
         suggestions: ['Tell me about Sattu vs Whey', 'Show 7-day high protein thali plan', 'Best post-workout meal']
       };
     }
 
     if (query.includes('sattu') || query.includes('whey')) {
       return {
-        response: ` Here is the direct comparison between **Desi Chana Sattu** and **Whey Protein**:\n\n• **Chana Sattu:** 100% natural, rich in complex carbs, dietary fiber (great for gut health), cooling for stomach, and budget-friendly. Gives ~20.6g protein per 100g.\n• **Whey Protein:** Fast-digesting isolated milk protein (~24g protein per 30g scoop), ultra-high leucine for fast post-gym recovery.\n\n💡 **Coach Recommendation:** Take Whey or Sattu post-workout, and drink Sattu salted sharbat during mid-morning for sustained energy!`,
+        response: `Here is the direct comparison between **Desi Chana Sattu** and **Whey Protein**:\n\n- **Chana Sattu:** 100% natural, rich in complex carbs, dietary fiber (great for gut health), cooling for stomach, and budget-friendly. Gives ~20.6g protein per 100g.\n- **Whey Protein:** Fast-digesting isolated milk protein (~24g protein per 30g scoop), ultra-high leucine for fast post-gym recovery.\n\n**Coach Recommendation:** Take Whey or Sattu post-workout, and drink Sattu salted sharbat during mid-morning for sustained energy!`,
         suggestions: ['Recommend supplements', 'How many calories should I eat?', 'Suggest fat loss tips']
       };
     }
 
     if (query.includes('belly fat') || query.includes('fat loss') || query.includes('lose weight')) {
       return {
-        response: `To lose belly fat while retaining muscle mass, follow this **3-Step NutriFit Rule**:\n\n1. 🔥 **Calorie Deficit:** Stick strictly to your calculated target of **${macroGoals.calories} kcal/day** (a 20% deficit from maintenance).\n2. 🏋️ **High Protein:** Hit **${macroGoals.proteinGrams}g protein daily** to prevent muscle breakdown during weight loss.\n3. 👟 **10,000 Daily Steps:** Track your steps in our Strava Steps tab. Walking 10k steps burns 350-450 extra calories without spiking cortisol!`,
-        suggestions: ['Start Strava steps tracker', 'Show my thali meal plan', 'Best evening snacks for weight loss']
+        response: `To lose belly fat while retaining muscle mass, follow this **3-Step NutriFit Rule**:\n\n1. **Calorie Deficit:** Stick strictly to your calculated target of **${macroGoals.calories} kcal/day** (a 20% deficit from maintenance).\n2. **High Protein:** Hit **${macroGoals.proteinGrams}g protein daily** to prevent muscle breakdown during weight loss.\n3. **10,000 Daily Steps:** Track your steps in our Steps tab. Walking 10k steps burns 350-450 extra calories without spiking cortisol!`,
+        suggestions: ['Start steps tracker', 'Show my thali meal plan', 'Best evening snacks for weight loss']
       };
     }
 
     if (query.includes('snack') || query.includes('evening')) {
       return {
-        response: `Here are 4 healthy, high-protein Indian evening snacks (~200 kcal):\n\n1. 🌰 **Roasted Makhana + 10 Almonds:** High fiber, crunchy & low calorie.\n2. 🥗 **Sprouted Moong Chaat:** 1 cup sprouted moong + lemon + chaat masala (~12g protein).\n3. 🍵 **High Protein Besan Chilla:** 1 besan chilla filled with 30g paneer (~14g protein).\n4. 🥚 **Boiled Egg Whites (3) / Grilled Paneer Tikka (100g).**`,
+        response: `Here are 4 healthy, high-protein Indian evening snacks (~200 kcal):\n\n1. **Roasted Makhana + 10 Almonds:** High fiber, crunchy & low calorie.\n2. **Sprouted Moong Chaat:** 1 cup sprouted moong + lemon + chaat masala (~12g protein).\n3. **High Protein Besan Chilla:** 1 besan chilla filled with 30g paneer (~14g protein).\n4. **Boiled Egg Whites (3) / Grilled Paneer Tikka (100g).**`,
         suggestions: ['How to track steps?', 'What is intermittent fasting?', 'Calculate my BMI']
       };
     }
@@ -118,32 +118,32 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-6">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-600 rounded-3xl p-6 text-white shadow-xl flex items-center justify-between">
+      <div className="bg-gradient-to-r from-[#2c4d38] to-[#406850] rounded-3xl p-6 text-[#fffefa] shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 flex items-center justify-center shrink-0 shadow-inner">
-            <Bot className="w-8 h-8 text-amber-300 animate-bounce" />
+          <div className="w-12 h-12 bg-white/15 backdrop-blur-md rounded-2xl border border-white/20 flex items-center justify-center shrink-0">
+            <Bot className="w-6 h-6 text-white" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight">NutriFit AI Personal Coach</h1>
-              <span className="px-2 py-0.5 bg-amber-400 text-slate-950 font-bold text-[10px] rounded-full">
-                24/7 ONLINE 🇮🇳
+              <h1 className="text-lg sm:text-xl font-bold tracking-tight">Morrow AI Nutrition Coach</h1>
+              <span className="px-2.5 py-0.5 bg-white/20 text-white font-semibold text-[10px] rounded-full">
+                Active 24/7
               </span>
             </div>
-            <p className="text-xs text-emerald-100 mt-0.5">
-              Personalized Indian Diet, Macro Tuning, Workout & Fat Loss Advisor
+            <p className="text-xs text-emerald-100/90 mt-0.5">
+              Personalized Indian Diet, Macro Tuning & Wellbeing Advisor
             </p>
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center space-x-2 bg-slate-950/30 px-3 py-1.5 rounded-xl border border-white/10 text-xs">
-          <Sparkles className="w-4 h-4 text-amber-300" />
+        <div className="hidden sm:flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-xl border border-white/15 text-xs text-white">
+          <Sparkles className="w-3.5 h-3.5 text-amber-200" />
           <span>Calorie Target: <strong>{macroGoals.calories} kcal</strong></span>
         </div>
       </div>
 
       {/* Chat Messages Box */}
-      <div className="bg-slate-800/90 border border-slate-700/80 rounded-3xl p-4 sm:p-6 shadow-2xl space-y-4 min-h-[460px] max-h-[550px] flex flex-col justify-between">
+      <div className="bg-[var(--surface)] border border-[var(--line)] rounded-3xl p-4 sm:p-6 shadow-sm space-y-4 min-h-[460px] max-h-[550px] flex flex-col justify-between">
         <div className="flex-1 overflow-y-auto space-y-4 pr-1">
           {messages.map((msg) => (
             <div
@@ -151,19 +151,21 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
               className={`flex items-start space-x-3 ${msg.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}
             >
               <div
-                className={`w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 text-white font-bold text-xs ${
-                  msg.sender === 'user' ? 'bg-orange-500' : 'bg-emerald-600 border border-emerald-400/40'
+                className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-xs font-semibold ${
+                  msg.sender === 'user' 
+                    ? 'bg-[var(--greenSoft)] text-[var(--greenDark)]' 
+                    : 'bg-[var(--surface2)] text-[var(--green)] border border-[var(--line)]'
                 }`}
               >
-                {msg.sender === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
+                {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
               </div>
 
               <div className="space-y-2 max-w-[82%]">
                 <div
-                  className={`p-4 rounded-3xl text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
+                  className={`p-4 rounded-2xl text-xs sm:text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.sender === 'user'
-                      ? 'bg-orange-600 text-white rounded-tr-none shadow-md'
-                      : 'bg-slate-900 border border-slate-700/80 text-slate-100 rounded-tl-none shadow-md'
+                      ? 'bg-[var(--greenSoft)] text-[var(--greenDark)] rounded-tr-none font-medium'
+                      : 'bg-[var(--surface2)] border border-[var(--line)] text-[var(--ink)] rounded-tl-none'
                   }`}
                 >
                   {msg.text}
@@ -176,30 +178,30 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
                       <button
                         key={i}
                         onClick={() => handleSendMessage(action)}
-                        className="text-[11px] bg-slate-900/90 hover:bg-emerald-950 border border-emerald-500/40 text-emerald-300 hover:text-white px-3 py-1.5 rounded-full transition cursor-pointer flex items-center gap-1"
+                        className="text-[11px] bg-[var(--surface)] hover:bg-[var(--surface2)] border border-[var(--line)] text-[var(--greenDark)] px-3 py-1.5 rounded-full transition cursor-pointer flex items-center gap-1 font-medium"
                       >
-                        <Zap className="w-3 h-3 text-amber-400" /> {action}
+                        <Zap className="w-3 h-3 text-[var(--green)]" /> {action}
                       </button>
                     ))}
                   </div>
                 )}
 
-                <span className="text-[10px] text-slate-400 block px-1">{msg.timestamp}</span>
+                <span className="text-[10px] text-[var(--muted)] block px-1">{msg.timestamp}</span>
               </div>
             </div>
           ))}
 
           {isTyping && (
-            <div className="flex items-center space-x-2 text-slate-400 text-xs italic bg-slate-900/60 p-3 rounded-2xl w-fit border border-slate-800">
-              <Bot className="w-4 h-4 text-emerald-400 animate-spin" />
-              <span>NutriFit Coach is typing...</span>
+            <div className="flex items-center space-x-2 text-[var(--muted)] text-xs italic bg-[var(--surface2)] p-3 rounded-2xl w-fit border border-[var(--line)]">
+              <Bot className="w-4 h-4 text-[var(--green)] animate-spin" />
+              <span>Nutrition Coach is writing...</span>
             </div>
           )}
           <div ref={chatEndRef} />
         </div>
 
         {/* Input Bar */}
-        <div className="pt-3 border-t border-slate-700/80">
+        <div className="pt-3 border-t border-[var(--line)]">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -212,14 +214,14 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask coach anything (e.g. How to hit protein target on veg diet?)"
-              className="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="flex-1 bg-[var(--surface2)] border border-[var(--line)] rounded-2xl px-4 py-3 text-sm text-[var(--ink)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--green)]"
             />
             <button
               type="submit"
               disabled={!input.trim()}
-              className="p-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-2xl font-bold transition shadow-lg disabled:opacity-40 cursor-pointer"
+              className="p-3 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white rounded-2xl font-bold transition shadow-sm disabled:opacity-40 cursor-pointer"
             >
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4" />
             </button>
           </form>
         </div>

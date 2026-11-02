@@ -35,7 +35,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-[#1c261f]/45 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
       {/* Backdrop touch to close */}
       <div className="absolute inset-0" onClick={handleClose} />
 

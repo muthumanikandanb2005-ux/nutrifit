@@ -16,6 +16,47 @@ import { FridgeAI } from './components/FridgeAI';
 import { SwiggyGuide } from './components/SwiggyGuide';
 import { CustomRecipeBuilder } from './components/CustomRecipeBuilder';
 import { haptic } from './utils/haptics';
+import { 
+  Home, 
+  CalendarDays, 
+  Utensils, 
+  ShoppingBag, 
+  Target, 
+  Footprints, 
+  Droplets, 
+  Bot, 
+  Camera, 
+  Refrigerator, 
+  Timer, 
+  Dumbbell, 
+  User, 
+  Settings, 
+  Sparkles, 
+  Sun, 
+  Moon, 
+  Plus, 
+  Check, 
+  ChevronRight, 
+  ChevronLeft,
+  ArrowUpRight, 
+  ArrowLeft, 
+  Search, 
+  SlidersHorizontal, 
+  Flame, 
+  Clock, 
+  Share2, 
+  RefreshCw, 
+  Leaf, 
+  Coffee, 
+  SunMedium, 
+  Apple, 
+  MoonStar, 
+  Store, 
+  ChefHat,
+  TrendingUp,
+  Award,
+  BookOpen
+} from 'lucide-react';
 
 export function App() {
   // Theme state: 'light' | 'dark'
@@ -59,15 +100,12 @@ export function App() {
   }, [profile]);
 
   // Extended Goals & Wellbeing state
-  const [wellnessGoal, setWellnessGoal] = useState<string>('maintain');
-  const [otherGoal, setOtherGoal] = useState<string>('');
+  const [wellnessGoal] = useState<string>('maintain');
   const [targetWeight, setTargetWeight] = useState<number>(68.4);
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lb'>('kg');
   const [waterUnit, setWaterUnit] = useState<'ml' | 'oz'>('ml');
-  const [stepGoal, setStepGoal] = useState<number>(8000);
-  const [waterGoal, setWaterGoal] = useState<number>(2000);
-  const [cuisines, setCuisines] = useState<string[]>(['south', 'north']);
-  const [allergyNotes, setAllergyNotes] = useState<string>('');
+  const [stepGoal] = useState<number>(8000);
+  const [waterGoal] = useState<number>(2000);
 
   // Daily Metrics
   const [steps, setSteps] = useState<number>(5842);
@@ -236,12 +274,14 @@ export function App() {
         {/* Desktop Sidebar Navigation */}
         <aside className="side" aria-label="Main navigation">
           <div className="brand" onClick={() => setActiveScreen('dashboard')}>
-            <span className="brandmark" aria-hidden="true">M</span>
+            <span className="brandmark" aria-hidden="true">
+              <Leaf className="w-4 h-4" />
+            </span>
             <span>morrow</span>
           </div>
 
           <div>
-            <p className="navlabel">Plan</p>
+            <p className="navlabel">Routine</p>
             <nav className="navlist">
               <button 
                 className="navbtn" 
@@ -249,7 +289,7 @@ export function App() {
                 aria-current={activeScreen === 'dashboard' ? 'page' : undefined}
                 onClick={() => setActiveScreen('dashboard')}
               >
-                <span className="navicon">⌂</span>
+                <span className="navicon"><Home /></span>
                 <span className="navtext">Overview</span>
               </button>
               <button 
@@ -258,7 +298,7 @@ export function App() {
                 aria-current={activeScreen === 'planner' ? 'page' : undefined}
                 onClick={() => setActiveScreen('planner')}
               >
-                <span className="navicon">▦</span>
+                <span className="navicon"><CalendarDays /></span>
                 <span className="navtext">Meal planner</span>
               </button>
               <button 
@@ -267,8 +307,8 @@ export function App() {
                 aria-current={activeScreen === 'recipes' ? 'page' : undefined}
                 onClick={() => setActiveScreen('recipes')}
               >
-                <span className="navicon">◉</span>
-                <span className="navtext">Recipes · 5,284</span>
+                <span className="navicon"><Utensils /></span>
+                <span className="navtext">Recipes</span>
               </button>
               <button 
                 className="navbtn" 
@@ -276,7 +316,7 @@ export function App() {
                 aria-current={activeScreen === 'grocery' ? 'page' : undefined}
                 onClick={() => setActiveScreen('grocery')}
               >
-                <span className="navicon">☷</span>
+                <span className="navicon"><ShoppingBag /></span>
                 <span className="navtext">Shopping list</span>
               </button>
             </nav>
@@ -291,7 +331,7 @@ export function App() {
                 aria-current={activeScreen === 'goals' ? 'page' : undefined}
                 onClick={() => setActiveScreen('goals')}
               >
-                <span className="navicon">◎</span>
+                <span className="navicon"><Target /></span>
                 <span className="navtext">Goals & weight</span>
               </button>
               <button 
@@ -300,7 +340,7 @@ export function App() {
                 aria-current={activeScreen === 'steps' ? 'page' : undefined}
                 onClick={() => setActiveScreen('steps')}
               >
-                <span className="navicon">⌁</span>
+                <span className="navicon"><Footprints /></span>
                 <span className="navtext">Steps & activity</span>
               </button>
               <button 
@@ -309,7 +349,7 @@ export function App() {
                 aria-current={activeScreen === 'water' ? 'page' : undefined}
                 onClick={() => setActiveScreen('water')}
               >
-                <span className="navicon">◌</span>
+                <span className="navicon"><Droplets /></span>
                 <span className="navtext">Water tracking</span>
               </button>
             </nav>
@@ -324,7 +364,7 @@ export function App() {
                 aria-current={activeScreen === 'coach' ? 'page' : undefined}
                 onClick={() => setActiveScreen('coach')}
               >
-                <span className="navicon">🤖</span>
+                <span className="navicon"><Bot /></span>
                 <span className="navtext">AI Coach</span>
               </button>
               <button 
@@ -333,7 +373,7 @@ export function App() {
                 aria-current={activeScreen === 'scanner' ? 'page' : undefined}
                 onClick={() => setActiveScreen('scanner')}
               >
-                <span className="navicon">📷</span>
+                <span className="navicon"><Camera /></span>
                 <span className="navtext">Food Scanner</span>
               </button>
               <button 
@@ -342,7 +382,7 @@ export function App() {
                 aria-current={activeScreen === 'fridge' ? 'page' : undefined}
                 onClick={() => setActiveScreen('fridge')}
               >
-                <span className="navicon">❄️</span>
+                <span className="navicon"><Refrigerator /></span>
                 <span className="navtext">Fridge AI</span>
               </button>
               <button 
@@ -351,7 +391,7 @@ export function App() {
                 aria-current={activeScreen === 'fasting' ? 'page' : undefined}
                 onClick={() => setActiveScreen('fasting')}
               >
-                <span className="navicon">⏱️</span>
+                <span className="navicon"><Timer /></span>
                 <span className="navtext">Fasting Timer</span>
               </button>
               <button 
@@ -360,8 +400,26 @@ export function App() {
                 aria-current={activeScreen === 'workouts' ? 'page' : undefined}
                 onClick={() => setActiveScreen('workouts')}
               >
-                <span className="navicon">🏋️</span>
+                <span className="navicon"><Dumbbell /></span>
                 <span className="navtext">Workouts</span>
+              </button>
+              <button 
+                className="navbtn" 
+                data-screen="swiggy" 
+                aria-current={activeScreen === 'swiggy' ? 'page' : undefined}
+                onClick={() => setActiveScreen('swiggy')}
+              >
+                <span className="navicon"><Store /></span>
+                <span className="navtext">Dining Guide</span>
+              </button>
+              <button 
+                className="navbtn" 
+                data-screen="custom_recipes" 
+                aria-current={activeScreen === 'custom_recipes' ? 'page' : undefined}
+                onClick={() => setActiveScreen('custom_recipes')}
+              >
+                <span className="navicon"><ChefHat /></span>
+                <span className="navtext">Recipe Builder</span>
               </button>
             </nav>
           </div>
@@ -375,7 +433,7 @@ export function App() {
                 aria-current={activeScreen === 'account' ? 'page' : undefined}
                 onClick={() => setActiveScreen('account')}
               >
-                <span className="navicon">◉</span>
+                <span className="navicon"><User /></span>
                 <span className="navtext">Profile setup</span>
               </button>
               <button 
@@ -384,7 +442,7 @@ export function App() {
                 aria-current={activeScreen === 'settings' ? 'page' : undefined}
                 onClick={() => setActiveScreen('settings')}
               >
-                <span className="navicon">⚙</span>
+                <span className="navicon"><Settings /></span>
                 <span className="navtext">Settings</span>
               </button>
             </nav>
@@ -392,17 +450,20 @@ export function App() {
 
           <div className="sidebottom">
             <div className="sidebar-tip">
-              <span aria-hidden="true">✳</span>
+              <div className="flex items-center gap-1.5 text-[var(--green)]">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="text-[11px] font-semibold uppercase tracking-wider">Daily Inspiration</span>
+              </div>
               <strong>A little goes a long way</strong>
-              <p>Plan a few meals now and give your week more breathing room.</p>
+              <p>Plan a few wholesome Indian meals now and give your week more breathing room.</p>
             </div>
             <button className="accountmini" onClick={() => setActiveScreen('account')}>
               <span className="avatar">{initials(profile.name)}</span>
               <span className="accountmeta">
                 <strong>{profile.name}</strong>
-                <span>Personal plan</span>
+                <span>Personal thali plan</span>
               </span>
-              <span style={{ marginLeft: 'auto', color: 'var(--muted)' }}>···</span>
+              <ChevronRight className="w-4 h-4 text-[var(--muted)] ml-auto" />
             </button>
           </div>
         </aside>
@@ -412,7 +473,9 @@ export function App() {
           {/* Top Bar */}
           <div className="topbar">
             <span className="brand mobile-wordmark" onClick={() => setActiveScreen('dashboard')}>
-              <span className="brandmark" aria-hidden="true">M</span>
+              <span className="brandmark" aria-hidden="true">
+                <Leaf className="w-4 h-4" />
+              </span>
               <span>morrow</span>
             </span>
             <span className="crumb" id="crumb">
@@ -421,15 +484,29 @@ export function App() {
             <div className="topactions">
               <button 
                 className="iconbtn" 
+                onClick={() => {
+                  const next = theme === 'dark' ? 'light' : 'dark';
+                  setTheme(next);
+                  notify(`Switched to ${next} theme.`);
+                }} 
+                aria-label="Toggle theme appearance"
+                title="Toggle appearance"
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+              <button 
+                className="iconbtn" 
                 onClick={() => setActiveScreen('settings')} 
                 aria-label="Open settings"
+                title="Settings"
               >
-                ⚙
+                <Settings className="w-4 h-4" />
               </button>
               <button 
                 className="iconbtn" 
                 onClick={() => setActiveScreen('account')} 
                 aria-label="Open account setup"
+                title="Profile"
               >
                 <span className="avatar" style={{ width: '27px', height: '27px', fontSize: '10px' }}>
                   {initials(profile.name)}
@@ -447,10 +524,11 @@ export function App() {
                   <div>
                     <p className="eyebrow">Sunday, October 25, 2026</p>
                     <h1>Good morning, <span className="account-name">{firstName(profile.name)}</span></h1>
-                    <p className="subline">A little planning makes room for a better week.</p>
+                    <p className="subline">A mindful meal plan makes room for a balanced, energized week.</p>
                   </div>
                   <button className="primary" onClick={() => setActiveScreen('planner')}>
-                    ＋ Plan this week
+                    <CalendarDays className="w-4 h-4" />
+                    <span>Plan this week</span>
                   </button>
                 </div>
 
@@ -458,104 +536,256 @@ export function App() {
                   <div className="stack">
                     <section className="surface hero">
                       <div className="herocopy">
-                        <p className="eyebrow">Your week, made lighter</p>
-                        <h2>Good food, less guesswork.</h2>
-                        <p>Indian favorites, planned around your goals.</p>
+                        <p className="eyebrow">Mindful Indian Nutrition</p>
+                        <h2>Wholesome food, zero guesswork.</h2>
+                        <p>Authentic regional dishes calibrated to your personal calorie and macro targets.</p>
                         <button className="primary" onClick={() => setActiveScreen('planner')}>
-                          Open weekly plan →
+                          <span>View weekly schedule</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <img 
                         className="hero-photo" 
                         src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=700&q=80" 
-                        alt="Indian Thali" 
+                        alt="Balanced Indian Thali" 
                       />
                     </section>
 
+                    {/* Today's Meals Schedule */}
                     <section className="surface">
                       <div className="sectionhead">
                         <div>
                           <h2>Today’s table</h2>
-                          <p>Your Sunday meal plan</p>
+                          <p>5 balanced Indian meal slots calibrated to {macroGoals.calories} kcal</p>
                         </div>
-                        <button className="textbtn" onClick={() => setActiveScreen('planner')}>
-                          View plan →
+                        <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('planner')}>
+                          <span>Full plan</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <div className="meals">
+                        {/* Early Morning */}
+                        <div 
+                          className="mealrow cursor-pointer" 
+                          onClick={() => setSelectedRecipe(mealPlan.meals.early_morning)}
+                        >
+                          <span className="mealtime">07:00 AM</span>
+                          <span className="mealemoji bg-[#e6f0e6] text-[#365c44]">
+                            <Apple className="w-4 h-4" />
+                          </span>
+                          <span className="mealname">
+                            <strong>{mealPlan.meals.early_morning.name}</strong>
+                            <span>Early Morning · {mealPlan.meals.early_morning.servingSize}</span>
+                          </span>
+                          <span className="mealcal">{mealPlan.meals.early_morning.calories} kcal</span>
+                        </div>
+
+                        {/* Breakfast */}
                         <div 
                           className="mealrow cursor-pointer" 
                           onClick={() => setSelectedRecipe(mealPlan.meals.breakfast)}
                         >
-                          <span className="mealtime">8:30 AM</span>
-                          <span className="mealemoji">◉</span>
+                          <span className="mealtime">08:30 AM</span>
+                          <span className="mealemoji bg-[#f9eedc] text-[#8c6b2d]">
+                            <SunMedium className="w-4 h-4" />
+                          </span>
                           <span className="mealname">
                             <strong>{mealPlan.meals.breakfast.name}</strong>
-                            <span>Breakfast · {mealPlan.meals.breakfast.prepTimeMins} min</span>
+                            <span>Breakfast · {mealPlan.meals.breakfast.servingSize}</span>
                           </span>
                           <span className="mealcal">{mealPlan.meals.breakfast.calories} kcal</span>
                         </div>
+
+                        {/* Lunch */}
                         <div 
                           className="mealrow cursor-pointer" 
                           onClick={() => setSelectedRecipe(mealPlan.meals.lunch)}
                         >
-                          <span className="mealtime">1:00 PM</span>
-                          <span className="mealemoji">◉</span>
+                          <span className="mealtime">01:30 PM</span>
+                          <span className="mealemoji bg-[#e6f0e6] text-[#2c4d38]">
+                            <Utensils className="w-4 h-4" />
+                          </span>
                           <span className="mealname">
                             <strong>{mealPlan.meals.lunch.name}</strong>
-                            <span>Lunch · {mealPlan.meals.lunch.prepTimeMins} min</span>
+                            <span>Lunch · {mealPlan.meals.lunch.servingSize}</span>
                           </span>
                           <span className="mealcal">{mealPlan.meals.lunch.calories} kcal</span>
                         </div>
+
+                        {/* Evening Snack */}
+                        <div 
+                          className="mealrow cursor-pointer" 
+                          onClick={() => setSelectedRecipe(mealPlan.meals.snack)}
+                        >
+                          <span className="mealtime">05:00 PM</span>
+                          <span className="mealemoji bg-[#f6e6e1] text-[#9b4e3f]">
+                            <Coffee className="w-4 h-4" />
+                          </span>
+                          <span className="mealname">
+                            <strong>{mealPlan.meals.snack.name}</strong>
+                            <span>Evening Snack · {mealPlan.meals.snack.servingSize}</span>
+                          </span>
+                          <span className="mealcal">{mealPlan.meals.snack.calories} kcal</span>
+                        </div>
+
+                        {/* Dinner */}
                         <div 
                           className="mealrow cursor-pointer" 
                           onClick={() => setSelectedRecipe(mealPlan.meals.dinner)}
                         >
-                          <span className="mealtime">7:00 PM</span>
-                          <span className="mealemoji">◉</span>
+                          <span className="mealtime">08:00 PM</span>
+                          <span className="mealemoji bg-[#e5eef2] text-[#477280]">
+                            <MoonStar className="w-4 h-4" />
+                          </span>
                           <span className="mealname">
                             <strong>{mealPlan.meals.dinner.name}</strong>
-                            <span>Dinner · {mealPlan.meals.dinner.prepTimeMins} min</span>
+                            <span>Dinner · {mealPlan.meals.dinner.servingSize}</span>
                           </span>
                           <span className="mealcal">{mealPlan.meals.dinner.calories} kcal</span>
                         </div>
                       </div>
                     </section>
 
+                    {/* Quick Wellness Tools */}
+                    <section className="surface">
+                      <div className="sectionhead">
+                        <div>
+                          <h2>Smart fitness companions</h2>
+                          <p>Interactive tools designed for Indian health goals</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                        <button 
+                          className="p-3.5 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] hover:bg-[var(--greenSoft)] text-left transition-colors cursor-pointer"
+                          onClick={() => setActiveScreen('coach')}
+                        >
+                          <Bot className="w-5 h-5 text-[var(--green)] mb-1.5" />
+                          <strong className="block text-xs text-[var(--ink)]">AI Coach</strong>
+                          <span className="text-[10px] text-[var(--muted)]">Ask nutrition queries</span>
+                        </button>
+                        <button 
+                          className="p-3.5 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] hover:bg-[var(--greenSoft)] text-left transition-colors cursor-pointer"
+                          onClick={() => setActiveScreen('scanner')}
+                        >
+                          <Camera className="w-5 h-5 text-[var(--green)] mb-1.5" />
+                          <strong className="block text-xs text-[var(--ink)]">Food Scanner</strong>
+                          <span className="text-[10px] text-[var(--muted)]">Live camera analysis</span>
+                        </button>
+                        <button 
+                          className="p-3.5 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] hover:bg-[var(--greenSoft)] text-left transition-colors cursor-pointer"
+                          onClick={() => setActiveScreen('fridge')}
+                        >
+                          <Refrigerator className="w-5 h-5 text-[var(--green)] mb-1.5" />
+                          <strong className="block text-xs text-[var(--ink)]">Fridge AI</strong>
+                          <span className="text-[10px] text-[var(--muted)]">Cook from pantry</span>
+                        </button>
+                        <button 
+                          className="p-3.5 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] hover:bg-[var(--greenSoft)] text-left transition-colors cursor-pointer"
+                          onClick={() => setActiveScreen('fasting')}
+                        >
+                          <Timer className="w-5 h-5 text-[var(--green)] mb-1.5" />
+                          <strong className="block text-xs text-[var(--ink)]">Fasting Timer</strong>
+                          <span className="text-[10px] text-[var(--muted)]">Intermittent protocol</span>
+                        </button>
+                      </div>
+                    </section>
+
                     <div className="tipstrip">
-                      <span>🌱</span>
+                      <Sparkles className="w-4 h-4 text-[#8e682e] shrink-0 mt-0.5" />
                       <div>
                         <strong>Your gentle nudge</strong>
-                        <span>Prep grains once today; tomorrow’s lunch is already halfway done.</span>
+                        <span>Prep protein grains and lentils once today; tomorrow’s lunch is already halfway done.</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="stack">
+                    {/* Energy & Macros Widget */}
+                    <section className="surface progresscard">
+                      <div className="sectionhead">
+                        <div>
+                          <h2>Daily macro budget</h2>
+                          <p>{macroGoals.calories} kcal calibrated target</p>
+                        </div>
+                        <span className="text-xs px-2.5 py-0.5 rounded-full bg-[var(--greenSoft)] text-[var(--greenDark)] font-semibold">
+                          Target active
+                        </span>
+                      </div>
+                      <div className="stepslayout">
+                        <div>
+                          <div className="statnum">{macroGoals.calories}</div>
+                          <div className="unit">recommended daily energy</div>
+                          <p style={{ margin: '5px 0 12px', color: 'var(--muted)', fontSize: '11px' }}>
+                            {macroGoals.proteinGrams}g Protein · {macroGoals.carbsGrams}g Carbs · {macroGoals.fatsGrams}g Fats
+                          </p>
+                          <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('account')}>
+                            <span>Adjust profile</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                        <div className="ring" style={{ ['--angle' as string]: '78%' }}>
+                          <div className="ringinner">
+                            <strong>{macroGoals.proteinGrams}g</strong>
+                            <span>protein</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="space-y-2 mt-3 pt-3 border-t border-[var(--line)]">
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-[var(--ink)]">Protein</span>
+                            <span className="text-[var(--muted)]">{macroGoals.proteinGrams}g goal</span>
+                          </div>
+                          <div className="track h-1.5 m-0">
+                            <div className="fill bg-[var(--green)]" style={{ width: '85%' }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-[var(--ink)]">Complex Carbs</span>
+                            <span className="text-[var(--muted)]">{macroGoals.carbsGrams}g goal</span>
+                          </div>
+                          <div className="track h-1.5 m-0">
+                            <div className="fill bg-[#c29758]" style={{ width: '70%' }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="font-medium text-[var(--ink)]">Healthy Fats</span>
+                            <span className="text-[var(--muted)]">{macroGoals.fatsGrams}g goal</span>
+                          </div>
+                          <div className="track h-1.5 m-0">
+                            <div className="fill bg-[#d9826c]" style={{ width: '60%' }} />
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+
                     {/* Steps Widget */}
                     <section className="surface progresscard">
                       <div className="sectionhead">
                         <div>
                           <h2>Daily steps</h2>
-                          <p>You’re moving at your own pace</p>
+                          <p>Moving at your natural pace</p>
                         </div>
-                        <span>👟</span>
+                        <Footprints className="w-4 h-4 text-[var(--green)]" />
                       </div>
                       <div className="stepslayout">
                         <div>
                           <div className="statnum">{steps.toLocaleString()}</div>
                           <div className="unit">of {stepGoal.toLocaleString()} steps</div>
                           <p style={{ margin: '5px 0 12px', color: 'var(--muted)', fontSize: '11px' }}>
-                            {stepsLeft > 0 ? `${stepsLeft.toLocaleString()} to your daily goal` : 'Goal reached — great work!'}
+                            {stepsLeft > 0 ? `${stepsLeft.toLocaleString()} steps to your daily goal` : 'Goal reached — wonderful effort!'}
                           </p>
-                          <button className="textbtn" onClick={() => setActiveScreen('steps')}>
-                            See activity →
+                          <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('steps')}>
+                            <span>Activity breakdown</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
                         <div className="ring" style={{ ['--angle' as string]: `${stepPct}%` }}>
                           <div className="ringinner">
                             <strong>{stepPct}%</strong>
-                            <span>of daily goal</span>
+                            <span>completed</span>
                           </div>
                         </div>
                       </div>
@@ -567,10 +797,11 @@ export function App() {
                         onClick={() => {
                           haptic.light();
                           setSteps((s) => s + 250);
-                          notify('A little movement added. Nice work!');
+                          notify('250 steps added to today.');
                         }}
                       >
-                        ＋ Add a walk (+250 steps)
+                        <Plus className="w-3.5 h-3.5 mr-1" />
+                        <span>Add 250 steps</span>
                       </button>
                     </section>
 
@@ -578,18 +809,18 @@ export function App() {
                     <section className="surface watercard">
                       <div className="sectionhead">
                         <div>
-                          <h2>Water today</h2>
+                          <h2>Water intake</h2>
                           <p>{shownVolume(waterAmount)} of {shownVolume(waterGoal)} {waterUnit}</p>
                         </div>
-                        <span style={{ fontSize: '19px', color: '#55917f' }}>◌</span>
+                        <Droplets className="w-4 h-4 text-[#477280]" />
                       </div>
-                      <div className="water-glasses">
+                      <div className="hydration-glasses">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((g, idx) => {
                           const filled = idx < Math.ceil(waterAmount / 250);
                           return (
-                            <i key={g} className={`water-glass ${filled ? 'filled' : ''}`}>
-                              {filled ? '✓' : g}
-                            </i>
+                            <span key={g} className={`hydration-glass ${filled ? 'filled' : ''}`}>
+                              {filled ? <Check className="w-3 h-3 text-[#2c4d38]" /> : <Droplets className="w-2.5 h-2.5 opacity-30" />}
+                            </span>
                           );
                         })}
                       </div>
@@ -599,13 +830,15 @@ export function App() {
                           onClick={() => {
                             haptic.medium();
                             setWaterAmount((w) => w + 250);
-                            notify(`＋ ${shownVolume(250)} ${waterUnit} added.`);
+                            notify(`${shownVolume(250)} ${waterUnit} added.`);
                           }}
                         >
-                          ＋ 250 ml
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>250 ml</span>
                         </button>
-                        <button className="textbtn" onClick={() => setActiveScreen('water')}>
-                          View water log →
+                        <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('water')}>
+                          <span>Hydration log</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </section>
@@ -615,13 +848,13 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>This week</h2>
-                          <p>Meals planned so far</p>
+                          <p>Meals arranged so far</p>
                         </div>
-                        <span>✦</span>
+                        <Award className="w-4 h-4 text-[var(--green)]" />
                       </div>
                       <div className="mealprogress">
                         <strong>{4 + plannedMeals.length} <span style={{ fontSize: '16px' }}>/ 7</span></strong>
-                        <span>meals ready for the week</span>
+                        <span>days organized</span>
                       </div>
                       <div className="weekdots">
                         <i className="done" />
@@ -633,48 +866,38 @@ export function App() {
                         <i className={plannedMeals.length >= 3 ? 'done' : ''} />
                       </div>
                       <div style={{ marginTop: '14px' }}>
-                        <button className="textbtn" onClick={() => setActiveScreen('planner')}>
-                          Keep planning →
+                        <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('planner')}>
+                          <span>Open full planner</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </section>
 
-                    {/* Your Focus Card */}
-                    <section className="surface">
-                      <div className="sectionhead">
-                        <div>
-                          <h2>Your focus</h2>
-                          <p>Personalized meal planning</p>
-                        </div>
-                        <span>◎</span>
-                      </div>
-                      <div className="goal-summary">
-                        <span className="goal-summary-mark">◎</span>
-                        <div>
-                          <strong>{wellnessGoal === 'maintain' ? 'Maintain weight' : wellnessGoal === 'lose' ? 'Lose weight' : wellnessGoal === 'strength' ? 'Build strength' : 'Eat healthier'}</strong>
-                          <span>Flexible Indian meal ideas</span>
-                        </div>
-                      </div>
-                      <button className="textbtn mt-2" onClick={() => setActiveScreen('goals')}>
-                        View goals →
-                      </button>
-                    </section>
-
-                    {/* Grocery Preview */}
+                    {/* Shopping List Preview */}
                     <section className="surface">
                       <div className="sectionhead">
                         <div>
                           <h2>Shopping list</h2>
-                          <p>{defaultGroceryItems.length + addedGrocery.length} Indian staples</p>
+                          <p>{defaultGroceryItems.length + addedGrocery.length} Indian ingredients</p>
                         </div>
-                        <button className="textbtn" onClick={() => setActiveScreen('grocery')}>
-                          Open →
+                        <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('grocery')}>
+                          <span>View list</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <div className="meals">
-                        <div className="mini-item">• &nbsp;Toor dal <span style={{ marginLeft: 'auto' }}>500 g</span></div>
-                        <div className="mini-item">• &nbsp;Curry leaves <span style={{ marginLeft: 'auto' }}>1 bunch</span></div>
-                        <div className="mini-item">• &nbsp;Paneer <span style={{ marginLeft: 'auto' }}>200 g</span></div>
+                        <div className="mini-item flex items-center justify-between text-xs py-1">
+                          <span>Toor dal (yellow pigeon peas)</span>
+                          <span className="text-[var(--muted)]">500 g</span>
+                        </div>
+                        <div className="mini-item flex items-center justify-between text-xs py-1">
+                          <span>Fresh curry leaves & coriander</span>
+                          <span className="text-[var(--muted)]">1 bunch</span>
+                        </div>
+                        <div className="mini-item flex items-center justify-between text-xs py-1">
+                          <span>Low-fat paneer</span>
+                          <span className="text-[var(--muted)]">200 g</span>
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -687,12 +910,13 @@ export function App() {
               <div>
                 <div className="pagehead">
                   <div>
-                    <p className="eyebrow">Plan ahead, feel good</p>
-                    <h1>Your meal plan</h1>
-                    <p className="subline">A flexible week of meals that works for you.</p>
+                    <p className="eyebrow">Plan ahead, feel calm</p>
+                    <h1>Weekly Thali Planner</h1>
+                    <p className="subline">A nourishing 5-slot daily schedule tailored to your lifestyle.</p>
                   </div>
                   <button className="primary" onClick={() => setActiveScreen('recipes')}>
-                    ＋ Add a meal
+                    <Plus className="w-4 h-4" />
+                    <span>Browse recipes</span>
                   </button>
                 </div>
 
@@ -700,11 +924,15 @@ export function App() {
                   <div className="sectionhead">
                     <div>
                       <h2>October 19 – 25</h2>
-                      <p>Week 43 · {4 + plannedMeals.length} meals planned</p>
+                      <p>Week 43 · {4 + plannedMeals.length} days active</p>
                     </div>
-                    <div>
-                      <button className="iconbtn" onClick={() => notify('Previous week viewed.')}>‹</button>
-                      <button className="iconbtn ml-1" onClick={() => notify('Next week viewed.')}>›</button>
+                    <div className="flex gap-1.5">
+                      <button className="iconbtn" onClick={() => notify('Previous week shown.')}>
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button className="iconbtn" onClick={() => notify('Next week shown.')}>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
 
@@ -729,107 +957,174 @@ export function App() {
                     })}
                   </div>
 
-                  <div className="plannerlist">
-                    <div className="plannerday">
-                      <div className="plannerdate">
-                        <strong>Sunday</strong>
-                        <span>Today</span>
-                      </div>
-                      <div className="plannerslots">
-                        <div className="slot" onClick={() => setSelectedRecipe(mealPlan.meals.breakfast)}>
-                          <small>Breakfast</small>
-                          <strong>{mealPlan.meals.breakfast.name}</strong>
+                  <div className="space-y-4 pt-2">
+                    {/* Early Morning Slot */}
+                    <div className="p-4 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#e6f0e6] text-[#365c44] flex items-center justify-center shrink-0">
+                          <Apple className="w-5 h-5" />
                         </div>
-                        <div className="slot" onClick={() => setSelectedRecipe(mealPlan.meals.lunch)}>
-                          <small>Lunch</small>
-                          <strong>{mealPlan.meals.lunch.name}</strong>
-                        </div>
-                        <div className="slot" onClick={() => setSelectedRecipe(mealPlan.meals.dinner)}>
-                          <small>Dinner</small>
-                          <strong>{mealPlan.meals.dinner.name}</strong>
+                        <div>
+                          <span className="text-[10px] font-semibold uppercase text-[var(--muted)]">Early Morning · 07:00 AM</span>
+                          <h3 className="text-sm font-bold text-[var(--ink)]">{mealPlan.meals.early_morning.name}</h3>
+                          <span className="text-xs text-[var(--muted)]">
+                            {mealPlan.meals.early_morning.calories} kcal · {mealPlan.meals.early_morning.protein}g protein · {mealPlan.meals.early_morning.servingSize}
+                          </span>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="plannerday">
-                      <div className="plannerdate">
-                        <strong>Monday</strong>
-                        <span>Oct 26</span>
-                      </div>
-                      <div className="plannerslots">
-                        <div className="slot">
-                          <small>Breakfast</small>
-                          <strong>Vegetable Poha</strong>
-                        </div>
-                        <div 
-                          className="slot empty" 
-                          onClick={() => setSwappingSlot('lunch')}
+                      <div className="flex items-center gap-2 self-end sm:self-auto">
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSwappingSlot('early_morning')}
                         >
-                          ＋ Add meal
-                        </div>
-                        <div className="slot">
-                          <small>Dinner</small>
-                          <strong>Chana Masala & Roti</strong>
-                        </div>
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Swap</span>
+                        </button>
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSelectedRecipe(mealPlan.meals.early_morning)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Recipe</span>
+                        </button>
                       </div>
                     </div>
 
-                    <div className="plannerday">
-                      <div className="plannerdate">
-                        <strong>Tuesday</strong>
-                        <span>Oct 27</span>
+                    {/* Breakfast Slot */}
+                    <div className="p-4 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#f9eedc] text-[#8e682e] flex items-center justify-center shrink-0">
+                          <SunMedium className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-semibold uppercase text-[var(--muted)]">Breakfast · 08:30 AM</span>
+                          <h3 className="text-sm font-bold text-[var(--ink)]">{mealPlan.meals.breakfast.name}</h3>
+                          <span className="text-xs text-[var(--muted)]">
+                            {mealPlan.meals.breakfast.calories} kcal · {mealPlan.meals.breakfast.protein}g protein · {mealPlan.meals.breakfast.servingSize}
+                          </span>
+                        </div>
                       </div>
-                      <div className="plannerslots">
-                        <div 
-                          className="slot empty" 
+                      <div className="flex items-center gap-2 self-end sm:self-auto">
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
                           onClick={() => setSwappingSlot('breakfast')}
                         >
-                          ＋ Add meal
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Swap</span>
+                        </button>
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSelectedRecipe(mealPlan.meals.breakfast)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Recipe</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Lunch Slot */}
+                    <div className="p-4 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#e6f0e6] text-[#2c4d38] flex items-center justify-center shrink-0">
+                          <Utensils className="w-5 h-5" />
                         </div>
-                        <div className="slot">
-                          <small>Lunch</small>
-                          <strong>Rajma Chawal</strong>
+                        <div>
+                          <span className="text-[10px] font-semibold uppercase text-[var(--muted)]">Lunch Thali · 01:30 PM</span>
+                          <h3 className="text-sm font-bold text-[var(--ink)]">{mealPlan.meals.lunch.name}</h3>
+                          <span className="text-xs text-[var(--muted)]">
+                            {mealPlan.meals.lunch.calories} kcal · {mealPlan.meals.lunch.protein}g protein · {mealPlan.meals.lunch.servingSize}
+                          </span>
                         </div>
-                        <div 
-                          className="slot empty" 
+                      </div>
+                      <div className="flex items-center gap-2 self-end sm:self-auto">
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSwappingSlot('lunch')}
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Swap</span>
+                        </button>
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSelectedRecipe(mealPlan.meals.lunch)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Recipe</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Evening Snack Slot */}
+                    <div className="p-4 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#f6e6e1] text-[#9b4e3f] flex items-center justify-center shrink-0">
+                          <Coffee className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-semibold uppercase text-[var(--muted)]">Evening Fuel · 05:00 PM</span>
+                          <h3 className="text-sm font-bold text-[var(--ink)]">{mealPlan.meals.snack.name}</h3>
+                          <span className="text-xs text-[var(--muted)]">
+                            {mealPlan.meals.snack.calories} kcal · {mealPlan.meals.snack.protein}g protein · {mealPlan.meals.snack.servingSize}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 self-end sm:self-auto">
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSwappingSlot('snack')}
+                        >
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Swap</span>
+                        </button>
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSelectedRecipe(mealPlan.meals.snack)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Recipe</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Dinner Slot */}
+                    <div className="p-4 rounded-2xl border border-[var(--line)] bg-[var(--surface2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[#e5eef2] text-[#477280] flex items-center justify-center shrink-0">
+                          <MoonStar className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-semibold uppercase text-[var(--muted)]">Dinner Thali · 08:00 PM</span>
+                          <h3 className="text-sm font-bold text-[var(--ink)]">{mealPlan.meals.dinner.name}</h3>
+                          <span className="text-xs text-[var(--muted)]">
+                            {mealPlan.meals.dinner.calories} kcal · {mealPlan.meals.dinner.protein}g protein · {mealPlan.meals.dinner.servingSize}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 self-end sm:self-auto">
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
                           onClick={() => setSwappingSlot('dinner')}
                         >
-                          ＋ Add meal
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="plannerday">
-                      <div className="plannerdate">
-                        <strong>Wednesday</strong>
-                        <span>Oct 28</span>
-                      </div>
-                      <div className="plannerslots">
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
-                      </div>
-                    </div>
-
-                    <div className="plannerday">
-                      <div className="plannerdate">
-                        <strong>Thursday</strong>
-                        <span>Oct 29</span>
-                      </div>
-                      <div className="plannerslots">
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
-                        <div className="slot empty" onClick={() => setActiveScreen('recipes')}>＋ Add meal</div>
+                          <RefreshCw className="w-3.5 h-3.5" />
+                          <span>Swap</span>
+                        </button>
+                        <button 
+                          className="secondary text-xs px-3 py-1.5"
+                          onClick={() => setSelectedRecipe(mealPlan.meals.dinner)}
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Recipe</span>
+                        </button>
                       </div>
                     </div>
                   </div>
                 </section>
 
                 <div className="tipstrip" style={{ marginTop: '15px' }}>
-                  <span>💡</span>
+                  <Sparkles className="w-4 h-4 text-[#8e682e] shrink-0 mt-0.5" />
                   <div>
-                    <strong>Keep it flexible</strong>
-                    <span>Leftovers count as a plan, too. Add only what makes your week easier.</span>
+                    <strong>Keep it kind and flexible</strong>
+                    <span>Leftovers and simple dals count as a plan, too. Add only what brings ease to your routine.</span>
                   </div>
                 </div>
               </div>
@@ -840,19 +1135,20 @@ export function App() {
               <div>
                 <div className="pagehead">
                   <div>
-                    <p className="eyebrow">A kitchen full of possibility</p>
-                    <h1>Indian recipes</h1>
-                    <p className="subline">Explore regional favorites and save what you love.</p>
+                    <p className="eyebrow">A kitchen full of heritage</p>
+                    <h1>Indian Recipes</h1>
+                    <p className="subline">Explore regional delicacies calibrated with exact calories and protein.</p>
                   </div>
                   <span className="recipe-total">{filteredRecipes.length}+ recipes</span>
                 </div>
 
                 <div className="tools">
-                  <div className="searchwrap">
+                  <div className="searchwrap relative">
+                    <Search className="w-4 h-4 text-[var(--muted)] absolute left-3 top-3" />
                     <input 
-                      className="input" 
+                      className="input pl-9" 
                       type="search" 
-                      placeholder="⌕  Search 5,284+ recipes"
+                      placeholder="Search recipes (e.g. Paneer, Moong, Sattu, Dal)..."
                       value={recipeSearch}
                       onChange={(e) => setRecipeSearch(e.target.value)}
                     />
@@ -897,42 +1193,61 @@ export function App() {
                     aria-pressed={recipeFilter === 'high-protein'}
                     onClick={() => setRecipeFilter('high-protein')}
                   >
-                    High protein
+                    High Protein
                   </button>
                 </div>
 
                 <div className="recipes">
-                  {filteredRecipes.slice(0, 12).map((food) => (
+                  {filteredRecipes.slice(0, 16).map((food) => (
                     <article key={food.id} className="surface recipecard">
                       <div 
-                        className="recipeimage flex items-center justify-center cursor-pointer text-4xl"
+                        className="recipeimage flex flex-col items-center justify-center cursor-pointer p-4 relative overflow-hidden"
                         style={{ background: 'var(--surface2)' }}
                         onClick={() => setSelectedRecipe(food)}
                       >
-                        🍱
+                        <div className="w-12 h-12 rounded-2xl bg-[var(--surface)] text-[var(--green)] flex items-center justify-center shadow-sm mb-2">
+                          <Utensils className="w-6 h-6" />
+                        </div>
+                        <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-[var(--surface)] text-[var(--greenDark)]">
+                          {Array.isArray(food.dietType) ? food.dietType.map((d: string) => d.replace(/_/g, ' ')).join(', ') : String(food.dietType).replace(/_/g, ' ')}
+                        </span>
                       </div>
                       <div className="recipecopy">
                         <h3 
-                          className="cursor-pointer font-bold"
+                          className="cursor-pointer font-bold text-sm text-[var(--ink)]"
                           onClick={() => setSelectedRecipe(food)}
                         >
                           {food.name}
                         </h3>
-                        <p>{food.tips || `${food.calories} kcal · ${food.protein}g protein`}</p>
-                        <div className="recipemeta">
-                          <span>{food.prepTimeMins} min</span>
-                          <span>{food.region[0].replace('_', ' ')}</span>
+                        <p className="text-xs text-[var(--muted)] line-clamp-2">
+                          {food.tips || `${food.calories} kcal · ${food.protein}g protein · ${food.servingSize}`}
+                        </p>
+                        <div className="recipemeta flex items-center justify-between text-xs text-[var(--muted)] pt-1">
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {food.prepTimeMins} min
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Flame className="w-3 h-3 text-[#c29758]" />
+                            {food.calories} kcal
+                          </span>
                         </div>
-                        <button 
-                          className="textbtn" 
-                          onClick={() => {
-                            haptic.medium();
-                            setPlannedMeals((prev) => [...prev, food.name]);
-                            notify(`${food.name} added to your plan.`);
-                          }}
-                        >
-                          ＋ Add to plan
-                        </button>
+                        <div className="flex items-center justify-between gap-2 pt-2 mt-2 border-t border-[var(--line)]">
+                          <span className="text-xs font-semibold text-[var(--green)]">
+                            {food.protein}g protein
+                          </span>
+                          <button 
+                            className="secondary text-xs px-2.5 py-1" 
+                            onClick={() => {
+                              haptic.medium();
+                              setPlannedMeals((prev) => [...prev, food.name]);
+                              notify(`${food.name} added to your plan.`);
+                            }}
+                          >
+                            <Plus className="w-3 h-3" />
+                            <span>Add</span>
+                          </button>
+                        </div>
                       </div>
                     </article>
                   ))}
@@ -947,10 +1262,10 @@ export function App() {
                   <div>
                     <p className="eyebrow">From plan to pantry</p>
                     <h1>Shopping list</h1>
-                    <p className="subline">Everything you need for this week, all in one place.</p>
+                    <p className="subline">All ingredients organized by group for your planned meals.</p>
                   </div>
                   <button 
-                    className="secondary" 
+                    className="secondary flex items-center gap-1.5" 
                     onClick={() => {
                       haptic.light();
                       navigator.clipboard?.writeText(
@@ -959,7 +1274,8 @@ export function App() {
                       notify('Your shopping list is copied to clipboard.');
                     }}
                   >
-                    ↗ Share list
+                    <Share2 className="w-4 h-4" />
+                    <span>Share list</span>
                   </button>
                 </div>
 
@@ -967,7 +1283,7 @@ export function App() {
                   <div className="groceryhead">
                     <div>
                       <strong>{defaultGroceryItems.length + addedGrocery.length} items</strong>
-                      <span className="unit"> · for 4 planned meals</span>
+                      <span className="unit"> · for your active routine</span>
                     </div>
                     <button 
                       className="textbtn" 
@@ -980,7 +1296,7 @@ export function App() {
                     </button>
                   </div>
 
-                  <p className="grocerygroup">Produce</p>
+                  <p className="grocerygroup">Fresh Produce</p>
                   <div id="grocery-list">
                     {defaultGroceryItems.filter((i) => i.group === 'Produce').map((item) => {
                       const isChecked = checkedGrocery.includes(item.id);
@@ -990,7 +1306,7 @@ export function App() {
                           className={`groceryitem ${isChecked ? 'checked' : ''}`}
                         >
                           <button 
-                            className="check" 
+                            className="check flex items-center justify-center" 
                             aria-pressed={isChecked}
                             onClick={() => {
                               haptic.selection();
@@ -999,7 +1315,7 @@ export function App() {
                               );
                             }}
                           >
-                            ✓
+                            {isChecked && <Check className="w-3 h-3 text-[var(--surface)]" />}
                           </button>
                           <span className="groceryname">{item.name}</span>
                           <span className="amount">{item.amount}</span>
@@ -1007,7 +1323,7 @@ export function App() {
                       );
                     })}
 
-                    <p className="grocerygroup" style={{ marginTop: '18px' }}>Pantry & protein</p>
+                    <p className="grocerygroup" style={{ marginTop: '18px' }}>Pantry, Grains & Protein</p>
                     {defaultGroceryItems.filter((i) => i.group === 'Pantry & protein').map((item) => {
                       const isChecked = checkedGrocery.includes(item.id);
                       return (
@@ -1016,7 +1332,7 @@ export function App() {
                           className={`groceryitem ${isChecked ? 'checked' : ''}`}
                         >
                           <button 
-                            className="check" 
+                            className="check flex items-center justify-center" 
                             aria-pressed={isChecked}
                             onClick={() => {
                               haptic.selection();
@@ -1025,7 +1341,7 @@ export function App() {
                               );
                             }}
                           >
-                            ✓
+                            {isChecked && <Check className="w-3 h-3 text-[var(--surface)]" />}
                           </button>
                           <span className="groceryname">{item.name}</span>
                           <span className="amount">{item.amount}</span>
@@ -1041,7 +1357,7 @@ export function App() {
                           className={`groceryitem ${isChecked ? 'checked' : ''}`}
                         >
                           <button 
-                            className="check" 
+                            className="check flex items-center justify-center" 
                             aria-pressed={isChecked}
                             onClick={() => {
                               setCheckedGrocery((prev) => 
@@ -1049,7 +1365,7 @@ export function App() {
                               );
                             }}
                           >
-                            ✓
+                            {isChecked && <Check className="w-3 h-3 text-[var(--surface)]" />}
                           </button>
                           <span className="groceryname">{item.name}</span>
                           <span className="amount">{item.amount}</span>
@@ -1078,9 +1394,12 @@ export function App() {
                       name="itemInput" 
                       className="input" 
                       type="text" 
-                      placeholder="Add an item to your list" 
+                      placeholder="Add an item (e.g. Sprouted Moong, Sattu)" 
                     />
-                    <button className="primary" type="submit">Add item</button>
+                    <button className="primary flex items-center gap-1" type="submit">
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Add</span>
+                    </button>
                   </form>
                 </section>
               </div>
@@ -1092,18 +1411,19 @@ export function App() {
                 <div className="pagehead">
                   <div>
                     <p className="eyebrow">Small steps add up</p>
-                    <h1>Your movement</h1>
-                    <p className="subline">A friendly look at how you’re feeling and moving.</p>
+                    <h1>Movement & Steps</h1>
+                    <p className="subline">Gentle physical activity tuned for cardiovascular and metabolic balance.</p>
                   </div>
                   <button 
-                    className="secondary" 
+                    className="secondary flex items-center gap-1.5" 
                     onClick={() => {
                       haptic.light();
                       setSteps((s) => s + 500);
                       notify('500 steps logged.');
                     }}
                   >
-                    ＋ Log a walk
+                    <Plus className="w-4 h-4" />
+                    <span>Log a walk</span>
                   </button>
                 </div>
 
@@ -1114,7 +1434,7 @@ export function App() {
                         <div className="ring" style={{ ['--angle' as string]: `${stepPct}%` }}>
                           <div className="ringinner">
                             <strong>{stepPct}%</strong>
-                            <span>of daily goal</span>
+                            <span>completed</span>
                           </div>
                         </div>
                         <div className="stepscopy">
@@ -1127,7 +1447,7 @@ export function App() {
                             <div className="fill" style={{ width: `${stepPct}%` }} />
                           </div>
                           <button 
-                            className="textbtn" 
+                            className="textbtn flex items-center gap-1" 
                             onClick={() => {
                               haptic.light();
                               setSteps((s) => s + 250);
@@ -1146,10 +1466,11 @@ export function App() {
                                   activityType: 'walk',
                                 }
                               ]);
-                              notify('＋ 250 steps added.');
+                              notify('250 steps added.');
                             }}
                           >
-                            ＋ Add 250 steps
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Add 250 steps</span>
                           </button>
                         </div>
                       </div>
@@ -1159,7 +1480,7 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Your week in motion</h2>
-                          <p>One day at a time</p>
+                          <p>Steady daily rhythm</p>
                         </div>
                         <span className="unit">Daily steps</span>
                       </div>
@@ -1177,12 +1498,15 @@ export function App() {
 
                   <div className="stack">
                     <section className="surface goalcard">
-                      <span className="goalicon">🎯</span>
+                      <span className="goalicon">
+                        <Target className="w-5 h-5" />
+                      </span>
                       <div>
                         <strong>Daily step goal</strong>
-                        <p className="unit">{stepGoal.toLocaleString()} steps · a steady, kind target</p>
-                        <button className="textbtn" onClick={() => setActiveScreen('account')}>
-                          Adjust in account setup →
+                        <p className="unit">{stepGoal.toLocaleString()} steps · steady, kind target</p>
+                        <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('account')}>
+                          <span>Adjust in account</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
                         </button>
                       </div>
                     </section>
@@ -1191,16 +1515,18 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Today’s rhythm</h2>
-                          <p>Make space to move</p>
+                          <p>Logged activity entries</p>
                         </div>
                       </div>
                       <div className="meals">
                         {stepsLogs.map((log) => (
                           <div key={log.id} className="mealrow">
-                            <span className="mealemoji">☀️</span>
+                            <span className="mealemoji bg-[#e6f0e6] text-[#2c4d38]">
+                              <Footprints className="w-4 h-4" />
+                            </span>
                             <span className="mealname">
                               <strong>{log.title}</strong>
-                              <span>{log.durationMins} min · {log.avgPaceMinutesPerKm} pace</span>
+                              <span>{log.durationMins} min · {log.avgPaceMinutesPerKm} pace · {log.caloriesBurned} kcal</span>
                             </span>
                             <span className="mealcal">{log.steps.toLocaleString()}</span>
                           </div>
@@ -1209,10 +1535,10 @@ export function App() {
                     </section>
 
                     <div className="tipstrip">
-                      <span>🌤</span>
+                      <Sparkles className="w-4 h-4 text-[#8e682e] shrink-0 mt-0.5" />
                       <div>
-                        <strong>No perfect number needed</strong>
-                        <span>Every little bit of movement counts. Take a pause when you need one.</span>
+                        <strong>No perfection required</strong>
+                        <span>Every little bit of movement counts. Take pauses whenever your body asks for them.</span>
                       </div>
                     </div>
                   </div>
@@ -1227,7 +1553,7 @@ export function App() {
                   <div>
                     <p className="eyebrow">A gentle daily rhythm</p>
                     <h1>Water tracking</h1>
-                    <p className="subline">Log drinks as you go. Your target is yours to adjust.</p>
+                    <p className="subline">Log drinks as you go. Hydration helps nutrient transport and mental clarity.</p>
                   </div>
                 </div>
 
@@ -1256,7 +1582,7 @@ export function App() {
                         const filled = idx < Math.ceil(waterAmount / 250);
                         return (
                           <span key={g} className={`hydration-glass ${filled ? 'filled' : ''}`}>
-                            {filled ? '✓' : g}
+                            {filled ? <Check className="w-3.5 h-3.5 text-[#2c4d38]" /> : <Droplets className="w-3 h-3 opacity-30" />}
                           </span>
                         );
                       })}
@@ -1265,32 +1591,35 @@ export function App() {
                     <div className="sectionhead">
                       <div>
                         <strong>Quick add</strong>
-                        <p>Choose the amount you just drank.</p>
+                        <p>Record a drink with one tap.</p>
                       </div>
                     </div>
                     <div className="inline-actions">
                       <button 
-                        className="secondary" 
+                        className="secondary flex items-center gap-1.5" 
                         onClick={() => {
                           haptic.medium();
                           setWaterAmount((w) => w + 250);
-                          notify(`＋ ${shownVolume(250)} ${waterUnit} added.`);
+                          notify(`${shownVolume(250)} ${waterUnit} added.`);
                         }}
                       >
-                        ＋ {shownVolume(250)} {waterUnit}
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>{shownVolume(250)} {waterUnit}</span>
                       </button>
                       <button 
-                        className="secondary" 
+                        className="secondary flex items-center gap-1.5" 
                         onClick={() => {
                           haptic.medium();
                           setWaterAmount((w) => w + 500);
-                          notify(`＋ ${shownVolume(500)} ${waterUnit} added.`);
+                          notify(`${shownVolume(500)} ${waterUnit} added.`);
                         }}
                       >
-                        ＋ {shownVolume(500)} {waterUnit}
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>{shownVolume(500)} {waterUnit}</span>
                       </button>
-                      <button className="textbtn" onClick={() => setActiveScreen('settings')}>
-                        Adjust daily target →
+                      <button className="textbtn flex items-center gap-1" onClick={() => setActiveScreen('settings')}>
+                        <span>Adjust target</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </section>
@@ -1299,28 +1628,36 @@ export function App() {
                     <section className="surface">
                       <div className="sectionhead">
                         <div>
-                          <h2>Today’s log</h2>
-                          <p>Your recent drinks</p>
+                          <h2>Today’s rhythm</h2>
+                          <p>Your logged hydration checkpoints</p>
                         </div>
                         <span className="unit">Today</span>
                       </div>
-                      <div className="history-row"><span>🌤 Morning</span><strong>500 ml</strong></div>
-                      <div className="history-row"><span>🥣 With breakfast</span><strong>250 ml</strong></div>
-                      <div className="history-row"><span>☀️ Midday</span><strong>500 ml</strong></div>
-                      <div className="history-row"><span>＋ Quick add</span><strong>Just now</strong></div>
+                      <div className="history-row">
+                        <span className="flex items-center gap-1.5"><SunMedium className="w-3.5 h-3.5 text-[#8e682e]" /> Morning glass</span>
+                        <strong>500 ml</strong>
+                      </div>
+                      <div className="history-row">
+                        <span className="flex items-center gap-1.5"><Utensils className="w-3.5 h-3.5 text-[#365c44]" /> With breakfast</span>
+                        <strong>250 ml</strong>
+                      </div>
+                      <div className="history-row">
+                        <span className="flex items-center gap-1.5"><Sun className="w-3.5 h-3.5 text-[#8e682e]" /> Midday</span>
+                        <strong>500 ml</strong>
+                      </div>
                     </section>
 
                     <section className="surface">
                       <div className="sectionhead">
                         <div>
                           <h2>Hydration reminders</h2>
-                          <p>Small nudges, on your schedule.</p>
+                          <p>Quiet nudges on your schedule</p>
                         </div>
                       </div>
                       <div className="setting">
                         <div className="settingcopy">
                           <strong>Gentle water reminder</strong>
-                          <span>Every 2 hours between 9 am and 7 pm.</span>
+                          <span>Every 2 hours between 9:00 AM and 7:00 PM.</span>
                         </div>
                         <button 
                           className="switch" 
@@ -1345,20 +1682,22 @@ export function App() {
                   <div>
                     <p className="eyebrow">Your wellbeing, your pace</p>
                     <h1>Goals & weight</h1>
-                    <p className="subline">Choose a focus that feels right for you. You can change it anytime.</p>
+                    <p className="subline">Choose an intention that feels natural. You can adjust anytime.</p>
                   </div>
                   <button className="secondary" onClick={() => setActiveScreen('account')}>
-                    Edit goals
+                    Edit profile
                   </button>
                 </div>
 
                 <div className="stack">
                   <section className="surface">
                     <div className="goal-summary">
-                      <span className="goal-summary-mark">◎</span>
+                      <span className="goal-summary-mark">
+                        <Target className="w-4 h-4" />
+                      </span>
                       <div>
                         <strong>{wellnessGoal === 'maintain' ? 'Maintain weight' : wellnessGoal === 'lose' ? 'Lose weight' : wellnessGoal === 'strength' ? 'Build strength' : 'Eat healthier'}</strong>
-                        <span>Your plan is set around a flexible, balanced routine.</span>
+                        <span>Your plan is set around a flexible, balanced Indian routine.</span>
                       </div>
                     </div>
                   </section>
@@ -1368,16 +1707,18 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Weight check-in</h2>
-                          <p>Log a check-in when it feels useful.</p>
+                          <p>Log a check-in when it feels helpful.</p>
                         </div>
                         <span className="unit">Optional</span>
                       </div>
                       <div className="statline">
                         <div>
                           <div className="statnum">{shownWeight(profile.weightKg)} <span className="unit">{weightUnit}</span></div>
-                          <div className="unit">Most recent check-in · target {shownWeight(targetWeight)} {weightUnit}</div>
+                          <div className="unit">Most recent · target {shownWeight(targetWeight)} {weightUnit}</div>
                         </div>
-                        <span className="goal-summary-mark">↗</span>
+                        <span className="goal-summary-mark">
+                          <TrendingUp className="w-4 h-4" />
+                        </span>
                       </div>
                       <form 
                         className="additem" 
@@ -1428,10 +1769,10 @@ export function App() {
                   <div>
                     <p className="eyebrow">Make it yours</p>
                     <h1>Account setup</h1>
-                    <p className="subline">A few details help Morrow fit your life.</p>
+                    <p className="subline">Calibrate Morrow to your body metrics, dietary style, and cuisine.</p>
                   </div>
-                  <span style={{ padding: '7px 10px', borderRadius: '20px', background: 'var(--greenSoft)', color: 'var(--greenDark)', fontSize: '10px' }}>
-                    Profile · 85% complete
+                  <span className="text-xs px-3 py-1 rounded-full bg-[var(--greenSoft)] text-[var(--greenDark)] font-semibold">
+                    Profile active
                   </span>
                 </div>
 
@@ -1439,185 +1780,134 @@ export function App() {
                   <section className="surface">
                     <div className="sectionhead">
                       <div>
-                        <h2>Your profile</h2>
-                        <p>Update your account details and daily goals.</p>
+                        <h2>Personal metrics</h2>
+                        <p>Used to calculate Mifflin-St Jeor metabolic goals</p>
                       </div>
-                      <span>◎</span>
                     </div>
-
                     <form 
+                      className="formgrid"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        notify('Your profile and goals have been saved.');
+                        notify('Profile changes saved.');
                       }}
                     >
-                      <div className="formgrid">
-                        <div className="field">
-                          <label htmlFor="user-name">Full name</label>
-                          <input 
-                            id="user-name" 
-                            className="input" 
-                            value={profile.name} 
-                            onChange={(e) => setProfile({ ...profile, name: e.target.value })} 
-                          />
-                        </div>
-                        <div className="field">
-                          <label htmlFor="user-email">Email address</label>
-                          <input id="user-email" className="input" defaultValue="maya@example.com" />
-                        </div>
-
-                        <div className="field full">
-                          <label>What is your main wellbeing goal?</label>
-                          <div className="goal-options">
-                            {[
-                              { id: 'lose', title: 'Lose weight', desc: 'Meals that support your chosen direction' },
-                              { id: 'gain', title: 'Gain weight', desc: 'More nourishing meal ideas' },
-                              { id: 'maintain', title: 'Maintain weight', desc: 'A steady, flexible routine' },
-                              { id: 'strength', title: 'Build strength', desc: 'Food and movement habits' },
-                              { id: 'healthy', title: 'Eat healthier', desc: 'More balance in everyday meals' },
-                              { id: 'other', title: 'Other', desc: 'Choose a personal focus' },
-                            ].map((g) => (
-                              <label key={g.id} className="goal-option">
-                                <input 
-                                  type="radio" 
-                                  name="wellnessGoal" 
-                                  value={g.id}
-                                  checked={wellnessGoal === g.id}
-                                  onChange={() => setWellnessGoal(g.id)}
-                                />
-                                <span>
-                                  <strong>{g.title}</strong>
-                                  <small>{g.desc}</small>
-                                </span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        {wellnessGoal === 'other' && (
-                          <div className="field full">
-                            <label>Your personal focus</label>
-                            <input 
-                              className="input" 
-                              value={otherGoal} 
-                              onChange={(e) => setOtherGoal(e.target.value)} 
-                              placeholder="What would you like to focus on?" 
-                            />
-                          </div>
-                        )}
-
-                        <div className="field">
-                          <label>Daily step goal</label>
-                          <select 
-                            className="select" 
-                            value={stepGoal} 
-                            onChange={(e) => setStepGoal(Number(e.target.value))}
-                          >
-                            <option value="5000">5,000 steps</option>
-                            <option value="8000">8,000 steps</option>
-                            <option value="10000">10,000 steps</option>
-                            <option value="12000">12,000 steps</option>
-                          </select>
-                        </div>
-
-                        <div className="field">
-                          <label>Daily water goal</label>
-                          <select 
-                            className="select" 
-                            value={waterGoal} 
-                            onChange={(e) => setWaterGoal(Number(e.target.value))}
-                          >
-                            <option value="1500">1,500 ml</option>
-                            <option value="2000">2,000 ml</option>
-                            <option value="2500">2,500 ml</option>
-                            <option value="3000">3,000 ml</option>
-                          </select>
-                        </div>
-
-                        <div className="field full">
-                          <label>Eating style</label>
-                          <div className="choices">
-                            {[
-                              { id: 'vegetarian', label: 'Vegetarian' },
-                              { id: 'eggetarian', label: 'Eggetarian' },
-                              { id: 'vegan', label: 'Vegan' },
-                              { id: 'non_veg', label: 'Includes meat' },
-                            ].map((d) => (
-                              <label key={d.id} className="choice">
-                                <input 
-                                  type="radio" 
-                                  name="dietType" 
-                                  value={d.id}
-                                  checked={profile.dietType === d.id}
-                                  onChange={() => setProfile({ ...profile, dietType: d.id as any })}
-                                />
-                                <span>{d.label}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="field full">
-                          <label>Favorite Indian cuisines</label>
-                          <div className="choices">
-                            {['south', 'north', 'gujarati', 'bengali', 'maharashtrian'].map((c) => (
-                              <label key={c} className="choice">
-                                <input 
-                                  type="checkbox" 
-                                  checked={cuisines.includes(c)}
-                                  onChange={() => {
-                                    setCuisines((prev) => 
-                                      prev.includes(c) ? prev.filter((item) => item !== c) : [...prev, c]
-                                    );
-                                  }}
-                                />
-                                <span className="capitalize">{c} Indian</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="field full">
-                          <label>Allergies or ingredients to avoid</label>
-                          <input 
-                            className="input" 
-                            value={allergyNotes} 
-                            onChange={(e) => setAllergyNotes(e.target.value)} 
-                            placeholder="For example, peanuts or dairy" 
-                          />
-                        </div>
+                      <div className="field">
+                        <label>Name</label>
+                        <input 
+                          className="input" 
+                          value={profile.name} 
+                          onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                        />
                       </div>
-
-                      <div className="formfooter">
-                        <span className="hint">Your preferences stay in your account.</span>
-                        <button className="primary" type="submit">Save profile</button>
+                      <div className="field">
+                        <label>Age</label>
+                        <input 
+                          className="input" 
+                          type="number" 
+                          value={profile.age} 
+                          onChange={(e) => setProfile({ ...profile, age: Number(e.target.value) || 25 })}
+                        />
+                      </div>
+                      <div className="field">
+                        <label>Gender</label>
+                        <select 
+                          className="select" 
+                          value={profile.gender}
+                          onChange={(e) => setProfile({ ...profile, gender: e.target.value as any })}
+                        >
+                          <option value="female">Female</option>
+                          <option value="male">Male</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+                      <div className="field">
+                        <label>Weight (kg)</label>
+                        <input 
+                          className="input" 
+                          type="number" 
+                          step="0.1" 
+                          value={profile.weightKg} 
+                          onChange={(e) => setProfile({ ...profile, weightKg: Number(e.target.value) || 60 })}
+                        />
+                      </div>
+                      <div className="field">
+                        <label>Height (cm)</label>
+                        <input 
+                          className="input" 
+                          type="number" 
+                          value={profile.heightCm} 
+                          onChange={(e) => setProfile({ ...profile, heightCm: Number(e.target.value) || 165 })}
+                        />
+                      </div>
+                      <div className="field">
+                        <label>Activity level</label>
+                        <select 
+                          className="select" 
+                          value={profile.activityLevel}
+                          onChange={(e) => setProfile({ ...profile, activityLevel: e.target.value as any })}
+                        >
+                          <option value="sedentary">Sedentary (desk work)</option>
+                          <option value="lightly_active">Lightly active (1-3 days/week)</option>
+                          <option value="moderately_active">Moderately active (3-5 days/week)</option>
+                          <option value="very_active">Very active (6-7 days/week)</option>
+                        </select>
+                      </div>
+                      <div className="field full">
+                        <label>Dietary preference</label>
+                        <select 
+                          className="select" 
+                          value={profile.dietType}
+                          onChange={(e) => {
+                            const newDiet = e.target.value as any;
+                            const newProf = { ...profile, dietType: newDiet };
+                            setProfile(newProf);
+                            setMealPlan(generateDailyMealPlan(newProf, macroGoals.calories));
+                            notify(`Diet updated to ${newDiet.replace('_', ' ')}.`);
+                          }}
+                        >
+                          <option value="vegetarian">Indian Vegetarian</option>
+                          <option value="pure_veg">Pure Vegetarian (No Onion/Garlic option)</option>
+                          <option value="sattvic">Sattvic Ayurvedic</option>
+                          <option value="jain">Jain Compliant</option>
+                          <option value="high_protein_veg">High Protein Veg (Sattu, Paneer, Moong)</option>
+                          <option value="eggetarian">Eggetarian</option>
+                          <option value="non_vegetarian">Non-Vegetarian</option>
+                        </select>
+                      </div>
+                      <div className="field full pt-2">
+                        <button className="primary w-full" type="submit">
+                          Save profile metrics
+                        </button>
                       </div>
                     </form>
                   </section>
 
-                  <div className="stack">
-                    <section className="surface progresscard">
-                      <div className="sectionhead">
-                        <div>
-                          <h2>Your plan focus</h2>
-                          <p>Used to shape meal suggestions</p>
-                        </div>
-                        <span>◎</span>
+                  <section className="surface">
+                    <div className="sectionhead">
+                      <div>
+                        <h2>Calculated daily targets</h2>
+                        <p>Scientific metabolic output</p>
                       </div>
-                      <div className="goal-summary">
-                        <span className="goal-summary-mark">◎</span>
-                        <div>
-                          <strong>{wellnessGoal === 'maintain' ? 'Maintain weight' : 'Balanced health'}</strong>
-                          <span>A steady, flexible routine</span>
-                        </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="p-3.5 rounded-2xl bg-[var(--surface2)] flex items-center justify-between">
+                        <span className="text-xs text-[var(--muted)]">Basal Metabolic Rate (BMR)</span>
+                        <strong className="text-sm text-[var(--ink)]">{Math.round(macroGoals.calories * 0.7)} kcal</strong>
                       </div>
-                      <div className="meals" style={{ marginTop: '12px' }}>
-                        <div className="mini-item">Eating style <strong style={{ marginLeft: 'auto', color: 'var(--ink)' }} className="capitalize">{profile.dietType.replace('_', ' ')}</strong></div>
-                        <div className="mini-item">Daily steps <strong style={{ marginLeft: 'auto', color: 'var(--ink)' }}>{stepGoal.toLocaleString()}</strong></div>
-                        <div className="mini-item">Daily water <strong style={{ marginLeft: 'auto', color: 'var(--ink)' }}>{waterGoal.toLocaleString()} ml</strong></div>
+                      <div className="p-3.5 rounded-2xl bg-[var(--surface2)] flex items-center justify-between">
+                        <span className="text-xs text-[var(--muted)]">Target Daily Energy</span>
+                        <strong className="text-sm text-[var(--green)]">{macroGoals.calories} kcal</strong>
                       </div>
-                    </section>
-                  </div>
+                      <div className="p-3.5 rounded-2xl bg-[var(--surface2)] flex items-center justify-between">
+                        <span className="text-xs text-[var(--muted)]">Daily Protein Minimum</span>
+                        <strong className="text-sm text-[var(--ink)]">{macroGoals.proteinGrams} g</strong>
+                      </div>
+                      <div className="p-3.5 rounded-2xl bg-[var(--surface2)] flex items-center justify-between">
+                        <span className="text-xs text-[var(--muted)]">Hydration Minimum</span>
+                        <strong className="text-sm text-[var(--ink)]">{shownVolume(waterGoal)} {waterUnit}</strong>
+                      </div>
+                    </div>
+                  </section>
                 </div>
               </div>
             )}
@@ -1629,7 +1919,7 @@ export function App() {
                   <div>
                     <p className="eyebrow">Your space, your pace</p>
                     <h1>Settings</h1>
-                    <p className="subline">Tune Morrow to work the way you like.</p>
+                    <p className="subline">Tune Morrow to work seamlessly with your lifestyle.</p>
                   </div>
                 </div>
 
@@ -1639,9 +1929,8 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Reminders</h2>
-                          <p>Choose what you’d like a nudge about.</p>
+                          <p>Choose what you’d like gentle notifications about.</p>
                         </div>
-                        <span>♧</span>
                       </div>
                       <div className="settingslist">
                         <div className="setting">
@@ -1658,20 +1947,8 @@ export function App() {
                         </div>
                         <div className="setting">
                           <div className="settingcopy">
-                            <strong>Meal prep reminders</strong>
-                            <span>Get a heads-up before a planned meal.</span>
-                          </div>
-                          <button 
-                            className="switch" 
-                            role="switch" 
-                            aria-pressed={settings.mealPrep}
-                            onClick={() => setSettings({ ...settings, mealPrep: !settings.mealPrep })}
-                          />
-                        </div>
-                        <div className="setting">
-                          <div className="settingcopy">
                             <strong>Daily movement nudge</strong>
-                            <span>A quiet reminder to stretch or take a walk.</span>
+                            <span>A quiet reminder to stretch or take a stroll.</span>
                           </div>
                           <button 
                             className="switch" 
@@ -1683,7 +1960,7 @@ export function App() {
                         <div className="setting">
                           <div className="settingcopy">
                             <strong>Water reminder</strong>
-                            <span>Gentle prompts during your chosen hours.</span>
+                            <span>Gentle prompts during your active daytime hours.</span>
                           </div>
                           <button 
                             className="switch" 
@@ -1699,9 +1976,12 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Appearance</h2>
-                          <p>Make the app comfortable to look at.</p>
+                          <p>Soft on the eyes in every environment</p>
                         </div>
-                        <span>◐</span>
+                        <div className="flex items-center gap-1.5 text-xs text-[var(--muted)]">
+                          {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+                          <span>{theme === 'dark' ? 'Dark' : 'Light'}</span>
+                        </div>
                       </div>
                       <div className="setting">
                         <div className="settingcopy">
@@ -1727,7 +2007,7 @@ export function App() {
                       <div className="sectionhead">
                         <div>
                           <h2>Tracking preferences</h2>
-                          <p>Set the units and goals that feel familiar.</p>
+                          <p>Units and goals configured to your habits</p>
                         </div>
                       </div>
                       <div className="field mb-3">
@@ -1785,67 +2065,96 @@ export function App() {
               <div>
                 <div className="pagehead">
                   <div>
-                    <p className="eyebrow">Your tools</p>
+                    <p className="eyebrow">Your wellbeing toolkit</p>
                     <h1>More</h1>
-                    <p className="subline">Everything else for your food and wellbeing routine.</p>
+                    <p className="subline">Comprehensive tools for your food, activity, and health routine.</p>
                   </div>
                 </div>
 
                 <div className="stack">
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('goals')}>
-                    <span className="goalicon">◎</span>
-                    <span><strong>Goals & weight</strong><span className="unit">Maintain weight</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Target className="w-5 h-5" />
+                    </span>
+                    <span><strong>Goals & weight</strong><span className="unit">Maintain weight & track body check-ins</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('steps')}>
-                    <span className="goalicon">⌁</span>
+                    <span className="goalicon">
+                      <Footprints className="w-5 h-5" />
+                    </span>
                     <span><strong>Steps & activity</strong><span className="unit">{steps.toLocaleString()} steps today</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('grocery')}>
-                    <span className="goalicon">☷</span>
-                    <span><strong>Shopping list</strong><span className="unit">Indian staples for your plan</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <ShoppingBag className="w-5 h-5" />
+                    </span>
+                    <span><strong>Shopping list</strong><span className="unit">Indian pantry & fresh produce items</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('coach')}>
-                    <span className="goalicon">🤖</span>
+                    <span className="goalicon">
+                      <Bot className="w-5 h-5" />
+                    </span>
                     <span><strong>AI Fitness Coach</strong><span className="unit">Ask questions about Indian diets & workout plans</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('scanner')}>
-                    <span className="goalicon">📷</span>
-                    <span><strong>Food Scanner</strong><span className="unit">AI Camera food scanner</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Camera className="w-5 h-5" />
+                    </span>
+                    <span><strong>Food Scanner</strong><span className="unit">Live camera food & nutrition recognition</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('fridge')}>
-                    <span className="goalicon">❄️</span>
-                    <span><strong>Fridge AI</strong><span className="unit">Cook with what you have</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Refrigerator className="w-5 h-5" />
+                    </span>
+                    <span><strong>Fridge AI</strong><span className="unit">Discover dishes from available ingredients</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('fasting')}>
-                    <span className="goalicon">⏱️</span>
-                    <span><strong>Fasting Timer</strong><span className="unit">Intermittent fasting clock</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Timer className="w-5 h-5" />
+                    </span>
+                    <span><strong>Fasting Timer</strong><span className="unit">Intermittent fasting clock & stage tracking</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('workouts')}>
-                    <span className="goalicon">🏋️</span>
-                    <span><strong>Workouts & Burn</strong><span className="unit">Track training sessions</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Dumbbell className="w-5 h-5" />
+                    </span>
+                    <span><strong>Workouts & Burn</strong><span className="unit">Track training sessions, yoga & cardio</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('swiggy')}>
-                    <span className="goalicon">🍽️</span>
-                    <span><strong>Swiggy Guide</strong><span className="unit">Healthy restaurant eating guide</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <Store className="w-5 h-5" />
+                    </span>
+                    <span><strong>Swiggy & Dining Guide</strong><span className="unit">Healthiest Indian restaurant order recommendations</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
+                  </button>
+                  <button className="surface goalcard more-link" onClick={() => setActiveScreen('custom_recipes')}>
+                    <span className="goalicon">
+                      <ChefHat className="w-5 h-5" />
+                    </span>
+                    <span><strong>Recipe Builder</strong><span className="unit">Calculate exact macros for home dishes</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('account')}>
-                    <span className="goalicon">◉</span>
-                    <span><strong>Profile setup</strong><span className="unit">Diet, cuisine, goals and account</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <span className="goalicon">
+                      <User className="w-5 h-5" />
+                    </span>
+                    <span><strong>Profile setup</strong><span className="unit">Diet, cuisine, body metrics and targets</span></span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                   <button className="surface goalcard more-link" onClick={() => setActiveScreen('settings')}>
-                    <span className="goalicon">⚙</span>
+                    <span className="goalicon">
+                      <Settings className="w-5 h-5" />
+                    </span>
                     <span><strong>Settings</strong><span className="unit">Reminders, appearance & units</span></span>
-                    <span style={{ marginLeft: 'auto', color: 'var(--green)' }}>→</span>
+                    <ChevronRight className="w-4 h-4 ml-auto text-[var(--muted)]" />
                   </button>
                 </div>
               </div>
@@ -1860,7 +2169,10 @@ export function App() {
                     <h1>AI Fitness Coach</h1>
                     <p className="subline">Ask anything about Indian thalis, macros, regional foods, and training.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <AICoach profile={profile} macroGoals={macroGoals} />
@@ -1876,7 +2188,10 @@ export function App() {
                     <h1>Live Food Scanner</h1>
                     <p className="subline">Snap a photo of your food or meal to get calories, protein, and health score.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <FoodScanner onAddScannedFoodToPlan={() => notify('Item added to meal plan.')} />
@@ -1892,7 +2207,10 @@ export function App() {
                     <h1>Fridge AI Finder</h1>
                     <p className="subline">Select your available ingredients to find matching Indian recipes.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
@@ -1906,9 +2224,12 @@ export function App() {
                   <div>
                     <p className="eyebrow">Circadian Health</p>
                     <h1>Intermittent Fasting</h1>
-                    <p className="subline">Track your fasting and eating windows with haptic cues.</p>
+                    <p className="subline">Track your fasting and eating windows with gentle cues.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <FastingTimer fastingState={fastingState} setFastingState={setFastingState} />
@@ -1924,7 +2245,10 @@ export function App() {
                     <h1>Workout Tracker</h1>
                     <p className="subline">Log your gym workouts, yoga, cardio, and calorie burns.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <WorkoutTracker 
@@ -1945,7 +2269,10 @@ export function App() {
                     <h1>Swiggy & Zomato Guide</h1>
                     <p className="subline">Healthiest Indian restaurant picks, macro hacks, and what to order.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <SwiggyGuide />
@@ -1961,7 +2288,10 @@ export function App() {
                     <h1>Recipe Builder</h1>
                     <p className="subline">Calculate exact macros for your home-cooked dishes.</p>
                   </div>
-                  <button className="secondary" onClick={() => setActiveScreen('dashboard')}>← Back</button>
+                  <button className="secondary flex items-center gap-1.5" onClick={() => setActiveScreen('dashboard')}>
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Back</span>
+                  </button>
                 </div>
                 <section className="surface">
                   <CustomRecipeBuilder 
@@ -1983,7 +2313,7 @@ export function App() {
                 setActiveScreen('dashboard');
               }}
             >
-              <span aria-hidden="true">⌂</span>
+              <Home />
               <span>Home</span>
             </button>
             <button 
@@ -1994,7 +2324,7 @@ export function App() {
                 setActiveScreen('planner');
               }}
             >
-              <span aria-hidden="true">▦</span>
+              <CalendarDays />
               <span>Plan</span>
             </button>
             <button 
@@ -2005,7 +2335,7 @@ export function App() {
                 setActiveScreen('recipes');
               }}
             >
-              <span aria-hidden="true">◉</span>
+              <Utensils />
               <span>Recipes</span>
             </button>
             <button 
@@ -2016,7 +2346,7 @@ export function App() {
                 setActiveScreen('water');
               }}
             >
-              <span aria-hidden="true">◌</span>
+              <Droplets />
               <span>Water</span>
             </button>
             <button 
@@ -2027,7 +2357,7 @@ export function App() {
                 setActiveScreen('more');
               }}
             >
-              <span aria-hidden="true">···</span>
+              <SlidersHorizontal />
               <span>More</span>
             </button>
           </nav>
@@ -2040,36 +2370,32 @@ export function App() {
       </div>
 
       {/* Recipe Detail Modal */}
-      {selectedRecipe && (
-        <RecipeModal 
-          food={selectedRecipe}
-          onClose={() => setSelectedRecipe(null)}
-          onAddToPlan={(food) => {
-            setPlannedMeals((prev) => [...prev, food.name]);
-            notify(`${food.name} added to your plan.`);
-          }}
-        />
-      )}
+      <RecipeModal 
+        food={selectedRecipe} 
+        onClose={() => setSelectedRecipe(null)}
+        onAddToPlan={(food) => {
+          setPlannedMeals((prev) => [...prev, food.name]);
+          notify(`${food.name} added to your weekly plan.`);
+        }}
+      />
 
       {/* Meal Swapper Modal */}
-      {swappingSlot && (
-        <MealSwapperModal 
-          slot={swappingSlot}
-          currentFood={mealPlan.meals[swappingSlot]}
-          profile={profile}
-          onClose={() => setSwappingSlot(null)}
-          onSelectFood={(slot, newFood) => {
-            setMealPlan({
-              ...mealPlan,
-              meals: {
-                ...mealPlan.meals,
-                [slot]: newFood
-              }
-            });
-            notify(`Swapped ${slot} with ${newFood.name}.`);
-          }}
-        />
-      )}
+      <MealSwapperModal 
+        slot={swappingSlot} 
+        currentFood={swappingSlot ? mealPlan.meals[swappingSlot] : null}
+        profile={profile}
+        onClose={() => setSwappingSlot(null)}
+        onSelectFood={(slot, newFood) => {
+          setMealPlan((prev) => ({
+            ...prev,
+            meals: {
+              ...prev.meals,
+              [slot]: newFood
+            }
+          }));
+          notify(`Swapped with ${newFood.name}.`);
+        }}
+      />
     </div>
   );
 }

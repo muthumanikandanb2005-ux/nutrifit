@@ -11,59 +11,59 @@ export const SwiggyGuide: React.FC = () => {
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Title Header */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-orange-500/10 border border-orange-500/20 text-orange-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+      <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
+        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
           <ShoppingBag className="w-4 h-4" />
-          <span>Swiggy, Zomato & Dhaba Healthy Ordering Guide</span>
+          <span>Dining Out & Delivery Guide</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-xl sm:text-3xl font-bold text-[var(--ink)] tracking-tight">
           Smart Dining Out & Food Delivery Swaps
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
-          How to order online or eat at Indian restaurants without ruining your calorie deficit or macro targets!
+        <p className="text-[var(--muted)] text-xs sm:text-sm max-w-xl mx-auto">
+          How to order online or eat at Indian restaurants while keeping your nutrition and health goals on track.
         </p>
 
         {/* Cuisine Filter Pills */}
         <div className="flex justify-center pt-2">
-          <div className="bg-slate-900/90 p-1.5 rounded-2xl border border-slate-700 inline-flex space-x-1">
+          <div className="bg-[var(--surface2)] p-1.5 rounded-2xl border border-[var(--line)] inline-flex flex-wrap gap-1">
             <button
               onClick={() => setSelectedCuisine('all')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                selectedCuisine === 'all' ? 'bg-orange-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                selectedCuisine === 'all' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               All Cuisines
             </button>
             <button
               onClick={() => setSelectedCuisine('north_indian')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                selectedCuisine === 'north_indian' ? 'bg-orange-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                selectedCuisine === 'north_indian' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               North Indian
             </button>
             <button
               onClick={() => setSelectedCuisine('south_indian')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                selectedCuisine === 'south_indian' ? 'bg-orange-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                selectedCuisine === 'south_indian' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               South Indian
             </button>
             <button
               onClick={() => setSelectedCuisine('chinese')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                selectedCuisine === 'chinese' ? 'bg-orange-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                selectedCuisine === 'chinese' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               Indo-Chinese
             </button>
             <button
               onClick={() => setSelectedCuisine('mughlai')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                selectedCuisine === 'mughlai' ? 'bg-orange-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
+                selectedCuisine === 'mughlai' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               Mughlai
@@ -77,40 +77,42 @@ export const SwiggyGuide: React.FC = () => {
         {filtered.map((item) => (
           <div
             key={item.id}
-            className="bg-slate-800/80 border border-slate-700/60 p-6 rounded-3xl shadow-xl grid grid-cols-1 md:grid-cols-12 gap-6 items-center"
+            className="bg-[var(--surface)] border border-[var(--line)] p-5 sm:p-6 rounded-2xl shadow-sm grid grid-cols-1 md:grid-cols-12 gap-5 items-center"
           >
-            {/* Unhealthy Choice */}
-            <div className="md:col-span-5 bg-red-500/10 border border-red-500/30 p-4 rounded-2xl space-y-2">
-              <div className="flex justify-between items-center text-xs font-bold text-red-400">
+            {/* Standard Choice */}
+            <div className="md:col-span-5 bg-[var(--peach)] border border-[var(--line)] p-4 rounded-xl space-y-1.5">
+              <div className="flex justify-between items-center text-xs font-semibold text-[#9b4e3f]">
                 <span className="flex items-center space-x-1">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>High Calorie Choice</span>
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Heavier Choice</span>
                 </span>
                 <span>{item.unhealthyCalories} kcal</span>
               </div>
-              <h3 className="font-extrabold text-base text-white">{item.unhealthyChoice}</h3>
+              <h3 className="font-bold text-sm sm:text-base text-[var(--ink)]">{item.unhealthyChoice}</h3>
             </div>
 
             {/* Swap Arrow */}
             <div className="md:col-span-2 text-center flex flex-col items-center justify-center">
-              <div className="p-3 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30 font-bold">
-                <ArrowRight className="w-5 h-5 hidden md:block" />
-                <span className="md:hidden text-xs">SWAP TO</span>
+              <div className="w-9 h-9 rounded-full bg-[var(--surface2)] text-[var(--green)] flex items-center justify-center border border-[var(--line)]">
+                <ArrowRight className="w-4 h-4 hidden md:block" />
+                <span className="md:hidden text-[10px] font-bold">SWAP</span>
               </div>
-              <span className="text-[10px] text-emerald-400 font-bold mt-1">-{item.unhealthyCalories - item.healthyCalories} kcal Saved</span>
+              <span className="text-[10px] text-[var(--greenDark)] font-semibold mt-1">
+                -{item.unhealthyCalories - item.healthyCalories} kcal
+              </span>
             </div>
 
             {/* Healthy Fitness Swap */}
-            <div className="md:col-span-5 bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl space-y-2">
-              <div className="flex justify-between items-center text-xs font-bold text-emerald-400">
+            <div className="md:col-span-5 bg-[var(--greenSoft)] border border-[var(--line)] p-4 rounded-xl space-y-1.5">
+              <div className="flex justify-between items-center text-xs font-semibold text-[var(--greenDark)]">
                 <span className="flex items-center space-x-1">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Smart Fitness Swap</span>
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Nourishing Swap</span>
                 </span>
                 <span>{item.healthyCalories} kcal</span>
               </div>
-              <h3 className="font-extrabold text-base text-white">{item.healthySwap}</h3>
-              <p className="text-[11px] text-slate-300 pt-1 leading-relaxed">{item.reason}</p>
+              <h3 className="font-bold text-sm sm:text-base text-[var(--ink)]">{item.healthySwap}</h3>
+              <p className="text-xs text-[var(--muted)] pt-0.5 leading-relaxed">{item.reason}</p>
             </div>
           </div>
         ))}

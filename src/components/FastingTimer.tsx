@@ -34,29 +34,29 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   // Calculate metabolic stage
   let stageName = 'Anabolic / Digestion';
   let stageDesc = 'Insulin is elevated, digesting recent thali meals.';
-  let stageColor = 'border-amber-500/40 text-amber-400';
-  let stageBadge = '🩸 Digestion Phase';
+  let stageColor = 'border-[var(--line)] bg-[var(--surface2)] text-[var(--ink)]';
+  let stageBadge = 'Digestion Phase';
 
   if (hoursElapsed >= 4 && hoursElapsed < 8) {
     stageName = 'Blood Sugar Normalization';
     stageDesc = 'Insulin drops, body starts mobilizing stored glycogen.';
-    stageColor = 'border-sky-500/40 text-sky-400';
-    stageBadge = '⚖️ Glycogen Release';
+    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageBadge = 'Glycogen Release';
   } else if (hoursElapsed >= 8 && hoursElapsed < 12) {
     stageName = 'Glycogen Depletion';
     stageDesc = 'Liver glycogen depleting; shifting towards lipid oxidation.';
-    stageColor = 'border-indigo-500/40 text-indigo-400';
-    stageBadge = '⚡ Lipid Shift';
+    stageColor = 'border-[var(--line)] bg-[var(--surface2)] text-[var(--ink)]';
+    stageBadge = 'Lipid Shift';
   } else if (hoursElapsed >= 12 && hoursElapsed < 16) {
     stageName = 'Ketosis & Accelerated Fat Burn';
     stageDesc = 'Body is actively burning fat stores for ketone energy.';
-    stageColor = 'border-emerald-500/40 text-emerald-400';
-    stageBadge = '🔥 Max Fat Burning';
+    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageBadge = 'Optimal Fat Burn';
   } else if (hoursElapsed >= 16) {
     stageName = 'Autophagy & Cellular Regeneration';
     stageDesc = 'Cells recycle damaged organelles and reduce systemic inflammation.';
-    stageColor = 'border-purple-500/40 text-purple-400';
-    stageBadge = '✨ Autophagy Active';
+    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageBadge = 'Autophagy Active';
   }
 
   const handleStartFasting = (protocol: FastingProtocol, hours: number) => {
@@ -89,31 +89,31 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   const remainingSeconds = Math.max(0, targetSeconds - elapsedSeconds);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-4xl mx-auto px-2 py-4 space-y-6">
       {/* Title Header */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
-        <div className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
-          <Timer className="w-4 h-4 animate-spin-slow" />
-          <span>Intermittent Fasting & Desi Vrat Engine</span>
+      <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
+        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+          <Timer className="w-4 h-4" />
+          <span>Intermittent Fasting & Vrat Engine</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-xl sm:text-3xl font-bold text-[var(--ink)] tracking-tight">
           Live Fasting & Metabolic Tracker
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
-          Track 16:8, 18:6, or Navratri/Ekadashi Vrat fasting to accelerate fat loss, improve insulin sensitivity, and trigger cellular autophagy.
+        <p className="text-[var(--muted)] text-xs sm:text-sm max-w-xl mx-auto">
+          Track 16:8, 14:10, or traditional Indian Vrat fasting to support insulin sensitivity and cellular vitality.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
         {/* Visual Circular Timer Ring */}
-        <div className="md:col-span-6 bg-slate-800/80 border border-slate-700/60 p-8 rounded-3xl text-center space-y-6 shadow-xl flex flex-col items-center">
-          <div className="relative w-56 h-56 flex items-center justify-center">
+        <div className="md:col-span-6 bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl text-center space-y-5 shadow-sm flex flex-col items-center">
+          <div className="relative w-52 h-52 flex items-center justify-center">
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
               <circle
                 cx="50"
                 cy="50"
                 r="42"
-                className="text-slate-900 stroke-current"
+                className="stroke-[var(--surface2)]"
                 strokeWidth="7"
                 fill="transparent"
               />
@@ -121,7 +121,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 cx="50"
                 cy="50"
                 r="42"
-                className="text-indigo-500 stroke-current transition-all duration-1000 ease-linear"
+                className="stroke-[var(--green)] transition-all duration-1000 ease-linear"
                 strokeWidth="7"
                 strokeDasharray={2 * Math.PI * 42}
                 strokeDashoffset={2 * Math.PI * 42 * (1 - progressPercent / 100)}
@@ -131,13 +131,13 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
             </svg>
 
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center space-y-1">
-              <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">
+              <span className="text-[10px] text-[var(--muted)] font-semibold uppercase tracking-wider">
                 {fastingState.isFasting ? 'Fasting Elapsed' : 'Ready to Start'}
               </span>
-              <div className="text-3xl font-extrabold text-white tracking-tight font-mono">
+              <div className="text-2xl sm:text-3xl font-bold text-[var(--ink)] tracking-tight font-mono">
                 {fastingState.isFasting ? formatHMS(elapsedSeconds) : '00:00:00'}
               </div>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-[var(--muted)]">
                 {fastingState.isFasting ? `Remaining: ${formatHMS(remainingSeconds)}` : 'Select protocol below'}
               </span>
             </div>
@@ -147,7 +147,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
           {fastingState.isFasting ? (
             <button
               onClick={handleStopFasting}
-              className="w-full py-3.5 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 font-extrabold text-sm rounded-2xl transition cursor-pointer flex items-center justify-center space-x-2"
+              className="w-full py-3 bg-[var(--surface2)] hover:bg-[var(--line)] text-[var(--ink)] border border-[var(--line)] font-semibold text-xs sm:text-sm rounded-xl transition cursor-pointer flex items-center justify-center space-x-2"
             >
               <Square className="w-4 h-4" />
               <span>End Fast & Log Thali Meal</span>
@@ -155,7 +155,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
           ) : (
             <button
               onClick={() => handleStartFasting('16_8', 16)}
-              className="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-extrabold text-sm rounded-2xl shadow-lg transition cursor-pointer flex items-center justify-center space-x-2"
+              className="w-full py-3 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Start 16:8 Fast Now</span>
@@ -164,68 +164,70 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
         </div>
 
         {/* Metabolic Stage & Protocol Picker */}
-        <div className="md:col-span-6 space-y-6">
+        <div className="md:col-span-6 space-y-4">
           {/* Active Metabolic Stage Badge */}
-          <div className={`bg-slate-800/80 border p-5 rounded-3xl space-y-2 shadow-xl ${stageColor}`}>
-            <div className="flex items-center justify-between text-xs font-bold">
+          <div className={`border p-4 sm:p-5 rounded-2xl space-y-1.5 shadow-sm ${stageColor}`}>
+            <div className="flex items-center justify-between text-xs font-semibold">
               <span>Metabolic Stage</span>
-              <span className="bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-700">{stageBadge}</span>
+              <span className="bg-[var(--surface)] text-[var(--greenDark)] px-2.5 py-0.5 rounded-full text-[10px] border border-[var(--line)] font-medium">
+                {stageBadge}
+              </span>
             </div>
-            <h3 className="text-lg font-extrabold text-white">{stageName}</h3>
-            <p className="text-xs text-slate-300 leading-relaxed">{stageDesc}</p>
+            <h3 className="text-base font-bold text-[var(--ink)]">{stageName}</h3>
+            <p className="text-xs text-[var(--muted)] leading-relaxed">{stageDesc}</p>
           </div>
 
           {/* Protocol Selection */}
-          <div className="bg-slate-800/80 border border-slate-700/60 p-5 rounded-3xl space-y-3 shadow-xl">
-            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Select Fasting Protocol</h3>
+          <div className="bg-[var(--surface)] border border-[var(--line)] p-4 sm:p-5 rounded-2xl space-y-2.5 shadow-sm">
+            <h3 className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider">Select Protocol</h3>
             
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 onClick={() => handleStartFasting('16_8', 16)}
-                className={`p-3 rounded-2xl border text-left transition ${
+                className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '16_8' && fastingState.isFasting
-                    ? 'bg-indigo-500/20 border-indigo-500 text-white font-bold'
-                    : 'bg-slate-900/80 border-slate-700 text-slate-300 hover:border-slate-500'
+                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
                 }`}
               >
-                <div className="font-bold text-white">16:8 Leangains</div>
-                <div className="text-[10px] text-slate-400">16h Fast • 8h Eating Window</div>
+                <div className="font-semibold text-xs text-[var(--ink)]">16:8 Routine</div>
+                <div className="text-[10px] text-[var(--muted)]">16h Fast · 8h Window</div>
               </button>
 
               <button
                 onClick={() => handleStartFasting('14_10', 14)}
-                className={`p-3 rounded-2xl border text-left transition ${
+                className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '14_10' && fastingState.isFasting
-                    ? 'bg-indigo-500/20 border-indigo-500 text-white font-bold'
-                    : 'bg-slate-900/80 border-slate-700 text-slate-300 hover:border-slate-500'
+                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
                 }`}
               >
-                <div className="font-bold text-white">14:10 Beginner</div>
-                <div className="text-[10px] text-slate-400">14h Fast • 10h Eating Window</div>
+                <div className="font-semibold text-xs text-[var(--ink)]">14:10 Gentle</div>
+                <div className="text-[10px] text-[var(--muted)]">14h Fast · 10h Window</div>
               </button>
 
               <button
                 onClick={() => handleStartFasting('18_6', 18)}
-                className={`p-3 rounded-2xl border text-left transition ${
+                className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '18_6' && fastingState.isFasting
-                    ? 'bg-indigo-500/20 border-indigo-500 text-white font-bold'
-                    : 'bg-slate-900/80 border-slate-700 text-slate-300 hover:border-slate-500'
+                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
                 }`}
               >
-                <div className="font-bold text-white">18:6 Advanced</div>
-                <div className="text-[10px] text-slate-400">18h Fast • 6h Eating Window</div>
+                <div className="font-semibold text-xs text-[var(--ink)]">18:6 Deep</div>
+                <div className="text-[10px] text-[var(--muted)]">18h Fast · 6h Window</div>
               </button>
 
               <button
                 onClick={() => handleStartFasting('vrat', 24)}
-                className={`p-3 rounded-2xl border text-left transition ${
+                className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === 'vrat' && fastingState.isFasting
-                    ? 'bg-indigo-500/20 border-indigo-500 text-white font-bold'
-                    : 'bg-slate-900/80 border-slate-700 text-slate-300 hover:border-slate-500'
+                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
                 }`}
               >
-                <div className="font-bold text-amber-300">🙏 Desi Vrat (24h)</div>
-                <div className="text-[10px] text-slate-400">Sattvic Water/Fluid Vrat</div>
+                <div className="font-semibold text-xs text-[var(--ink)]">24h Vrat</div>
+                <div className="text-[10px] text-[var(--muted)]">Sattvic Water Fast</div>
               </button>
             </div>
           </div>

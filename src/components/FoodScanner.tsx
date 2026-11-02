@@ -120,66 +120,60 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Title Banner */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
-        <div className="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
-          <Camera className="w-4 h-4 animate-pulse" />
-          <span>AI Vision Nutrient Scanner (Cooked & Raw Foods)</span>
+      <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
+        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+          <Camera className="w-4 h-4" />
+          <span>AI Vision Nutrient Scanner</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-xl sm:text-3xl font-bold text-[var(--ink)] tracking-tight">
           Scan Any Food to Extract Instant Macros
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto">
-          Snap a picture of your cooked Indian thalis, street food, or raw grocery ingredients (eggs, almonds, raw chicken, sprouts) to calculate exact calories and protein.
+        <p className="text-[var(--muted)] text-xs sm:text-sm max-w-2xl mx-auto">
+          Snap a picture of your cooked Indian thalis, street food, or raw ingredients to calculate calories and protein.
         </p>
 
         {/* Raw vs Cooked State Selector Tabs */}
         <div className="flex justify-center pt-2">
-          <div className="bg-slate-900/90 p-1.5 rounded-2xl border border-slate-700 inline-flex space-x-1">
+          <div className="bg-[var(--surface2)] p-1.5 rounded-2xl border border-[var(--line)] inline-flex space-x-1">
             <button
               onClick={() => setFilterState('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                filterState === 'all' ? 'bg-amber-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                filterState === 'all' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               All Foods
             </button>
             <button
               onClick={() => setFilterState('cooked')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                filterState === 'cooked' ? 'bg-amber-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                filterState === 'cooked' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
-              🔥 Cooked Meals
+              Cooked Meals
             </button>
             <button
               onClick={() => setFilterState('raw')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                filterState === 'raw' ? 'bg-amber-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                filterState === 'raw' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
-              🌱 Raw & Ingredients
+              Raw & Ingredients
             </button>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Scanner Viewfinder Box */}
-        <div className="lg:col-span-6 space-y-6">
-          <div className="bg-slate-900 border-2 border-dashed border-amber-500/40 rounded-3xl p-8 text-center space-y-6 relative overflow-hidden shadow-2xl min-h-[380px] flex flex-col items-center justify-center">
+        <div className="lg:col-span-6 space-y-4">
+          <div className="bg-[var(--surface2)] border border-[var(--line)] rounded-3xl p-6 sm:p-8 text-center space-y-5 relative overflow-hidden shadow-sm min-h-[340px] flex flex-col items-center justify-center">
             
             {/* Live laser scan line animation */}
             {isScanning && (
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-500/20 to-transparent animate-scan z-10 pointer-events-none border-b-2 border-amber-400" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--greenSoft)] to-transparent animate-scan z-10 pointer-events-none border-b-2 border-[var(--green)]" />
             )}
-
-            {/* Viewfinder Target Corners */}
-            <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-amber-400" />
-            <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-amber-400" />
-            <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-amber-400" />
-            <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-amber-400" />
 
             {/* Hidden canvas for capturing frame */}
             <canvas ref={canvasRef} className="hidden" />
@@ -190,56 +184,56 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
                   ref={videoRef}
                   playsInline
                   muted
-                  className="w-full h-64 object-cover rounded-2xl border border-slate-700 shadow-md"
+                  className="w-full h-60 object-cover rounded-2xl border border-[var(--line)] shadow-sm"
                 />
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={handleCaptureLiveSnapshot}
-                    className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black text-xs rounded-2xl shadow-lg hover:scale-105 transition cursor-pointer flex items-center space-x-2"
+                    className="px-5 py-2.5 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs rounded-xl shadow-sm transition cursor-pointer flex items-center space-x-2"
                   >
                     <Camera className="w-4 h-4" />
-                    <span>Capture & Analyze Nutrients</span>
+                    <span>Capture & Analyze</span>
                   </button>
                   <button
                     onClick={stopLiveCamera}
-                    className="p-2.5 bg-red-500/20 text-red-400 border border-red-500/40 rounded-2xl text-xs font-bold hover:bg-red-500 hover:text-white transition cursor-pointer flex items-center gap-1"
+                    className="p-2.5 bg-[var(--surface)] text-[var(--muted)] border border-[var(--line)] rounded-xl text-xs font-medium hover:text-[var(--ink)] transition cursor-pointer flex items-center gap-1"
                   >
-                    <VideoOff className="w-4 h-4" /> Turn Off
+                    <VideoOff className="w-4 h-4" /> Stop
                   </button>
                 </div>
               </div>
             ) : isScanning ? (
-              <div className="space-y-4 relative z-20">
-                <RefreshCw className="w-12 h-12 text-amber-400 animate-spin mx-auto" />
+              <div className="space-y-3 relative z-20">
+                <RefreshCw className="w-10 h-10 text-[var(--green)] animate-spin mx-auto" />
                 <div className="space-y-1">
-                  <div className="text-lg font-bold text-white">Scanning Live Food Video Stream...</div>
-                  <p className="text-xs text-amber-300">Extracting thali ingredients & macronutrient density</p>
+                  <div className="text-base font-bold text-[var(--ink)]">Analyzing Food Stream...</div>
+                  <p className="text-xs text-[var(--muted)]">Extracting ingredients and nutritional profile</p>
                 </div>
               </div>
             ) : (
-              <div className="space-y-6 relative z-20">
-                <div className="p-5 bg-slate-800/80 rounded-full border border-slate-700 inline-block text-amber-400 shadow-inner">
-                  <Camera className="w-10 h-10" />
+              <div className="space-y-4 relative z-20">
+                <div className="p-4 bg-[var(--surface)] rounded-full border border-[var(--line)] inline-block text-[var(--green)] shadow-sm">
+                  <Camera className="w-8 h-8" />
                 </div>
 
                 <div className="space-y-1">
-                  <h3 className="text-lg font-bold text-white">Capture or Stream Food Live</h3>
-                  <p className="text-xs text-slate-400">Live Camera Feed & Snapshot AI Vision Scanner</p>
+                  <h3 className="text-base font-bold text-[var(--ink)]">Capture or Stream Food Live</h3>
+                  <p className="text-xs text-[var(--muted)]">Point your camera or upload a dish photo</p>
                 </div>
 
                 {cameraError && (
-                  <p className="text-xs text-red-400 bg-red-500/10 p-2 rounded-xl border border-red-500/30">
+                  <p className="text-xs text-[#9b4e3f] bg-[var(--peach)] p-2 rounded-xl border border-[var(--line)]">
                     {cameraError}
                   </p>
                 )}
 
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
                   <button
                     onClick={startLiveCamera}
-                    className="w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-extrabold text-xs rounded-2xl shadow-lg transition-all cursor-pointer flex items-center justify-center space-x-2"
+                    className="w-full sm:w-auto px-4 py-2.5 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center space-x-2"
                   >
                     <Video className="w-4 h-4" />
-                    <span>Open Live WebCam Stream</span>
+                    <span>Open Camera</span>
                   </button>
 
                   <input
@@ -252,9 +246,9 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
 
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full sm:w-auto px-5 py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold text-xs rounded-2xl transition-all cursor-pointer flex items-center justify-center space-x-2"
+                    className="w-full sm:w-auto px-4 py-2.5 bg-[var(--surface)] hover:bg-[var(--surface2)] border border-[var(--line)] text-[var(--ink)] font-semibold text-xs rounded-xl transition-all cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <Upload className="w-4 h-4 text-amber-400" />
+                    <Upload className="w-4 h-4 text-[var(--muted)]" />
                     <span>Upload Photo</span>
                   </button>
                 </div>
@@ -263,10 +257,10 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
           </div>
 
           {/* Quick Demo Preset Chips */}
-          <div className="bg-slate-800/80 border border-slate-700/60 p-5 rounded-3xl space-y-3">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-amber-400" />
-              <span>Or Try Quick Preset Samples</span>
+          <div className="bg-[var(--surface)] border border-[var(--line)] p-4 sm:p-5 rounded-2xl space-y-2.5 shadow-sm">
+            <h4 className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider flex items-center space-x-2">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--green)]" />
+              <span>Or Try Sample Foods</span>
             </h4>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -274,12 +268,12 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
                 <button
                   key={preset.id}
                   onClick={() => handleScanPreset(preset)}
-                  className="p-2.5 bg-slate-900/80 hover:bg-slate-900 border border-slate-700 hover:border-amber-500 text-left rounded-xl text-xs transition-all"
+                  className="p-2.5 bg-[var(--surface2)] hover:bg-[var(--greenSoft)] border border-[var(--line)] text-left rounded-xl text-xs transition-all cursor-pointer"
                 >
-                  <div className="font-bold text-white truncate">{preset.foodName}</div>
-                  <div className="text-[10px] text-amber-300 flex items-center space-x-1 mt-0.5">
-                    <span>{preset.foodState === 'cooked' ? '🔥 Cooked' : '🌱 Raw'}</span>
-                    <span>•</span>
+                  <div className="font-semibold text-[var(--ink)] truncate">{preset.foodName}</div>
+                  <div className="text-[10px] text-[var(--muted)] flex items-center space-x-1 mt-0.5">
+                    <span>{preset.foodState === 'cooked' ? 'Cooked' : 'Raw'}</span>
+                    <span>·</span>
                     <span>{preset.calories} kcal</span>
                   </div>
                 </button>
@@ -289,78 +283,74 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
         </div>
 
         {/* Scan Results Panel */}
-        <div className="lg:col-span-6 space-y-6">
+        <div className="lg:col-span-6 space-y-4">
           {scannedResult ? (
-            <div className="bg-slate-800/90 border border-slate-700/80 p-6 sm:p-8 rounded-3xl shadow-xl space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+            <div className="bg-[var(--surface)] border border-[var(--line)] p-5 sm:p-6 rounded-2xl shadow-sm space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
               {/* Header Badge */}
-              <div className="flex items-center justify-between border-b border-slate-700 pb-4">
+              <div className="flex items-center justify-between border-b border-[var(--line)] pb-3">
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className={`px-2.5 py-0.5 text-xs font-bold rounded-full ${
-                      scannedResult.foodState === 'cooked'
-                        ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                        : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                    }`}>
-                      {scannedResult.foodState === 'cooked' ? '🔥 COOKED DISH' : '🌱 RAW INGREDIENT'}
+                    <span className="px-2.5 py-0.5 text-[10px] font-semibold rounded-full bg-[var(--greenSoft)] text-[var(--greenDark)] uppercase">
+                      {scannedResult.foodState === 'cooked' ? 'Cooked Dish' : 'Raw Ingredient'}
                     </span>
-                    <span className="text-xs text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/20">
+                    <span className="text-[10px] text-[var(--greenDark)] bg-[var(--surface2)] px-2 py-0.5 rounded-md border border-[var(--line)] font-medium">
                       {scannedResult.confidence}% AI Match
                     </span>
                   </div>
-                  <h2 className="text-2xl font-extrabold text-white mt-1">{scannedResult.foodName}</h2>
+                  <h2 className="text-xl font-bold text-[var(--ink)] mt-1">{scannedResult.foodName}</h2>
                   {scannedResult.hindiName && (
-                    <p className="text-xs text-amber-300/80 font-serif">({scannedResult.hindiName})</p>
+                    <p className="text-xs text-[var(--muted)] font-serif">({scannedResult.hindiName})</p>
                   )}
                 </div>
 
-                <div className="text-right bg-slate-900 p-3 rounded-2xl border border-slate-700">
-                  <div className="text-2xl font-extrabold text-amber-400">{scannedResult.calories}</div>
-                  <div className="text-[10px] text-slate-400 uppercase font-semibold">Calories</div>
+                <div className="text-right bg-[var(--surface2)] p-2.5 rounded-xl border border-[var(--line)]">
+                  <div className="text-xl font-bold text-[var(--green)]">{scannedResult.calories}</div>
+                  <div className="text-[9px] text-[var(--muted)] uppercase font-semibold">Calories</div>
                 </div>
               </div>
 
               {/* Portion size pill */}
-              <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-700 text-xs text-slate-300 flex items-center justify-between">
+              <div className="bg-[var(--surface2)] p-3 rounded-xl border border-[var(--line)] text-xs text-[var(--muted)] flex items-center justify-between">
                 <span>Estimated Serving Portion:</span>
-                <span className="font-mono font-bold text-amber-300">{scannedResult.estimatedServing}</span>
+                <span className="font-bold text-[var(--ink)]">{scannedResult.estimatedServing}</span>
               </div>
 
               {/* Macros Breakdown Grid */}
               <div className="grid grid-cols-4 gap-2 text-center">
-                <div className="bg-slate-900/80 border border-emerald-500/30 p-3 rounded-xl">
-                  <div className="text-[10px] text-slate-400 uppercase font-semibold">Protein</div>
-                  <div className="text-lg font-extrabold text-emerald-400">{scannedResult.protein}g</div>
+                <div className="bg-[var(--surface2)] border border-[var(--line)] p-2.5 rounded-xl">
+                  <div className="text-[10px] text-[var(--muted)] uppercase font-semibold">Protein</div>
+                  <div className="text-base font-bold text-[var(--green)]">{scannedResult.protein}g</div>
                 </div>
-                <div className="bg-slate-900/80 border border-sky-500/30 p-3 rounded-xl">
-                  <div className="text-[10px] text-slate-400 uppercase font-semibold">Carbs</div>
-                  <div className="text-lg font-extrabold text-sky-400">{scannedResult.carbs}g</div>
+                <div className="bg-[var(--surface2)] border border-[var(--line)] p-2.5 rounded-xl">
+                  <div className="text-[10px] text-[var(--muted)] uppercase font-semibold">Carbs</div>
+                  <div className="text-base font-bold text-[#456b82]">{scannedResult.carbs}g</div>
                 </div>
-                <div className="bg-slate-900/80 border border-yellow-500/30 p-3 rounded-xl">
-                  <div className="text-[10px] text-slate-400 uppercase font-semibold">Fats</div>
-                  <div className="text-lg font-extrabold text-yellow-400">{scannedResult.fats}g</div>
+                <div className="bg-[var(--surface2)] border border-[var(--line)] p-2.5 rounded-xl">
+                  <div className="text-[10px] text-[var(--muted)] uppercase font-semibold">Fats</div>
+                  <div className="text-base font-bold text-[#966b36]">{scannedResult.fats}g</div>
                 </div>
-                <div className="bg-slate-900/80 border border-purple-500/30 p-3 rounded-xl">
-                  <div className="text-[10px] text-slate-400 uppercase font-semibold">Fiber</div>
-                  <div className="text-lg font-extrabold text-purple-400">{scannedResult.fiber}g</div>
+                <div className="bg-[var(--surface2)] border border-[var(--line)] p-2.5 rounded-xl">
+                  <div className="text-[10px] text-[var(--muted)] uppercase font-semibold">Fiber</div>
+                  <div className="text-base font-bold text-[#6d557a]">{scannedResult.fiber}g</div>
                 </div>
               </div>
 
               {/* Thermal Cooking Note if present */}
               {scannedResult.cookingImpactNote && (
-                <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl text-xs text-amber-200 flex items-start space-x-2.5">
-                  <ShieldCheck className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                  <p className="leading-relaxed">{scannedResult.cookingImpactNote}</p>
+                <div className="bg-[var(--wheat)]/60 border border-[var(--line)] p-3.5 rounded-xl text-xs text-[var(--ink)] flex items-start space-x-2.5">
+                  <ShieldCheck className="w-4 h-4 text-[#966b36] shrink-0 mt-0.5" />
+                  <p className="leading-relaxed text-[var(--muted)]">{scannedResult.cookingImpactNote}</p>
                 </div>
               )}
 
               {/* Add Scanned Food to Daily Meal Plan */}
-              <div className="bg-slate-900/80 border border-slate-700/60 p-4 rounded-2xl space-y-3">
-                <label className="block text-xs font-bold text-slate-300">Select Target Meal Slot:</label>
-                <div className="flex items-center space-x-3">
+              <div className="bg-[var(--surface2)] border border-[var(--line)] p-4 rounded-xl space-y-3">
+                <label className="block text-xs font-semibold text-[var(--ink)]">Select Target Meal Slot:</label>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                   <select
                     value={targetSlot}
                     onChange={(e) => setTargetSlot(e.target.value as MealSlot)}
-                    className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-xs font-semibold focus:outline-none focus:border-amber-500"
+                    className="flex-1 bg-[var(--surface)] border border-[var(--line)] rounded-xl px-3 py-2 text-[var(--ink)] text-xs font-medium focus:outline-none focus:border-[var(--green)]"
                   >
                     <option value="early_morning">Early Morning</option>
                     <option value="breakfast">Breakfast</option>
@@ -371,19 +361,21 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
 
                   <button
                     onClick={handleAdd}
-                    className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center space-x-1.5"
+                    className="px-4 py-2.5 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center space-x-1.5"
                   >
                     {addedSuccess ? <CheckCircle2 className="w-4 h-4" /> : <PlusCircle className="w-4 h-4" />}
-                    <span>{addedSuccess ? 'Logged!' : 'Log to Meal Plan'}</span>
+                    <span>{addedSuccess ? 'Logged to Plan' : 'Log to Meal Plan'}</span>
                   </button>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl text-center space-y-3 min-h-[380px] flex flex-col items-center justify-center text-slate-400">
-              <Utensils className="w-12 h-12 text-slate-600" />
-              <h3 className="text-base font-bold text-slate-300">No Active Scan Result</h3>
-              <p className="text-xs max-w-xs">
+            <div className="bg-[var(--surface)] border border-[var(--line)] p-8 rounded-2xl text-center space-y-3 min-h-[340px] flex flex-col items-center justify-center text-[var(--muted)] shadow-sm">
+              <div className="p-3 bg-[var(--surface2)] rounded-full border border-[var(--line)] text-[var(--muted)]">
+                <Utensils className="w-8 h-8" />
+              </div>
+              <h3 className="text-sm font-semibold text-[var(--ink)]">No Active Scan Result</h3>
+              <p className="text-xs max-w-xs text-[var(--muted)]">
                 Capture a photo or click a demo sample on the left to analyze cooked thalis or raw ingredients.
               </p>
             </div>

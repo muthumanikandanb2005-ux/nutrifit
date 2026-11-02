@@ -33,22 +33,22 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
   });
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Banner */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
-        <div className="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 text-amber-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase">
+      <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
+        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold">
           <Refrigerator className="w-4 h-4" />
-          <span>Smart Indian Fridge Ingredient Finder</span>
+          <span>Smart Indian Fridge Finder</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-          What's in your Indian Kitchen right now?
+        <h1 className="text-xl sm:text-3xl font-bold text-[var(--ink)] tracking-tight">
+          What is in your kitchen right now?
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
-          Tap the ingredients available in your pantry or fridge, and we'll instantly generate high-protein fitness dishes you can make!
+        <p className="text-[var(--muted)] text-xs sm:text-sm max-w-xl mx-auto">
+          Tap the ingredients available in your pantry or fridge, and we will instantly find high-protein traditional Indian dishes you can make!
         </p>
 
         {/* Ingredient Chips */}
-        <div className="flex flex-wrap justify-center gap-2 pt-4">
+        <div className="flex flex-wrap justify-center gap-2 pt-3">
           {commonIngredients.map((ing) => {
             const isSelected = selectedIngs.includes(ing);
             return (
@@ -57,11 +57,11 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
                 onClick={() => toggleIngredient(ing)}
                 className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border transition-all duration-200 cursor-pointer flex items-center space-x-1.5 ${
                   isSelected
-                    ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-bold scale-105'
-                    : 'bg-slate-900/80 text-slate-300 border-slate-700 hover:border-slate-500'
+                    ? 'bg-[var(--greenSoft)] text-[var(--greenDark)] border-[var(--green)] shadow-sm font-bold'
+                    : 'bg-[var(--surface2)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)]'
                 }`}
               >
-                {isSelected ? <Check className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5 text-amber-400" />}
+                {isSelected ? <Check className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5 text-[var(--muted)]" />}
                 <span>{ing}</span>
               </button>
             );
@@ -71,56 +71,56 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
 
       {/* Matching Results Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-white flex items-center space-x-2">
-          <Sparkles className="w-5 h-5 text-amber-400" />
+        <h2 className="text-base font-bold text-[var(--ink)] flex items-center space-x-2">
+          <Sparkles className="w-4 h-4 text-[var(--green)]" />
           <span>Matching Indian Fitness Dishes ({matchingFoods.length})</span>
         </h2>
-        <span className="text-xs text-slate-400">Click any card to view detailed recipe</span>
+        <span className="text-xs text-[var(--muted)]">Tap any card to view recipe</span>
       </div>
 
       {/* Results Grid */}
       {matchingFoods.length === 0 ? (
-        <div className="bg-slate-800/60 border border-slate-700/60 p-8 rounded-3xl text-center space-y-2 text-slate-400">
-          <ChefHat className="w-10 h-10 mx-auto text-slate-600" />
-          <h3 className="text-base font-bold text-slate-300">No Matching Fitness Dishes Found</h3>
+        <div className="bg-[var(--surface2)] border border-[var(--line)] p-8 rounded-3xl text-center space-y-2 text-[var(--muted)]">
+          <ChefHat className="w-8 h-8 mx-auto text-[var(--muted)] opacity-60" />
+          <h3 className="text-base font-bold text-[var(--ink)]">No Matching Dishes Found</h3>
           <p className="text-xs max-w-sm mx-auto">
             Try selecting additional Indian ingredients (like Paneer, Besan, Eggs, or Oats) above to discover recipes!
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
           {matchingFoods.map((food) => (
             <button
               type="button"
               key={food.id}
               onClick={() => onSelectRecipe(food)}
-              className="w-full text-left bg-slate-800/70 border border-slate-700/60 hover:border-amber-500/50 p-5 rounded-3xl space-y-3 cursor-pointer transition-all duration-200 shadow-md hover:shadow-xl hover:scale-[1.02] flex flex-col justify-between"
+              className="w-full text-left bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--green)] p-4 sm:p-5 rounded-2xl space-y-2.5 cursor-pointer transition-all duration-200 shadow-sm flex flex-col justify-between"
             >
-              <div className="space-y-2 w-full">
+              <div className="space-y-1.5 w-full">
                 <div className="flex justify-between items-start">
-                  <span className="text-xs bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-full border border-amber-400/20 font-semibold uppercase">
+                  <span className="text-[10px] bg-[var(--greenSoft)] text-[var(--greenDark)] px-2.5 py-0.5 rounded-full font-semibold uppercase">
                     {food.slot.replace('_', ' ')}
                   </span>
-                  <span className="text-xs text-slate-400 flex items-center space-x-1">
+                  <span className="text-xs text-[var(--muted)] flex items-center space-x-1">
                     <Clock className="w-3 h-3" />
                     <span>{food.prepTimeMins}m</span>
                   </span>
                 </div>
 
-                <h3 className="font-extrabold text-base text-white">{food.name}</h3>
+                <h3 className="font-bold text-sm sm:text-base text-[var(--ink)]">{food.name}</h3>
                 {food.hindiName && (
-                  <p className="text-xs text-amber-300/80 font-serif">({food.hindiName})</p>
+                  <p className="text-xs text-[var(--muted)] font-serif">({food.hindiName})</p>
                 )}
-                <p className="text-xs text-slate-400">{food.servingSize}</p>
+                <p className="text-xs text-[var(--muted)]">{food.servingSize}</p>
               </div>
 
-              <div className="w-full pt-3 border-t border-slate-700/50 flex items-center justify-between text-xs">
+              <div className="w-full pt-2.5 border-t border-[var(--line)] flex items-center justify-between text-xs">
                 <div className="space-x-2">
-                  <span className="font-bold text-amber-400">{food.calories} kcal</span>
-                  <span className="font-bold text-emerald-400">{food.protein}g Prot</span>
+                  <span className="font-semibold text-[var(--ink)]">{food.calories} kcal</span>
+                  <span className="font-semibold text-[var(--green)]">{food.protein}g protein</span>
                 </div>
 
-                <span className="flex items-center space-x-1 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-xl font-semibold hover:bg-amber-500/30">
+                <span className="flex items-center space-x-1 px-2.5 py-1 bg-[var(--surface2)] text-[var(--greenDark)] rounded-lg font-medium text-xs">
                   <ChefHat className="w-3.5 h-3.5" />
                   <span>View</span>
                 </span>

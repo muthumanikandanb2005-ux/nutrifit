@@ -47,13 +47,13 @@ export function calculateMacroGoals(profile: UserProfile): MacroGoals {
 
   switch (profile.goal) {
     case 'fat_loss':
-      targetCalories = Math.round(tdee * 0.80); // 20% deficit
+      targetCalories = Math.round(tdee * (profile.bodyType === 'endomorph' ? 0.78 : 0.80)); // 20-22% deficit
       break;
     case 'recomp':
       targetCalories = Math.round(tdee * 0.95); // 5% slight deficit
       break;
     case 'muscle_gain':
-      targetCalories = Math.round(tdee * 1.12); // 12% surplus
+      targetCalories = Math.round(tdee * (profile.bodyType === 'ectomorph' ? 1.15 : 1.12)); // 12-15% surplus
       break;
     case 'maintenance':
     default:

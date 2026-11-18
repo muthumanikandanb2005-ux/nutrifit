@@ -210,5 +210,40 @@ test('filterCompatibleFoods: pure_veg NEVER includes non_veg or eggetarian foods
   }
 });
 
+test('calculateMacroGoals: somatotype bodyType adjusts surplus/deficit correctly', () => {
+  // Ectomorph muscle gain needs higher surplus (+15%)
+  const ectoProfile: UserProfile = { ...baseProfile, goal: 'muscle_gain', bodyType: 'ectomorph' };
+  const ectoGoals = calculateMacroGoals(ectoProfile);
+
+  // Standard/Mesomorph muscle gain (+12%)
+  const mesoProfile: UserProfile = { ...baseProfile, goal: 'muscle_gain', bodyType: 'mesomorph' };
+  const mesoGoals = calculateMacroGoals(mesoProfile);
+
+  assert.ok(ectoGoals.calories >= mesoGoals.calories, 'Ectomorph surplus should be greater than or equal to mesomorph');
+
+  // Endomorph fat loss (-22% deficit) vs Standard fat loss (-20%)
+  const endoCutProfile: UserProfile = { ...baseProfile, goal: 'fat_loss', bodyType: 'endomorph' };
+  const endoCutGoals = calculateMacroGoals(endoCutProfile);
+
+  const mesoCutProfile: UserProfile = { ...baseProfile, goal: 'fat_loss', bodyType: 'mesomorph' };
+  const mesoCutGoals = calculateMacroGoals(mesoCutProfile);
+
+  assert.ok(endoCutGoals.calories <= mesoCutGoals.calories, 'Endomorph cut calories should be lower or equal to mesomorph');
+});
+
+test('getIndianFoodImage: returns authentic Indian image URL for various foods', async () => {
+  const { getIndianFoodImage } = await import('./indianFoodImages.ts');
+  const paneerFood = INDIAN_FOOD_DATABASE.find(f => f.name.toLowerCase().includes('paneer'));
+  if (paneerFood) {
+    const img = getIndianFoodImage(paneerFood);
+    assert.ok(img.startsWith('https://images.unsplash.com'));
+  }
+  const idliFood = INDIAN_FOOD_DATABASE.find(f => f.name.toLowerCase().includes('idli'));
+  if (idliFood) {
+    const img = getIndianFoodImage(idliFood);
+    assert.ok(img.startsWith('https://images.unsplash.com'));
+  }
+});
+
 
 

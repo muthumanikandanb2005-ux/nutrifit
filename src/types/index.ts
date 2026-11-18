@@ -22,6 +22,8 @@ export type MealSlot = 'early_morning' | 'breakfast' | 'lunch' | 'snack' | 'dinn
 
 export type FoodState = 'cooked' | 'raw';
 
+export type BodyType = 'ectomorph' | 'mesomorph' | 'endomorph';
+
 export interface UserProfile {
   name: string;
   age: number;
@@ -30,6 +32,7 @@ export interface UserProfile {
   heightCm: number;
   activityLevel: 'sedentary' | 'lightly_active' | 'moderately_active' | 'very_active' | 'extra_active';
   goal: FitnessGoal;
+  bodyType?: BodyType;
   dietType: DietType;
   region: RegionPreference;
   budget: BudgetLevel;

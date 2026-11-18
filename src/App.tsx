@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useUser } from '@clerk/clerk-react';
 import type { 
   UserProfile, MealSlot, FoodItem, DailyMealPlan, 
   WorkoutEntry, FastingState, CustomRecipe 
@@ -6,6 +7,9 @@ import type {
 import { calculateMacroGoals } from './utils/nutritionCalculator';
 import { generateDailyMealPlan } from './utils/mealPlanGenerator';
 import { INDIAN_FOOD_DATABASE } from './data/indianFoodDatabase';
+import { getIndianFoodImage } from './utils/indianFoodImages';
+import { AppClerkProvider, useClerkAuth } from './components/ClerkAuthProvider';
+import { SafeSignedIn, SafeUserButton } from './components/SafeClerkComponents';
 import { RecipeModal } from './components/RecipeModal';
 import { MealSwapperModal } from './components/MealSwapperModal';
 import { FoodScanner } from './components/FoodScanner';
@@ -33,7 +37,6 @@ import {
   FileText, 
   ChevronLeft, 
   ChevronRight, 
-  Plus, 
   MoreHorizontal, 
   Sparkles, 
   Sun, 
@@ -52,8 +55,23 @@ import {
   User, 
   RefreshCw, 
   ChefHat, 
-  Award 
+  Award,
+  Lock
 } from 'lucide-react';
+
+/**
+ * Sync Clerk user details when authenticated
+ */
+function ClerkUserSync({ onUserLoaded }: { onUserLoaded: (name: string, avatarUrl?: string) => void }) {
+  const { isLoaded, isSignedIn, user } = useUser();
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user) {
+      const name = user.fullName || user.firstName || '';
+      onUserLoaded(name, user.imageUrl);
+    }
+  }, [isLoaded, isSignedIn, user, onUserLoaded]);
+  return null;
+}
 
 export function App() {
   // Theme state: defaults to 'light'
@@ -69,6 +87,29 @@ export function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.body.classList.toggle('dark-mode', theme === 'dark');
   }, [theme]);
+
+  return (
+    <AppClerkProvider theme={theme}>
+      <AppContent theme={theme} setTheme={setTheme} />
+    </AppClerkProvider>
+  );
+}
+
+function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: React.Dispatch<React.SetStateAction<'light' | 'dark'>> }) {
+  const { isClerkConfigured, openAuthModal } = useClerkAuth();
+
+  // Active Screen
+  const [activeScreen, setActiveScreen] = useState<string>('dashboard');
+
+  // Modals & Toast State
+  const [toast, setToast] = useState<string | null>(null);
+
+  const notify = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => {
+      setToast((curr) => (curr === msg ? null : curr));
+    }, 2400);
+  };
 
   // User Profile Avatar (User provided reference photo / custom upload)
   const [userAvatar, setUserAvatar] = useState<string>(() => {
@@ -95,14 +136,17 @@ export function App() {
     notify('Reset to user provided profile image.');
   };
 
-  // Active Screen
-  const [activeScreen, setActiveScreen] = useState<string>('dashboard');
-
   // User Profile
   const [profile, setProfile] = useState<UserProfile>(() => {
     const saved = localStorage.getItem('morrow_profile');
     if (saved) {
-      try { return JSON.parse(saved); } catch { /* fallback */ }
+      try { 
+        const parsed = JSON.parse(saved);
+        return {
+          ...parsed,
+          bodyType: parsed.bodyType || 'mesomorph',
+        };
+      } catch { /* fallback */ }
     }
     return {
       name: 'Sajibur Rahman',
@@ -112,6 +156,7 @@ export function App() {
       heightCm: 174,
       activityLevel: 'moderately_active',
       goal: 'fat_loss',
+      bodyType: 'mesomorph',
       dietType: 'pure_veg',
       region: 'all',
       budget: 'moderate',
@@ -146,16 +191,19 @@ export function App() {
   const [recipeFilter, setRecipeFilter] = useState<string>('all');
   const [recipeSearch, setRecipeSearch] = useState<string>('');
 
-  // Modals & Toast State
-  const [toast, setToast] = useState<string | null>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<FoodItem | null>(null);
   const [swappingSlot, setSwappingSlot] = useState<MealSlot | null>(null);
 
   // Macro Goals & Generated Daily Plan
   const macroGoals = calculateMacroGoals(profile);
   const [mealPlan, setMealPlan] = useState<DailyMealPlan>(() => {
-    return generateDailyMealPlan(profile, macroGoals.calories);
+    return generateDailyMealPlan(profile, macroGoals.calories, 3);
   });
+
+  // Re-generate daily Indian meal plan whenever goal, body type, weight, diet, or selected day changes
+  useEffect(() => {
+    setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex));
+  }, [profile.goal, profile.bodyType, profile.weightKg, profile.dietType, profile.activityLevel, activeDateIndex]);
 
   // Dual Mockup vs Single View mode for desktop
   const [desktopView, setDesktopView] = useState<'dual' | 'single'>('dual');
@@ -179,13 +227,6 @@ export function App() {
     protocol: '16_8'
   });
   const [savedCustomRecipes, setSavedCustomRecipes] = useState<CustomRecipe[]>([]);
-
-  const notify = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => {
-      setToast((curr) => (curr === msg ? null : curr));
-    }, 2400);
-  };
 
   const shownWeight = (kg: number) => {
     return weightUnit === 'lb' ? (kg * 2.20462).toFixed(1) : kg.toFixed(1);
@@ -236,7 +277,7 @@ export function App() {
   );
 
   // Render Screen 1: Dashboard / Home Screen (Exact Mockup)
-  const renderHomeScreen = (isDual = false) => (
+  const renderHomeScreen = (_isDual = false) => (
     <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
       {/* Top User Header Bar */}
       <div className="flex items-center justify-between pt-1 pb-1">
@@ -262,8 +303,9 @@ export function App() {
           </div>
         </div>
 
-        {/* Right Action Icons: Light/Dark Theme, Notes/Journal & Bell Notification */}
+        {/* Right Action Icons: Clerk Auth, Light/Dark Theme, Notes/Journal & Bell Notification */}
         <div className="flex items-center space-x-2">
+          <SafeUserButton userAvatar={userAvatar} userName={profile.name} />
           <button 
             onClick={() => {
               const next = theme === 'dark' ? 'light' : 'dark';
@@ -449,119 +491,259 @@ export function App() {
         </div>
       </section>
 
-      {/* Meal Cards List (Breakfast, Lunch time) */}
+      {/* Interactive Goal & Body Type Controller */}
+      <section className="card-surface card-border rounded-[24px] p-4 shadow-xs space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-1.5 text-xs font-extrabold text-slate-900 dark:text-white">
+            <Sparkles className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+            <span>Fitness Goal & Body Type</span>
+          </div>
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1a251e] text-[#006d41] dark:text-[#5be196]">
+            100% Indian Diet
+          </span>
+        </div>
+
+        {/* 3 Goal Selection Buttons */}
+        <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#ebf7ed] dark:bg-[#1a241d] rounded-2xl">
+          <button
+            onClick={() => {
+              setProfile((prev) => ({ ...prev, goal: 'fat_loss' }));
+              haptic.selection();
+              notify("Switched to Weight Loss mode (-20% deficit)");
+            }}
+            className={cx(
+              "py-2 px-1 rounded-xl text-center transition cursor-pointer interactive-btn flex flex-col items-center justify-center",
+              profile.goal === 'fat_loss'
+                ? "bg-[#006d41] text-white shadow-xs font-bold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium text-xs"
+            )}
+          >
+            <span className="text-xs">📉 Weight Loss</span>
+            <span className={cx("text-[9px] mt-0.5", profile.goal === 'fat_loss' ? "text-[#bceecf]" : "text-slate-400")}>
+              -20% Deficit
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setProfile((prev) => ({ ...prev, goal: 'maintenance' }));
+              haptic.selection();
+              notify("Switched to Maintenance mode (TDEE balance)");
+            }}
+            className={cx(
+              "py-2 px-1 rounded-xl text-center transition cursor-pointer interactive-btn flex flex-col items-center justify-center",
+              profile.goal === 'maintenance'
+                ? "bg-[#006d41] text-white shadow-xs font-bold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium text-xs"
+            )}
+          >
+            <span className="text-xs">⚖️ Maintain</span>
+            <span className={cx("text-[9px] mt-0.5", profile.goal === 'maintenance' ? "text-[#bceecf]" : "text-slate-400")}>
+              TDEE Balance
+            </span>
+          </button>
+
+          <button
+            onClick={() => {
+              setProfile((prev) => ({ ...prev, goal: 'muscle_gain' }));
+              haptic.selection();
+              notify("Switched to Weight Gain mode (+15% surplus)");
+            }}
+            className={cx(
+              "py-2 px-1 rounded-xl text-center transition cursor-pointer interactive-btn flex flex-col items-center justify-center",
+              profile.goal === 'muscle_gain'
+                ? "bg-[#006d41] text-white shadow-xs font-bold"
+                : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium text-xs"
+            )}
+          >
+            <span className="text-xs">📈 Weight Gain</span>
+            <span className={cx("text-[9px] mt-0.5", profile.goal === 'muscle_gain' ? "text-[#bceecf]" : "text-slate-400")}>
+              +15% Surplus
+            </span>
+          </button>
+        </div>
+
+        {/* Body Type Selection: Ectomorph / Mesomorph / Endomorph */}
+        <div className="space-y-1.5 pt-0.5">
+          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+            <span>Body Type (Somatotype):</span>
+            <span className="font-bold text-slate-700 dark:text-slate-200 capitalize">
+              {profile.bodyType || 'mesomorph'}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-1.5">
+            {[
+              { id: 'ectomorph' as const, label: 'Ectomorph', desc: 'Lean / Fast' },
+              { id: 'mesomorph' as const, label: 'Mesomorph', desc: 'Athletic' },
+              { id: 'endomorph' as const, label: 'Endomorph', desc: 'Broad / Carb-Sens' },
+            ].map((bt) => {
+              const isSelected = (profile.bodyType || 'mesomorph') === bt.id;
+              return (
+                <button
+                  key={bt.id}
+                  onClick={() => {
+                    setProfile((prev) => ({ ...prev, bodyType: bt.id }));
+                    haptic.selection();
+                    notify(`Updated body type to ${bt.label}`);
+                  }}
+                  className={cx(
+                    "py-1.5 px-2 rounded-xl text-left border transition cursor-pointer interactive-btn",
+                    isSelected
+                      ? "border-[#006d41] bg-[#f1fcf3] dark:bg-[#1a251e] text-[#006d41] dark:text-[#5be196] font-bold"
+                      : "border-[#dae5dc] dark:border-[#29332c] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#202c23]"
+                  )}
+                >
+                  <div className="text-[11px] leading-tight font-bold">{bt.label}</div>
+                  <div className="text-[9px] opacity-75">{bt.desc}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Dynamic Calorie & Macro Target Banner */}
+        <div className="p-3 rounded-2xl bg-[#f1fcf3] dark:bg-[#162019] border border-[#bceecf] dark:border-[#243c2c] flex items-center justify-between">
+          <div>
+            <div className="text-[10px] font-bold uppercase tracking-wider text-[#006d41] dark:text-[#5be196]">
+              {profile.goal === 'fat_loss' ? 'Weight Loss Target' : profile.goal === 'muscle_gain' ? 'Weight Gain Target' : 'Maintenance Target'}
+            </div>
+            <div className="text-base font-black text-slate-900 dark:text-white mt-0.5">
+              {macroGoals.calories.toLocaleString()} <span className="text-xs font-semibold text-slate-500">kcal/day</span>
+            </div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+              {macroGoals.proteinGrams}g Protein • {macroGoals.carbsGrams}g Carbs • {macroGoals.fatsGrams}g Fats
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="inline-block text-[10px] font-bold px-2 py-1 rounded-lg bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#2f4034] text-slate-700 dark:text-slate-300">
+              {shownWeight(profile.weightKg)} {weightUnit} body
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Daily Indian Meal Plan Section (100% Indian Foods) */}
       <section className="space-y-3 pt-1">
-        {/* Breakfast Card */}
-        <div className="card-surface card-border rounded-[24px] p-4 shadow-xs flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div>
-            <h4 
-              onClick={() => setSelectedRecipe(mealPlan.meals.breakfast)}
-              className="text-sm font-bold text-slate-900 cursor-pointer hover:text-emerald-700"
-            >
-              Breakfast
-            </h4>
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#fef6e7] text-slate-600 text-[11px] font-semibold mt-1">
-              <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
-              <span>456 - 512 kcal</span>
-            </div>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-1.5">
+              <Utensils className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+              <span>Daily Indian Meal Plan</span>
+            </h3>
+            <p className="text-[11px] text-slate-400">
+              {profile.dietType.replace('_', ' ')} • {weekDays[activeDateIndex]?.day} {weekDays[activeDateIndex]?.date} • Planned: {mealPlan.totalCalories} kcal ({mealPlan.totalProtein}g Protein)
+            </p>
           </div>
-
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center -space-x-3">
-              <img 
-                src="https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=120&auto=format&fit=crop&q=80" 
-                alt="Poha dish" 
-                className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-xs"
-              />
-              <img 
-                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=120&auto=format&fit=crop&q=80" 
-                alt="Fruit bowl" 
-                className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-xs"
-              />
-            </div>
-
-            <button 
-              onClick={() => setSwappingSlot('breakfast')}
-              className="w-9 h-9 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
-              title="Swap or log Breakfast"
-              aria-label="Swap or log Breakfast"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
+          <button
+            onClick={() => {
+              haptic.light();
+              setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex + Math.floor(Math.random() * 5 + 1)));
+              notify("Shuffled with fresh Indian recipes!");
+            }}
+            className="flex items-center space-x-1 px-2.5 py-1 rounded-xl card-surface card-border text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-[#ebf7ed] dark:hover:bg-[#202c23] transition interactive-btn cursor-pointer"
+            title="Shuffle Indian Meals"
+          >
+            <RefreshCw className="w-3 h-3 text-[#006d41] dark:text-[#5be196]" />
+            <span className="text-[11px]">Shuffle</span>
+          </button>
         </div>
 
-        {/* Lunch time Card */}
-        <div className="card-surface card-border rounded-[24px] p-4 shadow-xs flex items-center justify-between">
-          <div>
-            <h4 
-              onClick={() => setSelectedRecipe(mealPlan.meals.lunch)}
-              className="text-sm font-bold text-slate-900 cursor-pointer hover:text-emerald-700"
+        {/* Meal Cards for All 5 Indian Slots */}
+        {[
+          { slot: 'early_morning' as MealSlot, label: 'Early Morning Detox', time: '06:30 AM', item: mealPlan.meals.early_morning },
+          { slot: 'breakfast' as MealSlot, label: 'High-Protein Breakfast', time: '08:30 AM', item: mealPlan.meals.breakfast },
+          { slot: 'lunch' as MealSlot, label: 'Lunch Thali', time: '01:30 PM', item: mealPlan.meals.lunch },
+          { slot: 'snack' as MealSlot, label: 'Evening Fuel / Snack', time: '05:30 PM', item: mealPlan.meals.snack },
+          { slot: 'dinner' as MealSlot, label: 'Recovery Dinner Thali', time: '08:30 PM', item: mealPlan.meals.dinner },
+        ].map((slotData) => {
+          const dish = slotData.item;
+          if (!dish) return null;
+          const dishImg = getIndianFoodImage(dish);
+
+          return (
+            <div 
+              key={slotData.slot}
+              className="card-surface card-border rounded-[24px] p-3.5 shadow-xs flex items-center justify-between gap-3 hover:border-[#006d41]/30 transition group"
             >
-              Lunch time
-            </h4>
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#fef6e7] text-slate-600 text-[11px] font-semibold mt-1">
-              <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
-              <span>456 - 512 kcal</span>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center -space-x-3">
-              <img 
-                src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=120&auto=format&fit=crop&q=80" 
-                alt="Thali bowl" 
-                className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-xs"
-              />
-              <img 
-                src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=120&auto=format&fit=crop&q=80" 
-                alt="Paneer tikka" 
-                className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-xs"
-              />
-            </div>
-
-            <button 
-              onClick={() => setSwappingSlot('lunch')}
-              className="w-9 h-9 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
-              title="Swap or log Lunch"
-              aria-label="Swap or log Lunch"
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Evening Fuel (available on scroll) */}
-        {!isDual && (
-          <div className="bg-white rounded-[24px] p-4 border border-[#dae5dc] shadow-xs flex items-center justify-between">
-            <div>
-              <h4 
-                onClick={() => setSelectedRecipe(mealPlan.meals.snack)}
-                className="text-sm font-bold text-slate-900 cursor-pointer hover:text-emerald-700"
+              {/* Dish Photo */}
+              <div 
+                onClick={() => setSelectedRecipe(dish)}
+                className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 cursor-pointer shadow-xs"
               >
-                Evening Fuel
-              </h4>
-              <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#fef6e7] text-slate-600 text-[11px] font-semibold mt-1">
-                <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
-                <span>220 - 280 kcal</span>
+                <img 
+                  src={dishImg} 
+                  alt={dish.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
+                />
+                <span className="absolute bottom-0 inset-x-0 bg-black/60 text-white text-[9px] font-bold text-center py-0.5 truncate px-1">
+                  {dish.prepTimeMins}m
+                </span>
+              </div>
+
+              {/* Dish Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center space-x-1.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#006d41] dark:text-[#5be196]">
+                    {slotData.label}
+                  </span>
+                  <span className="text-[9px] text-slate-400">• {slotData.time}</span>
+                </div>
+
+                <h4 
+                  onClick={() => setSelectedRecipe(dish)}
+                  className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate cursor-pointer hover:text-[#006d41] dark:hover:text-[#5be196] transition"
+                  title={dish.name}
+                >
+                  {dish.name}
+                </h4>
+
+                {dish.hindiName && (
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate">
+                    {dish.hindiName}
+                  </div>
+                )}
+
+                <div className="flex items-center space-x-2 mt-1">
+                  <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#fef6e7] dark:bg-[#2b2214] text-amber-700 dark:text-amber-300 text-[10px] font-bold">
+                    <Flame className="w-2.5 h-2.5 text-[#f59e0b] fill-[#f59e0b]" />
+                    <span>{dish.calories} kcal</span>
+                  </span>
+                  <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#eef9ee] dark:bg-[#1a2c1f] text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">
+                    <Utensils className="w-2.5 h-2.5 text-[#006d41] dark:text-[#5be196]" />
+                    <span>{dish.protein}g Protein</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Action Buttons: Recipe details & Swap */}
+              <div className="flex flex-col space-y-1.5 shrink-0">
+                <button
+                  onClick={() => {
+                    haptic.selection();
+                    setSwappingSlot(slotData.slot);
+                  }}
+                  className="w-8 h-8 rounded-full bg-[#ebf7ed] dark:bg-[#202e24] hover:bg-[#d8edd9] dark:hover:bg-[#2a3c2f] text-slate-700 dark:text-slate-200 flex items-center justify-center transition active:scale-95 cursor-pointer interactive-btn"
+                  title={`Swap ${slotData.label}`}
+                  aria-label={`Swap ${slotData.label}`}
+                >
+                  <RefreshCw className="w-3.5 h-3.5 text-[#006d41] dark:text-[#5be196]" />
+                </button>
+
+                <button
+                  onClick={() => {
+                    haptic.selection();
+                    setSelectedRecipe(dish);
+                  }}
+                  className="w-8 h-8 rounded-full card-surface card-border text-slate-700 dark:text-slate-200 flex items-center justify-center transition active:scale-95 cursor-pointer interactive-btn hover:bg-[#ebf7ed] dark:hover:bg-[#202e24]"
+                  title="View Recipe & Ingredients"
+                  aria-label="View Recipe"
+                >
+                  <ChefHat className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300" />
+                </button>
               </div>
             </div>
-
-            <div className="flex items-center space-x-2">
-              <img 
-                src="https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=120&auto=format&fit=crop&q=80" 
-                alt="Roasted chana" 
-                className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-xs"
-              />
-              <button 
-                onClick={() => setSwappingSlot('snack')}
-                className="w-8 h-8 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer ml-1"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
+          );
+        })}
       </section>
     </main>
   );
@@ -916,9 +1098,11 @@ export function App() {
       {desktopView === 'dual' && (
         <div className="hidden lg:flex items-start justify-center gap-8 max-w-6xl mx-auto px-4 py-4">
           {/* Left Phone: Screen 1 (Home Screen) */}
-          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f1fcf3] overflow-hidden shrink-0 shadow-2xl">
+          <div className="w-[390px] h-[844px] phone-shell relative flex flex-col bg-[#f1fcf3] dark:bg-[#141e18] overflow-hidden shrink-0 shadow-2xl">
             {renderPhoneStatusBar()}
-            {renderHomeScreen(true)}
+            <div className="flex-1 overflow-y-auto">
+              {renderHomeScreen(true)}
+            </div>
             <div className="px-4 pb-2">
               {renderFloatingNav(true)}
             </div>
@@ -926,9 +1110,11 @@ export function App() {
           </div>
 
           {/* Right Phone: Screen 2 (Statistic Screen or Active Sub-screen) */}
-          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f1fcf3] overflow-hidden shrink-0 shadow-2xl">
+          <div className="w-[390px] h-[844px] phone-shell relative flex flex-col bg-[#f1fcf3] dark:bg-[#141e18] overflow-hidden shrink-0 shadow-2xl">
             {renderPhoneStatusBar()}
-            {renderStatisticScreen(true)}
+            <div className="flex-1 overflow-y-auto">
+              {renderStatisticScreen(true)}
+            </div>
             <div className="w-32 h-1 bg-slate-900/80 rounded-full mx-auto my-3 shrink-0 select-none" />
           </div>
         </div>
@@ -1427,19 +1613,55 @@ export function App() {
               <span>Back to Menu</span>
             </button>
 
-            <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-4">
-              <h3 className="font-bold text-base text-slate-900">Profile & Metabolic Calculator</h3>
+            {/* Clerk Authentication Card */}
+            <div className="card-surface card-border rounded-3xl p-5 shadow-xs space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2.5">
+                  <div className="w-10 h-10 rounded-2xl bg-[#006d41] text-white flex items-center justify-center font-black">
+                    <Lock className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center space-x-1.5">
+                      <span>Clerk Authentication</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebf7ed] text-[#006d41] dark:bg-[#1f2923] dark:text-[#5be196]">
+                        {isClerkConfigured ? 'Active' : 'Ready'}
+                      </span>
+                    </h4>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      Sign in & sign up for cloud profile & diet syncing
+                    </p>
+                  </div>
+                </div>
+                <SafeUserButton userAvatar={userAvatar} userName={profile.name} />
+              </div>
+
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  onClick={() => {
+                    haptic.selection();
+                    openAuthModal();
+                  }}
+                  className="flex-1 py-2.5 px-3 rounded-xl bg-[#006d41] hover:bg-[#005a35] text-white text-xs font-bold transition shadow-xs cursor-pointer flex items-center justify-center space-x-1.5 active:scale-98"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Open Clerk Sign In & Sign Up</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-white dark:bg-[#1f2923] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#29332c] space-y-4 shadow-xs">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Profile & Metabolic Calculator</h3>
 
               {/* Profile Photo Management */}
-              <div className="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-[#f1fcf3] border border-[#dae5dc]">
+              <div className="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c]">
                 <img 
                   src={userAvatar} 
                   alt={profile.name || "User Avatar"} 
                   className="w-14 h-14 rounded-full object-cover border-2 border-[#006d41] shadow-xs shrink-0"
                 />
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs font-bold text-slate-900">Profile Photo</div>
-                  <div className="text-[11px] text-slate-500">User provided reference photo</div>
+                  <div className="text-xs font-bold text-slate-900 dark:text-white">Profile Photo</div>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">User provided reference photo</div>
                   <div className="flex items-center gap-2 mt-2">
                     <label className="px-3 py-1.5 bg-[#006d41] text-white text-[11px] font-bold rounded-xl cursor-pointer hover:bg-[#005230] transition active:scale-95 shadow-xs">
                       <span>Upload Photo</span>
@@ -1448,7 +1670,7 @@ export function App() {
                     {userAvatar !== '/user-avatar.png' && (
                       <button 
                         onClick={resetToProvidedAvatar}
-                        className="px-2.5 py-1.5 bg-white border border-[#dae5dc] text-slate-700 text-[11px] font-semibold rounded-xl hover:bg-slate-50 transition cursor-pointer"
+                        className="px-2.5 py-1.5 bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#29332c] text-slate-700 dark:text-slate-200 text-[11px] font-semibold rounded-xl hover:bg-slate-50 transition cursor-pointer"
                       >
                         Reset Photo
                       </button>
@@ -1464,7 +1686,7 @@ export function App() {
                     type="text" 
                     value={profile.name} 
                     onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                    className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
+                    className="w-full bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c] text-slate-900 dark:text-white rounded-xl px-3 py-2 font-medium"
                   />
                 </div>
 
@@ -1475,7 +1697,7 @@ export function App() {
                       type="number" 
                       value={targetWeight} 
                       onChange={(e) => setTargetWeight(Number(e.target.value) || 65)}
-                      className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
+                      className="w-full bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c] text-slate-900 dark:text-white rounded-xl px-3 py-2 font-medium"
                     />
                   </div>
                   <div>
@@ -1483,7 +1705,7 @@ export function App() {
                     <select
                       value={weightUnit}
                       onChange={(e) => setWeightUnit(e.target.value as 'kg' | 'lb')}
-                      className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
+                      className="w-full bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c] text-slate-900 dark:text-white rounded-xl px-3 py-2 font-medium"
                     >
                       <option value="kg">Kilograms (kg)</option>
                       <option value="lb">Pounds (lb)</option>
@@ -1496,19 +1718,32 @@ export function App() {
                   <select
                     value={profile.goal}
                     onChange={(e) => setProfile({ ...profile, goal: e.target.value as any })}
-                    className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
+                    className="w-full bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c] text-slate-900 dark:text-white rounded-xl px-3 py-2 font-medium"
                   >
-                    <option value="fat_loss">Fat Loss (-20% Calorie Deficit)</option>
-                    <option value="maintenance">Maintenance</option>
-                    <option value="muscle_gain">Muscle Building (+15% Calorie Surplus)</option>
-                    <option value="recomp">Body Recomposition</option>
+                    <option value="fat_loss">Fat Loss / Weight Loss (-20% Calorie Deficit)</option>
+                    <option value="maintenance">Weight Maintenance (TDEE Balance)</option>
+                    <option value="muscle_gain">Muscle Building / Weight Gain (+15% Calorie Surplus)</option>
+                    <option value="recomp">Body Recomposition (-5% Slight Deficit)</option>
                   </select>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                  <label className="block text-slate-500 font-semibold mb-1">Body Type (Somatotype)</label>
+                  <select
+                    value={profile.bodyType || 'mesomorph'}
+                    onChange={(e) => setProfile({ ...profile, bodyType: e.target.value as any })}
+                    className="w-full bg-[#f1fcf3] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#29332c] text-slate-900 dark:text-white rounded-xl px-3 py-2 font-medium"
+                  >
+                    <option value="ectomorph">Ectomorph (Lean / Hardgainer - Needs +15% Surplus & High Carbs)</option>
+                    <option value="mesomorph">Mesomorph (Athletic / Balanced Metabolism)</option>
+                    <option value="endomorph">Endomorph (Broad / Carb Sensitive - Higher Protein & Fiber)</option>
+                  </select>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 dark:border-[#29332c] flex items-center justify-between">
                   <div>
-                    <div className="font-bold text-slate-900">Mifflin-St Jeor Energy Target</div>
-                    <div className="text-[11px] text-slate-500">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
+                    <div className="font-bold text-slate-900 dark:text-white">Mifflin-St Jeor Energy Target</div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
                   </div>
                   <button 
                     onClick={() => notify("Profile settings saved successfully!")}
@@ -1533,6 +1768,22 @@ export function App() {
             <Check className="w-3.5 h-3.5 text-[#93f7bb]" />
             <span>{toast}</span>
           </div>
+        )}
+
+        {/* Clerk User Synchronization when authenticated */}
+        {isClerkConfigured && (
+          <SafeSignedIn>
+            <ClerkUserSync 
+              onUserLoaded={(name, avatar) => {
+                if (name && name !== profile.name) {
+                  setProfile((prev) => ({ ...prev, name }));
+                }
+                if (avatar && avatar !== userAvatar) {
+                  setUserAvatar(avatar);
+                }
+              }} 
+            />
+          </SafeSignedIn>
         )}
 
         {/* Recipe Detail Modal */}

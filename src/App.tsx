@@ -249,14 +249,14 @@ export function App() {
         </div>
       </div>
 
-      {/* Hero Card: "Your Weekly Progress" (Exact Lime Style) */}
+      {/* Hero Card: "Your Weekly Progress" (Stitch Botanical Culinary Style) */}
       <section className="hero-lime rounded-[28px] p-5 shadow-xs relative overflow-hidden flex items-center justify-between">
         <div className="space-y-2.5 z-10">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/50 text-[#1b2b0a] text-[11px] font-semibold backdrop-blur-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#1b2b0a]" />
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/70 text-[#14422d] text-[11px] font-bold backdrop-blur-xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#006d41]" />
             <span>Daily intake</span>
           </div>
-          <h2 className="text-[22px] font-black text-[#1b2b0a] leading-tight max-w-[150px]">
+          <h2 className="text-[22px] font-black text-[#14422d] leading-tight max-w-[150px]">
             Your Weekly<br />Progress
           </h2>
         </div>
@@ -272,25 +272,25 @@ export function App() {
               cy="38"
               r="26"
               fill="transparent"
-              stroke="#e2f79f"
+              stroke="#dae5dc"
               strokeWidth="6"
             />
-            {/* Active Lime Progress Arc */}
+            {/* Active Mint Progress Arc */}
             <circle
               cx="38"
               cy="38"
               r="26"
               fill="transparent"
-              stroke="#8acb20"
+              stroke="#006d41"
               strokeWidth="6"
               strokeDasharray={2 * Math.PI * 26}
               strokeDashoffset={2 * Math.PI * 26 * (1 - 6/7)}
               strokeLinecap="round"
             />
           </svg>
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-[#1b2b0a] pointer-events-none">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-[#14422d] pointer-events-none">
             <span className="text-2xl font-black leading-none">6</span>
-            <span className="text-[10px] font-bold text-[#1b2b0a]/75 mt-0.5">days</span>
+            <span className="text-[10px] font-bold text-[#14422d]/75 mt-0.5">days</span>
           </div>
         </div>
       </section>
@@ -380,15 +380,15 @@ export function App() {
                 className={cx(
                   "py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer interactive-btn",
                   isSelected 
-                    ? "bg-[#d8f572] text-[#1b2b0a] font-bold shadow-xs" 
-                    : "bg-transparent text-slate-700 hover:bg-slate-100"
+                    ? "bg-[#006d41] text-white font-bold shadow-xs" 
+                    : "bg-transparent text-slate-700 hover:bg-[#ebf7ed]"
                 )}
                 aria-label={`Select date ${item.day} ${item.date}`}
               >
-                <span className={cx("text-[11px] font-medium", isSelected ? "text-[#1b2b0a]" : "text-slate-400")}>
+                <span className={cx("text-[11px] font-medium", isSelected ? "text-[#bceecf]" : "text-slate-400")}>
                   {item.day}
                 </span>
-                <span className={cx("text-sm font-bold mt-1", isSelected ? "text-[#1b2b0a]" : "text-slate-800")}>
+                <span className={cx("text-sm font-bold mt-1", isSelected ? "text-white" : "text-slate-800")}>
                   {item.date}
                 </span>
               </button>
@@ -430,7 +430,7 @@ export function App() {
 
             <button 
               onClick={() => setSwappingSlot('breakfast')}
-              className="w-9 h-9 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
+              className="w-9 h-9 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
               title="Swap or log Breakfast"
               aria-label="Swap or log Breakfast"
             >
@@ -470,7 +470,7 @@ export function App() {
 
             <button 
               onClick={() => setSwappingSlot('lunch')}
-              className="w-9 h-9 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
+              className="w-9 h-9 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
               title="Swap or log Lunch"
               aria-label="Swap or log Lunch"
             >
@@ -481,7 +481,7 @@ export function App() {
 
         {/* Evening Fuel (available on scroll) */}
         {!isDual && (
-          <div className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex items-center justify-between">
+          <div className="bg-white rounded-[24px] p-4 border border-[#dae5dc] shadow-xs flex items-center justify-between">
             <div>
               <h4 
                 onClick={() => setSelectedRecipe(mealPlan.meals.snack)}
@@ -503,7 +503,7 @@ export function App() {
               />
               <button 
                 onClick={() => setSwappingSlot('snack')}
-                className="w-8 h-8 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer ml-1"
+                className="w-8 h-8 rounded-full bg-[#ebf7ed] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer ml-1"
               >
                 <Plus className="w-4 h-4" />
               </button>
@@ -569,9 +569,9 @@ export function App() {
             <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '34%' }} />
           </div>
 
-          {/* Wed: 110% (Peak active day highlighted in solid lime) */}
+          {/* Wed: 110% (Peak active day highlighted in Stitch mint) */}
           <div className="flex flex-col items-center justify-end h-full space-y-1">
-            <span className="text-[10px] font-bold text-[#1b2b0a] bg-[#d8f572] px-2 py-0.5 rounded-full shadow-xs">
+            <span className="text-[10px] font-bold text-white bg-[#006d41] px-2 py-0.5 rounded-full shadow-xs">
               110%
             </span>
             <div className="w-5 sm:w-6 chart-peak-bar" style={{ height: '90%' }} />
@@ -804,27 +804,27 @@ export function App() {
   );
 
   return (
-    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#f6f8f4] text-slate-900 pb-20">
+    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#f1fcf3] text-slate-900 pb-20">
       {/* Top Header / Viewport Controller for Desktop */}
       <header className="max-w-5xl mx-auto px-4 pt-3 pb-2 flex items-center justify-between select-none">
         <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#d8f572] flex items-center justify-center text-[#1b2b0a] font-black text-xs shadow-xs">
+          <div className="w-8 h-8 rounded-xl bg-[#006d41] flex items-center justify-center text-white font-black text-xs shadow-xs">
             NF
           </div>
           <div>
             <span className="font-extrabold text-sm text-slate-800 tracking-tight">NutriFit</span>
-            <span className="text-slate-400 font-normal text-xs ml-1.5 hidden sm:inline">Daily Meal Planner & Fitness</span>
+            <span className="text-slate-400 font-normal text-xs ml-1.5 hidden sm:inline">Botanical Culinary • AI Meal Planner</span>
           </div>
         </div>
 
         <div className="flex items-center space-x-2">
           {/* Dual Mockup vs Single View Toggle (desktop) */}
-          <div className="hidden lg:flex bg-white/90 backdrop-blur border border-[#edf0e8] rounded-full p-1 items-center shadow-xs">
+          <div className="hidden lg:flex bg-white/90 backdrop-blur border border-[#dae5dc] rounded-full p-1 items-center shadow-xs">
             <button 
               onClick={() => setDesktopView('dual')}
               className={cx(
                 "px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer interactive-btn",
-                desktopView === 'dual' ? 'bg-[#d8f572] text-[#1b2b0a] shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                desktopView === 'dual' ? 'bg-[#006d41] text-white shadow-xs' : 'text-slate-500 hover:text-slate-900'
               )}
               aria-label="Side-by-side Dual Phone View"
             >
@@ -834,7 +834,7 @@ export function App() {
               onClick={() => setDesktopView('single')}
               className={cx(
                 "px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer interactive-btn",
-                desktopView === 'single' ? 'bg-[#d8f572] text-[#1b2b0a] shadow-xs' : 'text-slate-500 hover:text-slate-900'
+                desktopView === 'single' ? 'bg-[#006d41] text-white shadow-xs' : 'text-slate-500 hover:text-slate-900'
               )}
               aria-label="Single Phone View"
             >
@@ -848,7 +848,7 @@ export function App() {
               const next = theme === 'dark' ? 'light' : 'dark';
               setTheme(next);
             }}
-            className="w-8 h-8 rounded-full bg-white border border-[#edf0e8] flex items-center justify-center text-slate-600 shadow-xs hover:bg-slate-50 transition cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white border border-[#dae5dc] flex items-center justify-center text-slate-600 shadow-xs hover:bg-slate-50 transition cursor-pointer"
             title="Toggle theme"
           >
             {theme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
@@ -862,7 +862,7 @@ export function App() {
       {desktopView === 'dual' && (
         <div className="hidden lg:flex items-start justify-center gap-8 max-w-6xl mx-auto px-4 py-4">
           {/* Left Phone: Screen 1 (Home Screen) */}
-          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f6f8f4] overflow-hidden shrink-0 shadow-2xl">
+          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f1fcf3] overflow-hidden shrink-0 shadow-2xl">
             {renderPhoneStatusBar()}
             {renderHomeScreen(true)}
             <div className="px-4 pb-2">
@@ -872,7 +872,7 @@ export function App() {
           </div>
 
           {/* Right Phone: Screen 2 (Statistic Screen or Active Sub-screen) */}
-          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f6f8f4] overflow-hidden shrink-0 shadow-2xl">
+          <div className="w-[390px] phone-shell relative flex flex-col bg-[#f1fcf3] overflow-hidden shrink-0 shadow-2xl">
             {renderPhoneStatusBar()}
             {renderStatisticScreen(true)}
             <div className="w-32 h-1 bg-slate-900/80 rounded-full mx-auto my-3 shrink-0 select-none" />
@@ -883,7 +883,7 @@ export function App() {
       {/* ========================================================
           SINGLE PHONE CANVAS: For Mobile or Single View Mode
           ======================================================== */}
-      <div className={`phone-shell bg-[#f6f8f4] min-h-screen relative flex flex-col ${desktopView === 'dual' ? 'lg:hidden' : ''}`}>
+      <div className={`phone-shell bg-[#f1fcf3] min-h-screen relative flex flex-col ${desktopView === 'dual' ? 'lg:hidden' : ''}`}>
         {renderPhoneStatusBar()}
         {activeScreen === 'dashboard' && renderHomeScreen(false)}
         {activeScreen === 'statistic' && renderStatisticScreen(false)}
@@ -896,7 +896,7 @@ export function App() {
             <div className="flex items-center justify-between pb-2">
               <button 
                 onClick={() => setActiveScreen('dashboard')}
-                className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-sm"
+                className="w-10 h-10 rounded-2xl bg-white border border-[#dae5dc] flex items-center justify-center text-slate-700 shadow-sm"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -905,15 +905,15 @@ export function App() {
             </div>
 
             <div className="hero-lime rounded-3xl p-5 text-center space-y-2">
-              <Award className="w-10 h-10 text-[#1b2b0a] mx-auto" />
-              <h3 className="text-2xl font-black text-[#1b2b0a]">6-Day Fitness Streak!</h3>
-              <p className="text-xs text-[#1b2b0a]/80 max-w-xs mx-auto">
+              <Award className="w-10 h-10 text-[#14422d] mx-auto" />
+              <h3 className="text-2xl font-black text-[#14422d]">6-Day Fitness Streak!</h3>
+              <p className="text-xs text-[#14422d]/80 max-w-xs mx-auto">
                 You’ve logged meals consistently for 6 days this week. 1 more day to unlock the Golden Thali badge!
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="bg-white p-4 rounded-2xl border border-[#edf0e8] space-y-1 text-center">
+              <div className="bg-white p-4 rounded-2xl border border-[#dae5dc] space-y-1 text-center">
                 <div className="w-10 h-10 rounded-full bg-[#fff0eb] text-[#ff6838] flex items-center justify-center mx-auto mb-2">
                   <Footprints className="w-5 h-5" />
                 </div>
@@ -921,7 +921,7 @@ export function App() {
                 <div className="text-[11px] text-slate-400">Completed 4 times</div>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#edf0e8] space-y-1 text-center">
+              <div className="bg-white p-4 rounded-2xl border border-[#dae5dc] space-y-1 text-center">
                 <div className="w-10 h-10 rounded-full bg-[#e8f6fd] text-[#2ba5f7] flex items-center justify-center mx-auto mb-2">
                   <Droplets className="w-5 h-5" />
                 </div>
@@ -929,7 +929,7 @@ export function App() {
                 <div className="text-[11px] text-slate-400">12 glasses/day</div>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#edf0e8] space-y-1 text-center">
+              <div className="bg-white p-4 rounded-2xl border border-[#dae5dc] space-y-1 text-center">
                 <div className="w-10 h-10 rounded-full bg-[#eef9ee] text-[#22c55e] flex items-center justify-center mx-auto mb-2">
                   <ChefHat className="w-5 h-5" />
                 </div>
@@ -937,7 +937,7 @@ export function App() {
                 <div className="text-[11px] text-slate-400">92% Calorie Accuracy</div>
               </div>
 
-              <div className="bg-white p-4 rounded-2xl border border-[#edf0e8] space-y-1 text-center">
+              <div className="bg-white p-4 rounded-2xl border border-[#dae5dc] space-y-1 text-center">
                 <div className="w-10 h-10 rounded-full bg-[#fef6e7] text-[#f59e0b] flex items-center justify-center mx-auto mb-2">
                   <Timer className="w-5 h-5" />
                 </div>
@@ -956,7 +956,7 @@ export function App() {
             <div className="flex items-center justify-between pb-2">
               <button 
                 onClick={() => setActiveScreen('dashboard')}
-                className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-sm"
+                className="w-10 h-10 rounded-2xl bg-white border border-[#dae5dc] flex items-center justify-center text-slate-700 shadow-sm"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -967,7 +967,7 @@ export function App() {
                   setTheme(next);
                   notify(`Switched to ${next} theme.`);
                 }}
-                className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-sm cursor-pointer"
+                className="w-10 h-10 rounded-2xl bg-white border border-[#dae5dc] flex items-center justify-center text-slate-700 shadow-sm cursor-pointer"
                 title="Toggle Dark Mode"
               >
                 {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -979,7 +979,7 @@ export function App() {
               <div className="grid grid-cols-2 gap-2.5">
                 <button 
                   onClick={() => setActiveScreen('coach')}
-                  className="bg-white p-3.5 rounded-2xl border border-[#edf0e8] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
+                  className="bg-white p-3.5 rounded-2xl border border-[#dae5dc] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-[#eef9ee] text-[#22c55e] flex items-center justify-center shrink-0">
                     <Bot className="w-4 h-4" />
@@ -992,7 +992,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('fridge')}
-                  className="bg-white p-3.5 rounded-2xl border border-[#edf0e8] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
+                  className="bg-white p-3.5 rounded-2xl border border-[#dae5dc] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-[#e8f6fd] text-[#2ba5f7] flex items-center justify-center shrink-0">
                     <Refrigerator className="w-4 h-4" />
@@ -1005,9 +1005,9 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('scanner')}
-                  className="bg-white p-3.5 rounded-2xl border border-[#edf0e8] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
+                  className="bg-white p-3.5 rounded-2xl border border-[#dae5dc] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-[#d8f572] text-[#1b2b0a] flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-xl bg-[#006d41] text-white flex items-center justify-center shrink-0">
                     <Camera className="w-4 h-4" />
                   </div>
                   <div>
@@ -1018,7 +1018,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('fasting')}
-                  className="bg-white p-3.5 rounded-2xl border border-[#edf0e8] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
+                  className="bg-white p-3.5 rounded-2xl border border-[#dae5dc] text-left hover:border-slate-300 transition flex items-center space-x-2.5 cursor-pointer"
                 >
                   <div className="w-8 h-8 rounded-xl bg-[#fef6e7] text-[#f59e0b] flex items-center justify-center shrink-0">
                     <Timer className="w-4 h-4" />
@@ -1036,7 +1036,7 @@ export function App() {
               <div className="space-y-1.5">
                 <button 
                   onClick={() => setActiveScreen('planner')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <CalendarDays className="w-4 h-4 text-emerald-600" />
@@ -1047,7 +1047,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('recipes')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <Utensils className="w-4 h-4 text-emerald-600" />
@@ -1058,7 +1058,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('grocery')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <ShoppingBag className="w-4 h-4 text-emerald-600" />
@@ -1069,7 +1069,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('swiggy')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <ChefHat className="w-4 h-4 text-[#f59e0b]" />
@@ -1080,7 +1080,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('custom_recipes')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <SlidersHorizontal className="w-4 h-4 text-[#2ba5f7]" />
@@ -1091,7 +1091,7 @@ export function App() {
 
                 <button 
                   onClick={() => setActiveScreen('account')}
-                  className="w-full bg-white p-3.5 rounded-2xl border border-[#edf0e8] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
+                  className="w-full bg-white p-3.5 rounded-2xl border border-[#dae5dc] flex items-center justify-between text-left hover:border-slate-300 transition cursor-pointer"
                 >
                   <div className="flex items-center space-x-3">
                     <User className="w-4 h-4 text-slate-600" />
@@ -1111,7 +1111,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('dashboard')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Home</span>
@@ -1127,7 +1127,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
@@ -1140,7 +1140,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
@@ -1153,7 +1153,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
@@ -1166,7 +1166,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('statistic')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Statistic</span>
@@ -1184,7 +1184,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
@@ -1197,7 +1197,7 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
@@ -1216,13 +1216,13 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('dashboard')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Home</span>
             </button>
             
-            <div className="bg-white rounded-3xl p-5 border border-[#edf0e8] space-y-3">
+            <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-3">
               <h3 className="font-bold text-base text-slate-900">Your Weekly Thali Plan</h3>
               <p className="text-xs text-slate-500">
                 Calibrated to {macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein, {macroGoals.carbsGrams}g Carbs, {macroGoals.fatsGrams}g Fats)
@@ -1236,7 +1236,7 @@ export function App() {
                   { slot: 'snack' as MealSlot, title: 'Evening Fuel (05:00 PM)', item: mealPlan.meals.snack },
                   { slot: 'dinner' as MealSlot, title: 'Dinner Thali (08:00 PM)', item: mealPlan.meals.dinner }
                 ].map((row) => (
-                  <div key={row.slot} className="p-3.5 bg-[#f6f8f4] rounded-2xl flex items-center justify-between">
+                  <div key={row.slot} className="p-3.5 bg-[#f1fcf3] rounded-2xl flex items-center justify-between">
                     <div>
                       <div className="text-[10px] font-bold text-slate-400 uppercase">{row.title}</div>
                       <div className="font-bold text-sm text-slate-900 mt-0.5">{row.item.name}</div>
@@ -1245,14 +1245,14 @@ export function App() {
                     <div className="flex items-center space-x-1.5">
                       <button 
                         onClick={() => setSwappingSlot(row.slot)}
-                        className="px-2.5 py-1.5 bg-white border border-[#edf0e8] rounded-xl text-xs font-bold text-slate-700 flex items-center space-x-1"
+                        className="px-2.5 py-1.5 bg-white border border-[#dae5dc] rounded-xl text-xs font-bold text-slate-700 flex items-center space-x-1"
                       >
                         <RefreshCw className="w-3 h-3" />
                         <span>Swap</span>
                       </button>
                       <button 
                         onClick={() => setSelectedRecipe(row.item)}
-                        className="px-2.5 py-1.5 bg-white border border-[#edf0e8] rounded-xl text-xs font-bold text-slate-700"
+                        className="px-2.5 py-1.5 bg-white border border-[#dae5dc] rounded-xl text-xs font-bold text-slate-700"
                       >
                         Recipe
                       </button>
@@ -1268,13 +1268,13 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('dashboard')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Home</span>
             </button>
 
-            <div className="bg-white rounded-3xl p-5 border border-[#edf0e8] space-y-3">
+            <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-3">
               <h3 className="font-bold text-base text-slate-900">50,000+ Indian Fitness Recipes</h3>
               
               <div className="relative">
@@ -1284,7 +1284,7 @@ export function App() {
                   placeholder="Search dal, paneer, oats, chilla, khichdi..."
                   value={recipeSearch}
                   onChange={(e) => setRecipeSearch(e.target.value)}
-                  className="w-full bg-[#f6f8f4] border border-[#edf0e8] rounded-xl pl-10 pr-4 py-2 text-xs font-medium focus:outline-none"
+                  className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl pl-10 pr-4 py-2 text-xs font-medium focus:outline-none"
                 />
               </div>
 
@@ -1294,7 +1294,7 @@ export function App() {
                     key={cat}
                     onClick={() => setRecipeFilter(cat)}
                     className={`px-3 py-1 rounded-full text-xs font-semibold shrink-0 cursor-pointer ${
-                      recipeFilter === cat ? 'bg-[#d8f572] text-[#1b2b0a]' : 'bg-[#f1f3ec] text-slate-600'
+                      recipeFilter === cat ? 'bg-[#006d41] text-white' : 'bg-[#ebf7ed] text-slate-600'
                     }`}
                   >
                     {cat.toUpperCase()}
@@ -1307,7 +1307,7 @@ export function App() {
                   <div 
                     key={food.id}
                     onClick={() => setSelectedRecipe(food)}
-                    className="p-3 bg-[#f6f8f4] rounded-2xl flex items-center justify-between hover:bg-slate-100 transition cursor-pointer"
+                    className="p-3 bg-[#f1fcf3] rounded-2xl flex items-center justify-between hover:bg-slate-100 transition cursor-pointer"
                   >
                     <div>
                       <div className="font-bold text-xs text-slate-900">{food.name}</div>
@@ -1327,13 +1327,13 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
             </button>
 
-            <div className="bg-white rounded-3xl p-5 border border-[#edf0e8] space-y-3">
+            <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-3">
               <h3 className="font-bold text-base text-slate-900">Smart Grocery List</h3>
               <p className="text-xs text-slate-500">Auto-generated ingredients for this week's plan.</p>
 
@@ -1350,7 +1350,7 @@ export function App() {
                         haptic.selection();
                       }}
                       className={`p-3 rounded-2xl border transition cursor-pointer flex items-center justify-between ${
-                        isChecked ? 'bg-slate-50 border-slate-200 opacity-60 line-through' : 'bg-[#f6f8f4] border-[#edf0e8]'
+                        isChecked ? 'bg-slate-50 border-slate-200 opacity-60 line-through' : 'bg-[#f1fcf3] border-[#dae5dc]'
                       }`}
                     >
                       <span className="text-xs font-semibold text-slate-800">{item.name}</span>
@@ -1367,13 +1367,13 @@ export function App() {
           <div className="p-4 space-y-3">
             <button 
               onClick={() => setActiveScreen('menu')}
-              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#edf0e8] px-3 py-1.5 rounded-xl shadow-xs"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Menu</span>
             </button>
 
-            <div className="bg-white rounded-3xl p-5 border border-[#edf0e8] space-y-4">
+            <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-4">
               <h3 className="font-bold text-base text-slate-900">Profile & Metabolic Calculator</h3>
               
               <div className="space-y-3 text-xs">
@@ -1383,7 +1383,7 @@ export function App() {
                     type="text" 
                     value={profile.name} 
                     onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                    className="w-full bg-[#f6f8f4] border border-[#edf0e8] rounded-xl px-3 py-2 font-medium"
+                    className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
                   />
                 </div>
 
@@ -1394,7 +1394,7 @@ export function App() {
                       type="number" 
                       value={targetWeight} 
                       onChange={(e) => setTargetWeight(Number(e.target.value) || 65)}
-                      className="w-full bg-[#f6f8f4] border border-[#edf0e8] rounded-xl px-3 py-2 font-medium"
+                      className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
                     />
                   </div>
                   <div>
@@ -1402,7 +1402,7 @@ export function App() {
                     <select
                       value={weightUnit}
                       onChange={(e) => setWeightUnit(e.target.value as 'kg' | 'lb')}
-                      className="w-full bg-[#f6f8f4] border border-[#edf0e8] rounded-xl px-3 py-2 font-medium"
+                      className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
                     >
                       <option value="kg">Kilograms (kg)</option>
                       <option value="lb">Pounds (lb)</option>
@@ -1415,7 +1415,7 @@ export function App() {
                   <select
                     value={profile.goal}
                     onChange={(e) => setProfile({ ...profile, goal: e.target.value as any })}
-                    className="w-full bg-[#f6f8f4] border border-[#edf0e8] rounded-xl px-3 py-2 font-medium"
+                    className="w-full bg-[#f1fcf3] border border-[#dae5dc] rounded-xl px-3 py-2 font-medium"
                   >
                     <option value="fat_loss">Fat Loss (-20% Calorie Deficit)</option>
                     <option value="maintenance">Maintenance</option>
@@ -1431,7 +1431,7 @@ export function App() {
                   </div>
                   <button 
                     onClick={() => notify("Profile settings saved successfully!")}
-                    className="px-4 py-2 bg-[#d8f572] text-[#1b2b0a] font-bold text-xs rounded-xl shadow-xs interactive-btn cursor-pointer"
+                    className="px-4 py-2 bg-[#006d41] text-white font-bold text-xs rounded-xl shadow-xs interactive-btn cursor-pointer"
                     aria-label="Save Energy Target & Profile"
                   >
                     Save Profile & Target
@@ -1449,7 +1449,7 @@ export function App() {
         {/* Global Toast Alert */}
         {toast && (
           <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-lg flex items-center space-x-2 animate-in fade-in duration-200">
-            <Check className="w-3.5 h-3.5 text-[#d8f572]" />
+            <Check className="w-3.5 h-3.5 text-[#93f7bb]" />
             <span>{toast}</span>
           </div>
         )}

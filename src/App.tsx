@@ -65,8 +65,34 @@ export function App() {
 
   useEffect(() => {
     localStorage.setItem('morrow_theme', theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
     document.body.classList.toggle('dark-mode', theme === 'dark');
   }, [theme]);
+
+  // User Profile Avatar (User provided reference photo / custom upload)
+  const [userAvatar, setUserAvatar] = useState<string>(() => {
+    return localStorage.getItem('nutrifit_avatar') || '/user-avatar.png';
+  });
+
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        setUserAvatar(base64);
+        localStorage.setItem('nutrifit_avatar', base64);
+        notify('Profile picture updated successfully!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const resetToProvidedAvatar = () => {
+    setUserAvatar('/user-avatar.png');
+    localStorage.removeItem('nutrifit_avatar');
+    notify('Reset to user provided profile image.');
+  };
 
   // Active Screen
   const [activeScreen, setActiveScreen] = useState<string>('dashboard');
@@ -214,11 +240,19 @@ export function App() {
       {/* Top User Header Bar */}
       <div className="flex items-center justify-between pt-1 pb-1">
         <div className="flex items-center space-x-3">
-          <img 
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" 
-            alt="User Avatar"
-            className="w-11 h-11 rounded-full object-cover border-2 border-white shadow-xs"
-          />
+          <button 
+            onClick={() => setActiveScreen('account')}
+            className="relative group cursor-pointer focus:outline-none"
+            title="Profile & Settings"
+            aria-label="View user profile"
+          >
+            <img 
+              src={userAvatar} 
+              alt={profile.name || "User Avatar"}
+              className="w-11 h-11 rounded-full object-cover border-2 border-white dark:border-[#2d5a43] shadow-xs active:scale-95 transition"
+            />
+            <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#006d41] border-2 border-white dark:border-[#1f2923]" />
+          </button>
           <div>
             <div className="text-xs text-slate-400 font-medium">Good morning!</div>
             <h1 className="text-base font-bold text-slate-900 tracking-tight leading-snug">
@@ -227,11 +261,28 @@ export function App() {
           </div>
         </div>
 
-        {/* Right Action Icons: Notes/Journal & Bell Notification */}
+        {/* Right Action Icons: Light/Dark Theme, Notes/Journal & Bell Notification */}
         <div className="flex items-center space-x-2">
           <button 
+            onClick={() => {
+              const next = theme === 'dark' ? 'light' : 'dark';
+              setTheme(next);
+              haptic.selection();
+              notify(`Switched to ${next} mode`);
+            }}
+            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-[#ebf7ed] dark:hover:bg-[#29332c] transition active:scale-95 interactive-btn cursor-pointer"
+            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label="Toggle light and dark theme"
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-300" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-700" />
+            )}
+          </button>
+          <button 
             onClick={() => setActiveScreen('recipes')}
-            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn cursor-pointer"
+            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-[#ebf7ed] dark:hover:bg-[#29332c] transition active:scale-95 interactive-btn cursor-pointer"
             title="Recipe Journal"
             aria-label="View Recipe Journal"
           >
@@ -239,12 +290,12 @@ export function App() {
           </button>
           <button 
             onClick={() => notify("You are on track with today's calorie budget!")}
-            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn relative cursor-pointer"
+            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-[#ebf7ed] dark:hover:bg-[#29332c] transition active:scale-95 interactive-btn relative cursor-pointer"
             title="Notifications"
             aria-label="View Notifications"
           >
             <Bell className="w-4 h-4 text-slate-700" />
-            <span className="w-2 h-2 rounded-full bg-[#ff723b] absolute top-2.5 right-2.5 ring-2 ring-white" />
+            <span className="w-2 h-2 rounded-full bg-[#ff723b] absolute top-2.5 right-2.5 ring-2 ring-white dark:ring-[#1f2923]" />
           </button>
         </div>
       </div>
@@ -808,9 +859,11 @@ export function App() {
       {/* Top Header / Viewport Controller for Desktop */}
       <header className="max-w-5xl mx-auto px-4 pt-3 pb-2 flex items-center justify-between select-none">
         <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#006d41] flex items-center justify-center text-white font-black text-xs shadow-xs">
-            NF
-          </div>
+          <img 
+            src="/app-icon.png" 
+            alt="NutriFit App Icon" 
+            className="w-8 h-8 rounded-xl object-contain shadow-xs border border-white/60"
+          />
           <div>
             <span className="font-extrabold text-sm text-slate-800 tracking-tight">NutriFit</span>
             <span className="text-slate-400 font-normal text-xs ml-1.5 hidden sm:inline">Botanical Culinary • AI Meal Planner</span>
@@ -1375,6 +1428,33 @@ export function App() {
 
             <div className="bg-white rounded-3xl p-5 border border-[#dae5dc] space-y-4">
               <h3 className="font-bold text-base text-slate-900">Profile & Metabolic Calculator</h3>
+
+              {/* Profile Photo Management */}
+              <div className="flex items-center space-x-3.5 p-3.5 rounded-2xl bg-[#f1fcf3] border border-[#dae5dc]">
+                <img 
+                  src={userAvatar} 
+                  alt={profile.name || "User Avatar"} 
+                  className="w-14 h-14 rounded-full object-cover border-2 border-[#006d41] shadow-xs shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-bold text-slate-900">Profile Photo</div>
+                  <div className="text-[11px] text-slate-500">User provided reference photo</div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <label className="px-3 py-1.5 bg-[#006d41] text-white text-[11px] font-bold rounded-xl cursor-pointer hover:bg-[#005230] transition active:scale-95 shadow-xs">
+                      <span>Upload Photo</span>
+                      <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
+                    </label>
+                    {userAvatar !== '/user-avatar.png' && (
+                      <button 
+                        onClick={resetToProvidedAvatar}
+                        className="px-2.5 py-1.5 bg-white border border-[#dae5dc] text-slate-700 text-[11px] font-semibold rounded-xl hover:bg-slate-50 transition cursor-pointer"
+                      >
+                        Reset Photo
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
               
               <div className="space-y-3 text-xs">
                 <div>

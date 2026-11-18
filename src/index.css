@@ -1742,6 +1742,36 @@ body.dark-mode {
   border: 1px solid var(--line);
 }
 
+/* Automated Light & Dark Theme Mappings */
+body.dark-mode .bg-white {
+  background-color: var(--surface) !important;
+  color: var(--ink) !important;
+}
+
+body.dark-mode .bg-\[\#f1fcf3\] {
+  background-color: var(--paper) !important;
+}
+
+body.dark-mode .border-\[\#dae5dc\] {
+  border-color: var(--line) !important;
+}
+
+body.dark-mode .text-slate-900,
+body.dark-mode .text-slate-800,
+body.dark-mode .text-slate-700 {
+  color: var(--ink) !important;
+}
+
+body.dark-mode .text-slate-500,
+body.dark-mode .text-slate-400 {
+  color: var(--muted) !important;
+}
+
+body.dark-mode .phone-shell {
+  background-color: #141e18 !important;
+  border-color: #0b110e !important;
+}
+
 .interactive-btn {
   outline: none;
   transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;

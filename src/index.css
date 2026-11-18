@@ -1692,6 +1692,27 @@ body.dark-mode {
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
 }
 
+/* BoardUI Semantic Token Utilities */
+.card-surface {
+  background-color: var(--surface);
+  color: var(--ink);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.card-border {
+  border: 1px solid var(--line);
+}
+
+.interactive-btn {
+  outline: none;
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.interactive-btn:focus-visible {
+  outline: 2px solid #8acb20;
+  outline-offset: 2px;
+}
+
 @media (min-width: 640px) {
   .phone-shell {
     margin-top: 16px;

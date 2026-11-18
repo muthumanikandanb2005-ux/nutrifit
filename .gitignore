@@ -36,3 +36,6 @@ android/app/*.iml
 # Vercel
 .vercel
 .env*
+
+.mcp.json
+.planning/ui-reviews/*.png

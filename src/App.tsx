@@ -16,6 +16,7 @@ import { FridgeAI } from './components/FridgeAI';
 import { SwiggyGuide } from './components/SwiggyGuide';
 import { CustomRecipeBuilder } from './components/CustomRecipeBuilder';
 import { haptic } from './utils/haptics';
+import { cx } from './utils/cx';
 import { 
   Home, 
   BarChart3, 
@@ -230,15 +231,17 @@ export function App() {
         <div className="flex items-center space-x-2">
           <button 
             onClick={() => setActiveScreen('recipes')}
-            className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 cursor-pointer"
+            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn cursor-pointer"
             title="Recipe Journal"
+            aria-label="View Recipe Journal"
           >
             <FileText className="w-4 h-4 text-slate-700" />
           </button>
           <button 
             onClick={() => notify("You are on track with today's calorie budget!")}
-            className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 relative cursor-pointer"
+            className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn relative cursor-pointer"
             title="Notifications"
+            aria-label="View Notifications"
           >
             <Bell className="w-4 h-4 text-slate-700" />
             <span className="w-2 h-2 rounded-full bg-[#ff723b] absolute top-2.5 right-2.5 ring-2 ring-white" />
@@ -297,7 +300,7 @@ export function App() {
         {/* Step to walk Card */}
         <div 
           onClick={() => setActiveScreen('steps')}
-          className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
         >
           <div className="flex items-start justify-between">
             <span className="text-xs font-semibold text-slate-600 leading-snug">
@@ -322,7 +325,7 @@ export function App() {
             haptic.medium();
             notify("Logged 1 glass of water (+200ml)!");
           }}
-          className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer active:scale-98"
+          className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer active:scale-98"
         >
           <div className="flex items-start justify-between">
             <span className="text-xs font-semibold text-slate-600 leading-snug">
@@ -348,15 +351,17 @@ export function App() {
           <div className="flex items-center space-x-1.5">
             <button 
               onClick={() => setActiveDateIndex((prev) => Math.max(0, prev - 1))}
-              className="w-7 h-7 rounded-full bg-[#f1f3ec] text-slate-600 flex items-center justify-center hover:bg-[#e4e7dd] transition cursor-pointer"
+              className="w-8 h-8 rounded-full card-surface card-border text-slate-600 flex items-center justify-center hover:bg-[#e4e7dd] transition interactive-btn cursor-pointer"
+              aria-label="Previous day"
             >
-              <ChevronLeft className="w-3.5 h-3.5" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button 
               onClick={() => setActiveDateIndex((prev) => Math.min(6, prev + 1))}
-              className="w-7 h-7 rounded-full bg-[#f1f3ec] text-slate-600 flex items-center justify-center hover:bg-[#e4e7dd] transition cursor-pointer"
+              className="w-8 h-8 rounded-full card-surface card-border text-slate-600 flex items-center justify-center hover:bg-[#e4e7dd] transition interactive-btn cursor-pointer"
+              aria-label="Next day"
             >
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -372,16 +377,18 @@ export function App() {
                   setActiveDateIndex(idx);
                   haptic.selection();
                 }}
-                className={`py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer ${
+                className={cx(
+                  "py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer interactive-btn",
                   isSelected 
-                    ? 'bg-[#d8f572] text-[#1b2b0a] font-bold shadow-xs' 
-                    : 'bg-transparent text-slate-700 hover:bg-slate-100'
-                }`}
+                    ? "bg-[#d8f572] text-[#1b2b0a] font-bold shadow-xs" 
+                    : "bg-transparent text-slate-700 hover:bg-slate-100"
+                )}
+                aria-label={`Select date ${item.day} ${item.date}`}
               >
-                <span className={`text-[11px] font-medium ${isSelected ? 'text-[#1b2b0a]' : 'text-slate-400'}`}>
+                <span className={cx("text-[11px] font-medium", isSelected ? "text-[#1b2b0a]" : "text-slate-400")}>
                   {item.day}
                 </span>
-                <span className={`text-sm font-bold mt-1 ${isSelected ? 'text-[#1b2b0a]' : 'text-slate-800'}`}>
+                <span className={cx("text-sm font-bold mt-1", isSelected ? "text-[#1b2b0a]" : "text-slate-800")}>
                   {item.date}
                 </span>
               </button>
@@ -393,7 +400,7 @@ export function App() {
       {/* Meal Cards List (Breakfast, Lunch time) */}
       <section className="space-y-3 pt-1">
         {/* Breakfast Card */}
-        <div className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex items-center justify-between">
+        <div className="card-surface card-border rounded-[24px] p-4 shadow-xs flex items-center justify-between">
           <div>
             <h4 
               onClick={() => setSelectedRecipe(mealPlan.meals.breakfast)}
@@ -423,8 +430,9 @@ export function App() {
 
             <button 
               onClick={() => setSwappingSlot('breakfast')}
-              className="w-8 h-8 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer ml-1"
+              className="w-9 h-9 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
               title="Swap or log Breakfast"
+              aria-label="Swap or log Breakfast"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -432,7 +440,7 @@ export function App() {
         </div>
 
         {/* Lunch time Card */}
-        <div className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex items-center justify-between">
+        <div className="card-surface card-border rounded-[24px] p-4 shadow-xs flex items-center justify-between">
           <div>
             <h4 
               onClick={() => setSelectedRecipe(mealPlan.meals.lunch)}
@@ -462,8 +470,9 @@ export function App() {
 
             <button 
               onClick={() => setSwappingSlot('lunch')}
-              className="w-8 h-8 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 cursor-pointer ml-1"
+              className="w-9 h-9 rounded-full bg-[#f1f3ec] hover:bg-[#e4e7dd] text-slate-700 flex items-center justify-center transition active:scale-95 interactive-btn cursor-pointer ml-1"
               title="Swap or log Lunch"
+              aria-label="Swap or log Lunch"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -512,14 +521,18 @@ export function App() {
       <div className="flex items-center justify-between pt-1 pb-1">
         <button 
           onClick={() => setActiveScreen('dashboard')}
-          className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 cursor-pointer"
+          className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn cursor-pointer"
+          aria-label="Back to Home"
+          title="Back to Home"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <h2 className="text-base font-bold text-slate-900">Statistic</h2>
         <button 
           onClick={() => notify("Target calibrated with Mifflin-St Jeor equation.")}
-          className="w-10 h-10 rounded-2xl bg-white border border-[#edf0e8] flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 cursor-pointer"
+          className="w-10 h-10 rounded-2xl card-surface card-border flex items-center justify-center text-slate-700 shadow-xs hover:bg-slate-50 transition active:scale-95 interactive-btn cursor-pointer"
+          aria-label="Statistic Options"
+          title="Options"
         >
           <MoreHorizontal className="w-5 h-5" />
         </button>
@@ -542,7 +555,7 @@ export function App() {
       </div>
 
       {/* 7-Day Calorie Bar Chart */}
-      <div className="bg-white rounded-[26px] p-5 border border-[#edf0e8] shadow-xs">
+      <div className="card-surface card-border rounded-[26px] p-5 shadow-xs">
         <div className="grid grid-cols-7 gap-2.5 items-end h-44 pb-2 border-b border-slate-100">
           {/* Mon: 44% */}
           <div className="flex flex-col items-center justify-end h-full space-y-1.5">
@@ -606,7 +619,7 @@ export function App() {
         {/* Exercise Card */}
         <div 
           onClick={() => setActiveScreen('workouts')}
-          className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between hover:border-slate-300 transition interactive-btn cursor-pointer"
         >
           <div className="flex items-center space-x-2">
             <div className="w-7 h-7 rounded-full bg-[#eef9ee] text-[#22c55e] flex items-center justify-center shrink-0">
@@ -631,7 +644,7 @@ export function App() {
         </div>
 
         {/* BPM Card */}
-        <div className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between">
+        <div className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-7 h-7 rounded-full bg-[#feecee] text-[#f43f5e] flex items-center justify-center shrink-0">
               <Heart className="w-3.5 h-3.5 fill-[#f43f5e]" />
@@ -655,7 +668,7 @@ export function App() {
         {/* Weight Card */}
         <div 
           onClick={() => setActiveScreen('goals')}
-          className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between hover:border-slate-300 transition interactive-btn cursor-pointer"
         >
           <div className="flex items-center space-x-2">
             <div className="w-7 h-7 rounded-full bg-[#fff0eb] text-[#f97316] flex items-center justify-center shrink-0">
@@ -679,7 +692,7 @@ export function App() {
         {/* Water Card */}
         <div 
           onClick={() => setActiveScreen('water')}
-          className="bg-white rounded-[24px] p-4 border border-[#edf0e8] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          className="card-surface card-border rounded-[24px] p-4 shadow-xs flex flex-col justify-between hover:border-slate-300 transition interactive-btn cursor-pointer"
         >
           <div className="flex items-center space-x-2">
             <div className="w-7 h-7 rounded-full bg-[#e8f6fd] text-[#2ba5f7] flex items-center justify-center shrink-0">
@@ -717,9 +730,11 @@ export function App() {
           haptic.selection();
           setActiveScreen('dashboard');
         }}
-        className={`flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer ${
+        className={cx(
+          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
           activeScreen === 'dashboard' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
-        }`}
+        )}
+        aria-label="Navigate to Home"
       >
         <Home className="w-5 h-5" />
         <span className="text-[10px]">Home</span>
@@ -731,9 +746,11 @@ export function App() {
           haptic.selection();
           setActiveScreen('statistic');
         }}
-        className={`flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer ${
+        className={cx(
+          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
           activeScreen === 'statistic' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
-        }`}
+        )}
+        aria-label="View Statistics and Progress"
       >
         <BarChart3 className="w-5 h-5" />
         <span className="text-[10px]">Progress</span>
@@ -747,6 +764,7 @@ export function App() {
         }}
         className="fab-raised"
         title="Scan Food Macros"
+        aria-label="Scan food macros"
       >
         <Scan className="w-5 h-5 stroke-[2.4]" />
       </button>
@@ -757,9 +775,11 @@ export function App() {
           haptic.selection();
           setActiveScreen('rewards');
         }}
-        className={`flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer ${
+        className={cx(
+          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
           activeScreen === 'rewards' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
-        }`}
+        )}
+        aria-label="View Rewards and Streaks"
       >
         <Star className="w-5 h-5" />
         <span className="text-[10px]">Rewards</span>
@@ -771,9 +791,11 @@ export function App() {
           haptic.selection();
           setActiveScreen('menu');
         }}
-        className={`flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer ${
+        className={cx(
+          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
           activeScreen === 'menu' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
-        }`}
+        )}
+        aria-label="Open Menu and AI Tools"
       >
         <LayoutGrid className="w-5 h-5" />
         <span className="text-[10px]">Menu</span>
@@ -800,17 +822,21 @@ export function App() {
           <div className="hidden lg:flex bg-white/90 backdrop-blur border border-[#edf0e8] rounded-full p-1 items-center shadow-xs">
             <button 
               onClick={() => setDesktopView('dual')}
-              className={`px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer ${
+              className={cx(
+                "px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer interactive-btn",
                 desktopView === 'dual' ? 'bg-[#d8f572] text-[#1b2b0a] shadow-xs' : 'text-slate-500 hover:text-slate-900'
-              }`}
+              )}
+              aria-label="Side-by-side Dual Phone View"
             >
               Side-by-Side Dual View
             </button>
             <button 
               onClick={() => setDesktopView('single')}
-              className={`px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer ${
+              className={cx(
+                "px-3 py-1 text-xs font-bold rounded-full transition cursor-pointer interactive-btn",
                 desktopView === 'single' ? 'bg-[#d8f572] text-[#1b2b0a] shadow-xs' : 'text-slate-500 hover:text-slate-900'
-              }`}
+              )}
+              aria-label="Single Phone View"
             >
               Single Phone
             </button>
@@ -1405,9 +1431,10 @@ export function App() {
                   </div>
                   <button 
                     onClick={() => notify("Profile settings saved successfully!")}
-                    className="px-4 py-2 bg-[#d8f572] text-[#1b2b0a] font-bold text-xs rounded-xl shadow-xs"
+                    className="px-4 py-2 bg-[#d8f572] text-[#1b2b0a] font-bold text-xs rounded-xl shadow-xs interactive-btn cursor-pointer"
+                    aria-label="Save Energy Target & Profile"
                   >
-                    Save
+                    Save Profile & Target
                   </button>
                 </div>
               </div>

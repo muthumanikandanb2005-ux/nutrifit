@@ -56,15 +56,16 @@ import {
 } from 'lucide-react';
 
 export function App() {
-  // Theme state: 'light' | 'dark'
+  // Theme state: defaults to 'light'
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const saved = localStorage.getItem('morrow_theme');
+    const saved = localStorage.getItem('nutrifit_theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Explicit default: Light Theme (Botanical Culinary)
+    return 'light';
   });
 
   useEffect(() => {
-    localStorage.setItem('morrow_theme', theme);
+    localStorage.setItem('nutrifit_theme', theme);
     document.documentElement.classList.toggle('dark', theme === 'dark');
     document.body.classList.toggle('dark-mode', theme === 'dark');
   }, [theme]);

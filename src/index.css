@@ -3,80 +3,103 @@
 html, body {
   margin: 0;
   min-height: 100%;
-  background: #f4f5f0;
+  background: #f6f8f4;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   overscroll-behavior-y: none;
 }
 
 body {
-  padding: 12px 0 20px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  padding-top: max(12px, env(safe-area-inset-top));
-  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding: 0;
+  font-family: 'Plus Jakarta Sans', Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding-top: max(0px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   transition: background 0.25s ease;
 }
 
 body.dark-mode {
-  background: #18221c;
+  background: #111611;
 }
 
 #morrow-app {
-  --ink: light-dark(#243127, #edf2eb);
-  --muted: light-dark(#617367, #9cb0a1);
-  --paper: light-dark(#f4f5f0, #18221c);
-  --surface: light-dark(#ffffff, #202d24);
-  --surface2: light-dark(#edf2e9, #27382d);
-  --line: light-dark(#e2e7df, #2e3e34);
-  --green: light-dark(#406850, #9bc19e);
-  --greenDark: light-dark(#2c4d38, #d5e8d3);
-  --greenSoft: light-dark(#e6f0e6, #2c3f33);
-  --peach: light-dark(#f6e6e1, #41322d);
-  --yellow: light-dark(#f9eedc, #443a29);
-  --blue: light-dark(#e5eef2, #23353c);
-  --shadow: light-dark(0 12px 32px rgba(36,49,39,.05), 0 14px 36px rgba(16,24,19,.35));
+  --ink: #111827;
+  --muted: #64748b;
+  --paper: #f6f8f4;
+  --surface: #ffffff;
+  --surface2: #f1f3ec;
+  --line: #edf0e8;
+  --lime: #d8f572;
+  --limeDark: #1b2b0a;
+  --limeVivid: #9fe837;
+  --green: #406850;
+  --greenDark: #2c4d38;
+  --greenSoft: #e6f0e6;
+  --peach: #fff0eb;
+  --peachText: #ff6838;
+  --cyan: #e8f6fd;
+  --cyanText: #2ba5f7;
+  --amber: #fef6e7;
+  --amberText: #f59e0b;
+  --rose: #feecee;
+  --roseText: #f43f5e;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   color-scheme: light dark;
   color: var(--ink);
   background: transparent;
-  font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   width: 100%;
   margin: 0 auto;
 }
 
 #morrow-app[data-theme=light] {
-  --ink: #243127;
-  --muted: #617367;
-  --paper: #f4f5f0;
+  --ink: #111827;
+  --muted: #64748b;
+  --paper: #f6f8f4;
   --surface: #ffffff;
-  --surface2: #edf2e9;
-  --line: #e2e7df;
+  --surface2: #f1f3ec;
+  --line: #edf0e8;
+  --lime: #d8f572;
+  --limeDark: #1b2b0a;
+  --limeVivid: #9fe837;
   --green: #406850;
   --greenDark: #2c4d38;
   --greenSoft: #e6f0e6;
-  --peach: #f6e6e1;
-  --yellow: #f9eedc;
-  --blue: #e5eef2;
-  --shadow: 0 12px 32px rgba(36,49,39,.05);
+  --peach: #fff0eb;
+  --peachText: #ff6838;
+  --cyan: #e8f6fd;
+  --cyanText: #2ba5f7;
+  --amber: #fef6e7;
+  --amberText: #f59e0b;
+  --rose: #feecee;
+  --roseText: #f43f5e;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   color-scheme: light;
 }
 
 #morrow-app[data-theme=dark] {
   color-scheme: dark;
   --ink: #edf2eb;
-  --muted: #9cb0a1;
-  --paper: #18221c;
-  --surface: #202d24;
-  --surface2: #27382d;
-  --line: #2e3e34;
+  --muted: #94a3b8;
+  --paper: #111611;
+  --surface: #1a2219;
+  --surface2: #242f23;
+  --line: #2b392a;
+  --lime: #cbf55c;
+  --limeDark: #142208;
+  --limeVivid: #9ce834;
   --green: #9bc19e;
   --greenDark: #d5e8d3;
-  --greenSoft: #2c3f33;
-  --peach: #41322d;
-  --yellow: #443a29;
-  --blue: #23353c;
-  --shadow: 0 14px 36px rgba(16,24,19,.35);
+  --greenSoft: #283727;
+  --peach: #38241d;
+  --peachText: #fb923c;
+  --cyan: #1a2d39;
+  --cyanText: #38bdf8;
+  --amber: #382d1c;
+  --amberText: #fbbf24;
+  --rose: #381c22;
+  --roseText: #f87171;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 #morrow-app * {
@@ -1654,3 +1677,127 @@ body.dark-mode {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ========================================================
+   LIME & PORCELAIN WELLNESS DESIGN SYSTEM (MATCHING MOCKUP)
+   ======================================================== */
+
+.phone-shell {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--paper);
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+}
+
+@media (min-width: 640px) {
+  .phone-shell {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    border-radius: 40px;
+    border: 8px solid #ffffff;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  body.dark-mode .phone-shell {
+    border-color: #1e261d;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+}
+
+.hero-lime {
+  background: linear-gradient(135deg, #e4f988 0%, #d8f572 65%, #cbf55c 100%);
+  color: #1b2b0a;
+}
+
+body.dark-mode .hero-lime {
+  background: linear-gradient(135deg, #c5f252 0%, #b2e638 100%);
+  color: #142208;
+}
+
+.chart-striped-bar {
+  background: repeating-linear-gradient(
+    45deg,
+    #eaf8c2,
+    #eaf8c2 4px,
+    #f4fbe6 4px,
+    #f4fbe6 8px
+  );
+}
+
+body.dark-mode .chart-striped-bar {
+  background: repeating-linear-gradient(
+    45deg,
+    #2c3a21,
+    #2c3a21 4px,
+    #364729 4px,
+    #364729 8px
+  );
+}
+
+.chart-peak-bar {
+  background: #a3e635;
+  box-shadow: 0 4px 14px rgba(163, 230, 53, 0.45);
+}
+
+.floating-nav {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(237, 240, 232, 0.9);
+  border-radius: 36px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.07);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+body.dark-mode .floating-nav {
+  background: rgba(26, 34, 25, 0.95);
+  border-color: rgba(43, 57, 42, 0.8);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+}
+
+.fab-raised {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #d0f455;
+  color: #1b2b0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 22px rgba(208, 244, 85, 0.55);
+  transform: translateY(-16px);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+body.dark-mode .fab-raised {
+  background: #cbf55c;
+  color: #142208;
+  border-color: #1a2219;
+  box-shadow: 0 8px 22px rgba(203, 245, 92, 0.4);
+}
+
+.fab-raised:hover {
+  transform: translateY(-19px) scale(1.06);
+}
+
+.fab-raised:active {
+  transform: translateY(-13px) scale(0.96);
+}
+

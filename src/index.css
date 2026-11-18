@@ -1723,12 +1723,35 @@ body.dark-mode {
 
 .phone-shell {
   width: 100%;
-  max-width: 420px;
   margin: 0 auto;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--paper);
   position: relative;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 639px) {
+  .phone-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Safe area padding utilities for native Android and mobile devices */
+.safe-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0px));
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+}
+
+.screen-content {
+  padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 }
 
 /* BoardUI Semantic Token Utilities */
@@ -1846,18 +1869,18 @@ body.dark-mode .chart-peak-bar {
 
 .floating-nav {
   position: fixed;
-  bottom: 16px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 380px;
-  background: rgba(241, 252, 243, 0.94);
+  width: calc(100% - 24px);
+  max-width: 400px;
+  background: rgba(241, 252, 243, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(218, 229, 220, 0.95);
   border-radius: 36px;
-  box-shadow: 0 12px 36px rgba(20, 30, 24, 0.08);
-  padding: 8px 14px;
+  box-shadow: 0 12px 36px rgba(20, 30, 24, 0.12);
+  padding: 8px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;

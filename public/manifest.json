@@ -1,0 +1,33 @@
+{
+  "id": "com.nutrifit.app",
+  "name": "NutriFit — AI Indian Meal Planner & Health Tracker",
+  "short_name": "NutriFit",
+  "description": "Botanical Culinary Indian Fitness Meal Planner, Precision Macros, and Health Telemetry.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f1fcf3",
+  "theme_color": "#006d41",
+  "categories": ["health", "fitness", "lifestyle", "food"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

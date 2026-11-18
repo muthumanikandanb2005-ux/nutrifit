@@ -8,6 +8,7 @@ import { calculateMacroGoals } from './utils/nutritionCalculator';
 import { generateDailyMealPlan } from './utils/mealPlanGenerator';
 import { INDIAN_FOOD_DATABASE } from './data/indianFoodDatabase';
 import { getIndianFoodImage } from './utils/indianFoodImages';
+import { initializeAndroidSystem, setupAndroidBackButton } from './utils/androidPlatform';
 import { AppClerkProvider, useClerkAuth } from './components/ClerkAuthProvider';
 import { SafeSignedIn, SafeUserButton } from './components/SafeClerkComponents';
 import { RecipeModal } from './components/RecipeModal';
@@ -97,6 +98,11 @@ export function App() {
 
 function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: React.Dispatch<React.SetStateAction<'light' | 'dark'>> }) {
   const { isClerkConfigured, openAuthModal } = useClerkAuth();
+
+  // Initialize native Android system UI (Status Bar color & light/dark icon styling)
+  useEffect(() => {
+    initializeAndroidSystem(theme);
+  }, [theme]);
 
   // Active Screen
   const [activeScreen, setActiveScreen] = useState<string>('dashboard');
@@ -205,6 +211,29 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
     setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex));
   }, [profile.goal, profile.bodyType, profile.weightKg, profile.dietType, profile.activityLevel, activeDateIndex]);
 
+  // Handle native Android hardware and gesture Back button
+  useEffect(() => {
+    return setupAndroidBackButton(() => {
+      // 1. Close open recipe detail modal
+      if (selectedRecipe) {
+        setSelectedRecipe(null);
+        return true;
+      }
+      // 2. Close open meal swapper modal
+      if (swappingSlot) {
+        setSwappingSlot(null);
+        return true;
+      }
+      // 3. Return to home screen if inside a subscreen
+      if (activeScreen !== 'dashboard') {
+        setActiveScreen('dashboard');
+        return true;
+      }
+      // 4. On dashboard, allow default Android back button / exit
+      return false;
+    });
+  }, [selectedRecipe, swappingSlot, activeScreen]);
+
   // Dual Mockup vs Single View mode for desktop
   const [desktopView, setDesktopView] = useState<'dual' | 'single'>('dual');
 
@@ -278,7 +307,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
 
   // Render Screen 1: Dashboard / Home Screen (Exact Mockup)
   const renderHomeScreen = (_isDual = false) => (
-    <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+    <main className="px-4 sm:px-5 pt-2 pb-28 sm:pb-32 space-y-4 flex-1 animate-in fade-in duration-200 safe-top">
       {/* Top User Header Bar */}
       <div className="flex items-center justify-between pt-1 pb-1">
         <div className="flex items-center space-x-3">
@@ -750,7 +779,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
 
   // Render Screen 2: Statistic / Progress Screen (Exact Mockup)
   const renderStatisticScreen = (_isDual = false) => (
-    <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+    <main className="px-4 sm:px-5 pt-2 pb-28 sm:pb-32 space-y-4 flex-1 animate-in fade-in duration-200 safe-top">
       {/* Top Bar with Back and Options */}
       <div className="flex items-center justify-between pt-1 pb-1">
         <button 
@@ -966,7 +995,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
-          activeScreen === 'dashboard' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'dashboard' ? 'text-[#006d41] dark:text-[#5be196] font-extrabold' : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
         )}
         aria-label="Navigate to Home"
       >
@@ -982,7 +1011,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
-          activeScreen === 'statistic' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'statistic' ? 'text-[#006d41] dark:text-[#5be196] font-extrabold' : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
         )}
         aria-label="View Statistics and Progress"
       >
@@ -1011,7 +1040,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
-          activeScreen === 'rewards' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'rewards' ? 'text-[#006d41] dark:text-[#5be196] font-extrabold' : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
         )}
         aria-label="View Rewards and Streaks"
       >
@@ -1027,7 +1056,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer interactive-btn rounded-xl",
-          activeScreen === 'menu' ? 'text-slate-900 font-bold' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'menu' ? 'text-[#006d41] dark:text-[#5be196] font-extrabold' : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
         )}
         aria-label="Open Menu and AI Tools"
       >
@@ -1124,7 +1153,10 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
           SINGLE PHONE CANVAS: For Mobile or Single View Mode
           ======================================================== */}
       <div className={`phone-shell bg-[#f1fcf3] min-h-screen relative flex flex-col ${desktopView === 'dual' ? 'lg:hidden' : ''}`}>
-        {renderPhoneStatusBar()}
+        {/* On desktop single phone frame, show phone status bar; on mobile, native Android status bar is active */}
+        <div className="hidden sm:block">
+          {renderPhoneStatusBar()}
+        </div>
         {activeScreen === 'dashboard' && renderHomeScreen(false)}
         {activeScreen === 'statistic' && renderStatisticScreen(false)}
 
@@ -1132,7 +1164,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
             SCREEN 3: REWARDS & ACHIEVEMENTS
             ======================================================== */}
         {activeScreen === 'rewards' && (
-          <main className="px-5 py-4 space-y-4 flex-1 animate-in fade-in duration-200">
+          <main className="px-4 sm:px-5 pt-3 pb-28 sm:pb-32 space-y-4 flex-1 animate-in fade-in duration-200 safe-top">
             <div className="flex items-center justify-between pb-2">
               <button 
                 onClick={() => setActiveScreen('dashboard')}
@@ -1192,7 +1224,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
             SCREEN 4: MENU & COMPANION APPS DRAWER
             ======================================================== */}
         {activeScreen === 'menu' && (
-          <main className="px-5 py-4 space-y-4 flex-1 animate-in fade-in duration-200">
+          <main className="px-4 sm:px-5 pt-3 pb-28 sm:pb-32 space-y-4 flex-1 animate-in fade-in duration-200 safe-top">
             <div className="flex items-center justify-between pb-2">
               <button 
                 onClick={() => setActiveScreen('dashboard')}
@@ -1348,7 +1380,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
             SUB-SCREENS: SCANNER, PLANNER, RECIPES, COACH, ETC.
             ======================================================== */}
         {activeScreen === 'scanner' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('dashboard')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1364,7 +1396,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'coach' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1377,7 +1409,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'fridge' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1390,7 +1422,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'fasting' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1403,7 +1435,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'workouts' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('statistic')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1421,7 +1453,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'swiggy' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1434,7 +1466,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'custom_recipes' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1453,7 +1485,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'planner' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('dashboard')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1505,7 +1537,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'recipes' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('dashboard')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1564,7 +1596,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'grocery' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1604,7 +1636,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
         )}
 
         {activeScreen === 'account' && (
-          <div className="p-4 space-y-3">
+          <div className="px-4 pt-3 pb-28 sm:pb-32 space-y-3 safe-top">
             <button 
               onClick={() => setActiveScreen('menu')}
               className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 bg-white border border-[#dae5dc] px-3 py-1.5 rounded-xl shadow-xs"
@@ -1760,7 +1792,7 @@ function AppContent({ theme, setTheme }: { theme: 'light' | 'dark'; setTheme: Re
 
         {/* Floating Mobile Bottom Navigation */}
         {renderFloatingNav(false)}
-        <div className="w-32 h-1 bg-slate-900/80 rounded-full mx-auto my-2 shrink-0 select-none" />
+        <div className="hidden sm:block w-32 h-1 bg-slate-900/80 rounded-full mx-auto my-2 shrink-0 select-none" />
 
         {/* Global Toast Alert */}
         {toast && (

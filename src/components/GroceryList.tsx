@@ -125,13 +125,13 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
               <h2 className="text-base font-extrabold text-slate-900 dark:text-white">
                 Smart Pantry & Grocery Hub
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold">
                 {allItems.length} Indian ingredients consolidated for {mealPlan.dayName}
               </p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold">
               ~₹{totalEstCost} INR
             </span>
           </div>
@@ -139,9 +139,9 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
 
         {/* Progress Bar */}
         <div className="space-y-1.5 pt-1">
-          <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
+          <div className="flex justify-between text-xs font-bold text-slate-700 dark:text-slate-300 font-semibold">
             <span>Pantry Readiness: {totalChecked} of {allItems.length} items checked</span>
-            <span className="text-[#EA580C] dark:text-[#FB923C]">{progressPercent}%</span>
+            <span className="text-[#9A3412] dark:text-[#FED7AA] font-bold">{progressPercent}%</span>
           </div>
           <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
             <div 

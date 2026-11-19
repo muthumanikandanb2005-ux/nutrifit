@@ -166,11 +166,11 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
           <div>
             <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center space-x-1.5">
               <span>NutriFit AI Coach</span>
-              <span className="text-[10px] font-bold px-2 py-0.2 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+              <span className="text-[10px] font-bold px-2 py-0.2 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold">
                 Desi Nutritionist
               </span>
             </h3>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">
               Calibrated for {macroGoals.calories} kcal • {macroGoals.proteinGrams}g Protein
             </p>
           </div>
@@ -208,10 +208,10 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
                 {/* Voice speech toggle for bot responses */}
                 {!isUser && (
                   <div className="mt-2.5 pt-2 border-t border-[#FED7AA]/60 dark:border-[#293d2e] flex items-center justify-between text-xs">
-                    <span className="text-[10px] text-slate-400">{msg.timestamp}</span>
+                    <span className="text-[10px] text-slate-700 dark:text-slate-300 font-medium">{msg.timestamp}</span>
                     <button
                       onClick={() => speakText(msg.id, msg.text)}
-                      className="flex items-center space-x-1 text-[#EA580C] dark:text-[#FB923C] font-bold text-[11px] hover:underline cursor-pointer"
+                      className="flex items-center space-x-1 text-[#9A3412] dark:text-[#FED7AA] font-bold font-bold text-[11px] hover:underline cursor-pointer"
                     >
                       {isSpeakingThis ? (
                         <>
@@ -248,7 +248,7 @@ export const AICoach: React.FC<AICoachProps> = ({ profile, macroGoals }) => {
         })}
 
         {isTyping && (
-          <div className="flex items-center space-x-2 text-xs text-slate-400 p-2 bg-[#FFFBF5] dark:bg-[#261B14] rounded-2xl w-fit">
+          <div className="flex items-center space-x-2 text-xs text-slate-700 dark:text-slate-300 font-medium p-2 bg-[#FFFBF5] dark:bg-[#261B14] rounded-2xl w-fit">
             <Sparkles className="w-3.5 h-3.5 text-[#EA580C] animate-spin" />
             <span>AI Coach is thinking...</span>
           </div>

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Stitch MCP Server Design Tokens: Botanical Culinary */
   --surface: #FFFBF5;
@@ -1779,31 +1781,18 @@ body.dark-mode {
   border: 1px solid var(--line);
 }
 
-/* Automated Light & Dark Theme Mappings */
-body.dark-mode .bg-white {
-  background-color: var(--surface) !important;
-  color: var(--ink) !important;
+/* Clean Tailwind Dark & High-Contrast Typography */
+input, select, textarea {
+  color: inherit;
 }
-
-body.dark-mode .bg-\[\#FFFBF5\] {
-  background-color: var(--paper) !important;
+::placeholder {
+  color: #786b62;
+  opacity: 1;
 }
-
-body.dark-mode .border-\[\#EEDEC1\] {
-  border-color: var(--line) !important;
+.dark ::placeholder {
+  color: #c9b7aa;
+  opacity: 1;
 }
-
-body.dark-mode .text-slate-900,
-body.dark-mode .text-slate-800,
-body.dark-mode .text-slate-700 {
-  color: var(--ink) !important;
-}
-
-body.dark-mode .text-slate-500,
-body.dark-mode .text-slate-400 {
-  color: var(--muted) !important;
-}
-
 body.dark-mode .phone-shell {
   background-color: #15100E !important;
   border-color: #0b110e !important;
@@ -1961,4 +1950,3 @@ body.dark-mode .fab-raised {
 .fab-raised:active {
   transform: translateY(-13px) scale(0.96);
 }
-

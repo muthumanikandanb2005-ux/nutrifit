@@ -55,10 +55,10 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold">
                   {slot.replace('_', ' ')}
                 </span>
-                <span className="text-xs text-slate-400">Authentic Indian Swaps</span>
+                <span className="text-xs text-slate-700 dark:text-slate-300 font-medium">Authentic Indian Swaps</span>
               </div>
               <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white truncate max-w-[240px] sm:max-w-md">
                 Swap: {currentFood.name}
@@ -81,23 +81,23 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
             <div className="text-sm font-bold text-slate-800 dark:text-slate-200">{currentFood.name}</div>
           </div>
           <div className="text-right">
-            <div className="text-xs font-black text-[#EA580C] dark:text-[#FB923C]">{currentFood.calories} kcal</div>
-            <div className="text-[11px] text-slate-400">{currentFood.protein}g Protein</div>
+            <div className="text-xs font-black text-[#9A3412] dark:text-[#FED7AA] font-bold">{currentFood.calories} kcal</div>
+            <div className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">{currentFood.protein}g Protein</div>
           </div>
         </div>
 
         {/* Compatible Alternatives List */}
         <div className="space-y-2.5">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 font-semibold">
             <span>Available Alternatives ({compatibleOptions.length})</span>
-            <span className="text-[#EA580C] dark:text-[#FB923C] flex items-center space-x-1">
+            <span className="text-[#9A3412] dark:text-[#FED7AA] font-bold flex items-center space-x-1">
               <Sparkles className="w-3 h-3" />
               <span>Calibrated for your macros</span>
             </span>
           </div>
 
           {compatibleOptions.length === 0 ? (
-            <div className="text-center py-8 text-xs text-slate-400">
+            <div className="text-center py-8 text-xs text-slate-700 dark:text-slate-300 font-medium">
               No additional alternatives found for this slot and diet combination.
             </div>
           ) : (
@@ -119,18 +119,18 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
                       />
                       <div className="min-w-0">
                         <div className="flex items-center space-x-1.5 mb-0.5">
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEF3C7] dark:bg-[#233527] text-[#EA580C] dark:text-[#FB923C]">
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEF3C7] dark:bg-[#233527] text-[#9A3412] dark:text-[#FED7AA] font-bold">
                             {opt.servingSize}
                           </span>
-                          <span className="text-[10px] text-slate-400">⏱ {opt.prepTimeMins}m</span>
+                          <span className="text-[10px] text-slate-700 dark:text-slate-300 font-medium">⏱ {opt.prepTimeMins}m</span>
                         </div>
                         <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
                           {opt.name}
                         </h4>
-                        <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        <div className="flex items-center space-x-2 text-[11px] text-slate-700 dark:text-slate-300 font-semibold mt-0.5">
                           <span className="font-semibold text-slate-800 dark:text-slate-200">{opt.calories} kcal</span>
                           <span>•</span>
-                          <span className="font-bold text-[#EA580C] dark:text-[#FB923C]">{opt.protein}g Protein</span>
+                          <span className="font-bold text-[#9A3412] dark:text-[#FED7AA] font-bold">{opt.protein}g Protein</span>
                           {protDiff > 0 && (
                             <span className="text-[10px] font-bold text-amber-700 dark:text-amber-500">
                               (+{protDiff}g pro)

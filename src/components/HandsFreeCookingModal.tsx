@@ -160,10 +160,10 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold">
                   Hands-Free Cook Mode
                 </span>
-                <span className="text-xs text-slate-400 font-medium">
+                <span className="text-xs text-slate-700 dark:text-slate-300 font-semibold">
                   {food.prepTimeMins} mins
                 </span>
               </div>
@@ -186,8 +186,8 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           
           {/* Step Progress Visual Bar */}
           <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
-              <span className="text-[#EA580C] dark:text-[#FB923C]">Step {currentStep + 1} of {instructions.length}</span>
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 font-semibold">
+              <span className="text-[#9A3412] dark:text-[#FED7AA] font-bold">Step {currentStep + 1} of {instructions.length}</span>
               <span>{Math.round(((currentStep + 1) / instructions.length) * 100)}% Complete</span>
             </div>
             <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
@@ -206,7 +206,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
               </span>
               <button
                 onClick={speakCurrentStep}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-[#EA580C] dark:text-[#FB923C] shadow-xs active:scale-95 transition cursor-pointer"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] font-bold shadow-xs active:scale-95 transition cursor-pointer"
                 title="Read step out loud"
               >
                 {isSpeaking ? (
@@ -229,7 +229,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
 
             {food.tips && currentStep === 0 && (
               <div className="p-3 rounded-2xl bg-white/80 dark:bg-[#141d16] border border-[#EEDEC1] dark:border-[#3A2A1F] flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-300">
-                <Sparkles className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C] shrink-0 mt-0.5" />
+                <Sparkles className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA] font-bold shrink-0 mt-0.5" />
                 <span><strong>Chef's Tip:</strong> {food.tips}</span>
               </div>
             )}
@@ -238,7 +238,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           {/* Built-in Kitchen Timer */}
           <div className="p-4 rounded-3xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold flex items-center justify-center">
                 <Clock className="w-5 h-5" />
               </div>
               <div>
@@ -291,10 +291,10 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           {/* Ingredients Checklist */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-semibold">
                 Ingredients Checklist ({checkedIngredients.size}/{food.ingredients.length})
               </h4>
-              <span className="text-[11px] text-slate-400 font-medium">Tap to check off</span>
+              <span className="text-[11px] text-slate-700 dark:text-slate-300 font-medium font-medium">Tap to check off</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">

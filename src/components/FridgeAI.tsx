@@ -81,7 +81,7 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
       {/* Results Grid */}
       {matchingFoods.length === 0 ? (
         <div className="bg-[var(--surface2)] border border-[var(--line)] p-8 rounded-3xl text-center space-y-2 text-[var(--muted)]">
-          <ChefHat className="w-8 h-8 mx-auto text-[var(--muted)] opacity-60" />
+          <ChefHat className="w-8 h-8 mx-auto text-[var(--muted)] opacity-90" />
           <h3 className="text-base font-bold text-[var(--ink)]">No Matching Dishes Found</h3>
           <p className="text-xs max-w-sm mx-auto">
             Try selecting additional Indian ingredients (like Paneer, Besan, Eggs, or Oats) above to discover recipes!

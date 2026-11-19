@@ -13,15 +13,15 @@ export const SupplementGuide: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Title Header */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3 text-center">
+      <div className="bg-white dark:bg-slate-800/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3 text-center">
         <div className="inline-flex items-center space-x-2 bg-purple-500/10 border border-purple-500/20 text-purple-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
           <Pill className="w-4 h-4" />
           <span>Evidence-Based Supplement Advisor (सप्लीमेंट गाइड)</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Scientific Fitness & Herbal Supplements
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
+        <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium max-w-xl mx-auto">
           Clear, honest breakdown of supplements for Indian diets (Whey, Creatine, Ashwagandha, B12, D3).
         </p>
 

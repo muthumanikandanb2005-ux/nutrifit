@@ -55,7 +55,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
           <Sparkles className="w-4 h-4" />
           <span>Scientific BMR & Macro Engine for Indian Diets</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Calculate Your Calorie & Protein Targets
         </h1>
         <p className="text-slate-400 text-sm max-w-2xl mx-auto">
@@ -65,11 +65,11 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Form Controls */}
-        <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-6 bg-slate-800/80 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl">
+        <form onSubmit={handleSubmit} className="lg:col-span-7 space-y-6 bg-white dark:bg-slate-800/80 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl">
           
           {/* Personal Metrics Grid */}
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2 mb-4">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2 mb-4">
               <CalcIcon className="w-5 h-5 text-amber-400" />
               <span>1. Body Metrics</span>
             </h2>
@@ -84,7 +84,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
                   required
                   value={formData.age}
                   onChange={(e) => setFormData({ ...formData, age: Number(e.target.value) })}
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
 
@@ -93,7 +93,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
                 <select
                   value={formData.gender}
                   onChange={(e) => setFormData({ ...formData, gender: e.target.value as 'male' | 'female' })}
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 >
                   <option value="male">Male 👨</option>
                   <option value="female">Female 👩</option>
@@ -110,7 +110,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
                   required
                   value={formData.weightKg}
                   onChange={(e) => setFormData({ ...formData, weightKg: Number(e.target.value) })}
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
 
@@ -123,7 +123,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
                   required
                   value={formData.heightCm}
                   onChange={(e) => setFormData({ ...formData, heightCm: Number(e.target.value) })}
-                  className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
                 />
               </div>
             </div>
@@ -135,7 +135,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
             <select
               value={formData.activityLevel}
               onChange={(e) => setFormData({ ...formData, activityLevel: e.target.value as UserProfile['activityLevel'] })}
-              className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500"
             >
               <option value="sedentary">Sedentary (Desk Job, little or no exercise)</option>
               <option value="lightly_active">Lightly Active (Workout 1-3 days/week)</option>
@@ -147,7 +147,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
           {/* Fitness Goal */}
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2 mb-3">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2 mb-3">
               <Dumbbell className="w-5 h-5 text-amber-400" />
               <span>2. Your Primary Fitness Goal</span>
             </h2>
@@ -178,7 +178,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
           {/* Dietary Type Selection */}
           <div>
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2 mb-3">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2 mb-3">
               <Flame className="w-5 h-5 text-amber-400" />
               <span>3. Dietary Preference</span>
             </h2>
@@ -211,7 +211,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
             <select
               value={formData.region}
               onChange={(e) => setFormData({ ...formData, region: e.target.value as RegionPreference })}
-              className="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"
+              className="w-full bg-stone-50 dark:bg-slate-900/90 border border-[#EEDEC1] dark:border-slate-700 rounded-xl px-3 py-2.5 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-amber-500"
             >
               {regionOptions.map((r) => (
                 <option key={r.id} value={r.id}>{r.label}</option>
@@ -231,8 +231,8 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
         {/* Results Sidebar Preview */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-slate-800/80 backdrop-blur-xl border border-slate-700/60 p-6 rounded-3xl shadow-xl space-y-6">
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2 border-b border-slate-700/60 pb-3">
+          <div className="bg-white dark:bg-slate-800/80 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 rounded-3xl shadow-xl space-y-6">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center space-x-2 border-b border-slate-200 dark:border-slate-700/60 pb-3">
               <Sparkles className="w-5 h-5 text-amber-400" />
               <span>Calculated Nutrition Breakdown</span>
             </h2>
@@ -240,7 +240,7 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
             {/* Calories Summary Card */}
             <div className="bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-transparent border border-amber-500/30 rounded-2xl p-5 text-center space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-amber-400">Target Daily Intake</span>
-              <div className="text-4xl font-extrabold text-white tracking-tight">
+              <div className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {macroGoals.calories} <span className="text-base text-amber-300/80 font-normal">kcal/day</span>
               </div>
               <div className="flex justify-center space-x-4 text-xs text-slate-400 pt-1">

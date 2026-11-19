@@ -26,22 +26,22 @@ export const WaterTracker: React.FC<WaterTrackerProps> = ({
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
       {/* Title Header */}
-      <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
+      <div className="bg-white dark:bg-slate-800/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
         <div className="inline-flex items-center space-x-2 bg-sky-500/10 border border-sky-500/20 text-sky-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
           <Droplet className="w-4 h-4 animate-bounce" />
           <span>Hydration & Fluid Intake Tracker (जल ट्रैकर)</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Track Daily Water & Desi Hydration
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
+        <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium max-w-xl mx-auto">
           Proper hydration improves nutrient absorption, prevents muscle cramps during workouts, and boosts fat metabolism.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         {/* Animated Water Circle & Progress */}
-        <div className="md:col-span-5 bg-slate-800/80 border border-slate-700/60 p-8 rounded-3xl text-center space-y-6 shadow-xl flex flex-col items-center">
+        <div className="md:col-span-5 bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 p-8 rounded-3xl text-center space-y-6 shadow-xl flex flex-col items-center">
           <div className="relative w-44 h-44 flex items-center justify-center">
             {/* Outer Progress Ring */}
             <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">

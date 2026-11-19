@@ -39,10 +39,10 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
             <Calendar className="w-3.5 h-3.5" />
             <span>7-Day Indian Thali Architecture</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
             Weekly 7-Day Fitness Meal Plan
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
             Structured thali plan tailored for {profile.dietType.replace('_', ' ').toUpperCase()} • {targetCalories} kcal
           </p>
         </div>
@@ -74,11 +74,11 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
       </div>
 
       {/* Active Day Thali Card */}
-      <div className="bg-slate-800/80 border border-slate-700/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl print:bg-white print:border-black print:text-black">
+      <div className="bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl print:bg-white print:border-black print:text-black">
         <div className="flex justify-between items-center border-b border-slate-700 pb-4 print:border-black">
           <div>
-            <h2 className="text-2xl font-extrabold text-white print:text-black">{selectedDay} Thali Plan</h2>
-            <p className="text-xs text-amber-400 print:text-gray-700 font-medium">{profile.dietType.replace('_', ' ')} • {activePlan.totalCalories} kcal • {activePlan.totalProtein}g Protein</p>
+            <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white print:text-black">{selectedDay} Thali Plan</h2>
+            <p className="text-xs text-amber-800 dark:text-amber-400 print:text-gray-700 font-bold">{profile.dietType.replace('_', ' ')} • {activePlan.totalCalories} kcal • {activePlan.totalProtein}g Protein</p>
           </div>
 
           <div className="text-right text-xs print:hidden">
@@ -91,9 +91,9 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
           {Object.entries(activePlan.meals).map(([slotKey, food]) => (
             <div key={slotKey} className="bg-slate-900/90 border border-slate-700/60 p-4 rounded-2xl space-y-2 print:bg-gray-100 print:border-gray-300">
               <span className="text-[10px] uppercase font-bold text-amber-400 print:text-black">{slotKey.replace('_', ' ')}</span>
-              <h3 className="font-bold text-sm text-white print:text-black">{food.name}</h3>
-              <p className="text-[10px] text-slate-400 print:text-gray-600">{food.servingSize}</p>
-              <div className="pt-2 border-t border-slate-800 text-[10px] flex justify-between text-slate-300 print:text-black">
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white print:text-black">{food.name}</h3>
+              <p className="text-[10px] text-slate-600 dark:text-slate-300 font-medium print:text-gray-600">{food.servingSize}</p>
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-[10px] flex justify-between text-slate-700 dark:text-slate-300 font-semibold print:text-black">
                 <span className="font-bold text-amber-400">{food.calories} kcal</span>
                 <span className="font-bold text-amber-500">{food.protein}g Prot</span>
               </div>

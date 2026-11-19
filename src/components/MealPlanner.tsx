@@ -44,10 +44,10 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
             <span>•</span>
             <span>{profile.region.replace('_', ' ').toUpperCase()}</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center space-x-2">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center space-x-2">
             <span>Your Personal Indian Fitness Meal Plan</span>
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
             Custom calculated for {profile.weightKg}kg • Target: {macroGoals.calories} kcal & {macroGoals.proteinGrams}g Protein
           </p>
         </div>
@@ -66,7 +66,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
       {/* Progress Bars Dashboard */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Calories Progress */}
-        <div className="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl space-y-2">
+        <div className="bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 p-4 rounded-2xl space-y-2">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-slate-300 flex items-center space-x-1">
               <Flame className="w-4 h-4 text-orange-400" />
@@ -84,7 +84,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
         </div>
 
         {/* Protein Progress */}
-        <div className="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl space-y-2">
+        <div className="bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 p-4 rounded-2xl space-y-2">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-slate-300 flex items-center space-x-1">
               <Utensils className="w-4 h-4 text-amber-500" />
@@ -102,7 +102,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
         </div>
 
         {/* Carbs Progress */}
-        <div className="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl space-y-2">
+        <div className="bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 p-4 rounded-2xl space-y-2">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-slate-300">Carbs</span>
             <span className="text-sky-400">{mealPlan.totalCarbs}g / {macroGoals.carbsGrams}g</span>
@@ -117,7 +117,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
         </div>
 
         {/* Fats Progress */}
-        <div className="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl space-y-2">
+        <div className="bg-white dark:bg-slate-800/80 border border-[#EEDEC1] dark:border-slate-700/60 p-4 rounded-2xl space-y-2">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-slate-300">Healthy Fats</span>
             <span className="text-yellow-400">{mealPlan.totalFats}g / {macroGoals.fatsGrams}g</span>

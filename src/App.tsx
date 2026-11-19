@@ -389,7 +389,7 @@ export function AppContent() {
                 {/* Dish Details */}
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
                       {slotData.label}
                     </span>
                     <span className="text-xs text-slate-400 font-medium">• {slotData.time}</span>
@@ -465,14 +465,14 @@ export function AppContent() {
                     }}
                     className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-[#f8faf8] dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-700 dark:text-slate-200 font-bold text-xs hover:border-[#EA580C] active:scale-95 transition cursor-pointer"
                   >
-                    <RefreshCw className="w-3 h-3 text-[#EA580C] dark:text-[#FB923C]" />
+                    <RefreshCw className="w-3 h-3 text-[#9A3412] dark:text-[#FED7AA]" />
                     <span>Swap</span>
                   </button>
                 </div>
 
                 <button
                   onClick={() => setSelectedRecipe(dish)}
-                  className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline cursor-pointer flex items-center space-x-1"
+                  className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline cursor-pointer flex items-center space-x-1"
                 >
                   <span>Recipe Details</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -510,7 +510,7 @@ export function AppContent() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] font-bold text-xs flex items-center space-x-1.5">
+            <span className="px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold text-xs flex items-center space-x-1.5">
               <span className="w-2 h-2 rounded-full bg-[#EA580C] dark:bg-[#FB923C] animate-pulse" />
               <span>{Math.max(0, macroGoals.calories - caloriesLogged)} kcal remaining</span>
             </span>
@@ -522,8 +522,8 @@ export function AppContent() {
           {/* Protein */}
           <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-600 dark:text-slate-400">Protein</span>
-              <span className="font-black text-[#EA580C] dark:text-[#FB923C]">
+              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Protein</span>
+              <span className="font-black text-[#9A3412] dark:text-[#FED7AA]">
                 {Math.min(100, Math.round((proteinLogged / (macroGoals.proteinGrams || 1)) * 100))}%
               </span>
             </div>
@@ -541,7 +541,7 @@ export function AppContent() {
           {/* Carbs */}
           <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-600 dark:text-slate-400">Carbs</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Carbs</span>
               <span className="font-black text-[#2ba5f7]">
                 {Math.min(100, Math.round((Math.round(caloriesLogged * 0.12) / (macroGoals.carbsGrams || 1)) * 100))}%
               </span>
@@ -560,7 +560,7 @@ export function AppContent() {
           {/* Fats */}
           <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-600 dark:text-slate-400">Fats</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Fats</span>
               <span className="font-black text-[#e07a5f]">
                 {Math.min(100, Math.round((Math.round(caloriesLogged * 0.035) / (macroGoals.fatsGrams || 1)) * 100))}%
               </span>
@@ -640,12 +640,12 @@ export function AppContent() {
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 sm:p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <SlidersHorizontal className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+            <SlidersHorizontal className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Diet Goal & Body Type (Somatotype)
             </h3>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
             100% Indian Diet
           </span>
         </div>
@@ -708,7 +708,7 @@ export function AppContent() {
                   className={cx(
                     "p-2 rounded-xl text-left border transition cursor-pointer active:scale-95",
                     isSelected
-                      ? "border-[#EA580C] bg-[#FFFBF5] dark:bg-[#231811] text-[#EA580C] dark:text-[#FB923C] font-bold"
+                      ? "border-[#EA580C] bg-[#FFFBF5] dark:bg-[#231811] text-[#9A3412] dark:text-[#FED7AA] font-bold"
                       : "border-[#EEDEC1] dark:border-[#3A291E] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#231811]"
                   )}
                 >
@@ -733,7 +733,7 @@ export function AppContent() {
               setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex + Math.floor(Math.random() * 5 + 1)));
               notify("Shuffled with fresh regional recipes!");
             }}
-            className="flex items-center space-x-1 text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline cursor-pointer"
+            className="flex items-center space-x-1 text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline cursor-pointer"
           >
             <RefreshCw className="w-3 h-3" />
             <span>Shuffle Dishes</span>
@@ -775,14 +775,14 @@ export function AppContent() {
         <div className="flex items-center justify-between px-1">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2">
-              <Utensils className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+              <Utensils className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
               <span>Today's Indian Fitness Meal Plan</span>
             </h3>
             <p className="text-xs text-slate-400">
               5 authentic Indian nutrition slots • {mealPlan.totalCalories} kcal planned
             </p>
           </div>
-          <span className="text-xs font-bold text-slate-500">
+          <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
             {Object.values(eatenMeals).filter(Boolean).length} of 5 completed
           </span>
         </div>
@@ -803,19 +803,19 @@ export function AppContent() {
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Timer className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+            <Timer className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Intermittent Fasting
             </h3>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
             16:8 Protocol
           </span>
         </div>
 
         <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
           <div>
-            <div className="text-[10px] text-slate-400 font-bold uppercase">Status</div>
+            <div className="text-[10px] text-slate-700 dark:text-slate-300 font-bold uppercase">Status</div>
             <div className="text-lg font-black text-slate-900 dark:text-white font-mono">
               14h 22m fasted
             </div>
@@ -836,7 +836,7 @@ export function AppContent() {
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Scale className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+            <Scale className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Body Telemetry
             </h3>
@@ -850,7 +850,7 @@ export function AppContent() {
                 setWeightUnit(prev => prev === 'kg' ? 'lb' : 'kg');
                 haptic.selection();
               }}
-              className="px-1.5 py-0.5 rounded-md bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-[10px] font-bold cursor-pointer"
+              className="px-1.5 py-0.5 rounded-md bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-[10px] font-bold cursor-pointer"
               title="Toggle kg/lb unit"
             >
               {weightUnit.toUpperCase()}
@@ -863,13 +863,13 @@ export function AppContent() {
             <span className="text-3xl font-black text-slate-900 dark:text-white">
               {shownWeight(profile.weightKg)}
             </span>
-            <span className="text-xs font-bold text-slate-400 ml-1.5">{weightUnit}</span>
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 ml-1.5">{weightUnit}</span>
           </div>
           <div className="text-right">
             <span className="text-xs font-bold text-amber-700 dark:text-amber-500">
               -3.4 kg past 30 days
             </span>
-            <div className="text-[10px] text-slate-400">BMI: 22.6 (Healthy)</div>
+            <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium">BMI: 22.6 (Healthy)</div>
           </div>
         </div>
 
@@ -896,14 +896,14 @@ export function AppContent() {
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Bot className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+            <Bot className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               AI Desi Nutritionist
             </h3>
           </div>
           <button 
             onClick={() => setActiveScreen('coach')}
-            className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline"
+            className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline"
           >
             Open Full Chat
           </button>
@@ -935,7 +935,7 @@ export function AppContent() {
           </div>
           <div>
             <div className="text-xs font-bold text-slate-900 dark:text-white">Smart Grocery List</div>
-            <div className="text-[11px] text-slate-500 dark:text-slate-400">1-Click WhatsApp & Blinkit Export</div>
+            <div className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">1-Click WhatsApp & Blinkit Export</div>
           </div>
         </div>
         <button
@@ -961,7 +961,7 @@ export function AppContent() {
           <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
             Macro & Energy Telemetry
           </h2>
-          <p className="text-xs text-slate-400">7-Day Calorie Balance & Body Transformation</p>
+          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">7-Day Calorie Balance & Body Transformation</p>
         </div>
         <button
           onClick={() => setActiveScreen('dashboard')}
@@ -977,10 +977,10 @@ export function AppContent() {
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Average Daily Intake</span>
             <div className="text-3xl font-black text-[#7C2D12] dark:text-white mt-0.5">
-              1,840 <span className="text-sm font-normal text-slate-400">kcal/day</span>
+              1,840 <span className="text-sm font-normal text-slate-600 dark:text-slate-300 font-bold">kcal/day</span>
             </div>
           </div>
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
             -420 kcal Deficit (On Track)
           </span>
         </div>
@@ -1005,7 +1005,7 @@ export function AppContent() {
                 )}
                 style={{ height: `${item.pct}%` }}
               />
-              <span className={cx("text-xs font-semibold", item.peak ? "text-[#EA580C] dark:text-[#FB923C] font-bold" : "text-slate-400")}>
+              <span className={cx("text-xs font-semibold", item.peak ? "text-[#9A3412] dark:text-[#FED7AA] font-bold" : "text-slate-400")}>
                 {item.day}
               </span>
             </div>
@@ -1065,7 +1065,7 @@ export function AppContent() {
         />
         <div>
           <span className="font-extrabold text-base text-slate-900 dark:text-white tracking-tight">NutriFit</span>
-          <span className="text-slate-400 font-medium text-xs ml-2 hidden sm:inline">
+          <span className="text-slate-600 dark:text-slate-300 font-semibold text-xs ml-2 hidden sm:inline">
             Botanical Culinary • AI Indian Meal Planner
           </span>
         </div>
@@ -1101,7 +1101,7 @@ export function AppContent() {
 
       {/* Right Controls: Streak, Simulator Toggle, Theme, Clerk Auth */}
       <div className="flex items-center space-x-2.5">
-        <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-xs font-bold">
+        <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-xs font-bold">
           <Flame className="w-3.5 h-3.5 fill-[#f59e0b] text-[#f59e0b]" />
           <span>5d Streak</span>
         </div>
@@ -1154,7 +1154,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'dashboard' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'dashboard' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
         )}
       >
         <Home className="w-5 h-5 stroke-[2.2]" />
@@ -1168,7 +1168,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'statistic' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'statistic' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
         )}
       >
         <BarChart3 className="w-5 h-5 stroke-[2.2]" />
@@ -1193,7 +1193,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'coach' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'coach' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
         )}
       >
         <Bot className="w-5 h-5 stroke-[2.2]" />
@@ -1207,7 +1207,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'menu' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'menu' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
         )}
       >
         <LayoutGrid className="w-5 h-5 stroke-[2.2]" />
@@ -1300,7 +1300,7 @@ export function AppContent() {
                     placeholder="Search dal, paneer, oats, chilla, khichdi, sattu..."
                     value={recipeSearch}
                     onChange={(e) => setRecipeSearch(e.target.value)}
-                    className="w-full bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-2xl pl-10 pr-4 py-3 text-xs font-medium focus:outline-none focus:border-[#EA580C]"
+                    className="w-full bg-white dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-2xl pl-10 pr-4 py-3 text-xs font-semibold text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:border-[#EA580C]"
                   />
                 </div>
                 {/* Category Filter Pills */}
@@ -1364,7 +1364,7 @@ export function AppContent() {
                     onClick={() => setActiveScreen(tool.id)}
                     className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs"
                   >
-                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center">
                       <tool.icon className="w-5 h-5" />
                     </div>
                     <div>
@@ -1424,7 +1424,7 @@ export function AppContent() {
                     <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
                     <div>
                       <h3 className="font-black text-lg text-slate-900 dark:text-white">{profile.name}</h3>
-                      <p className="text-xs text-slate-400">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -1486,12 +1486,12 @@ export function AppContent() {
               />
               <div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">NutriFit</span>
-                <span className="text-[10px] text-slate-400 block leading-none">Indian AI Planner</span>
+                <span className="text-[10px] text-slate-600 dark:text-slate-300 font-semibold block leading-none">Indian AI Planner</span>
               </div>
             </div>
 
             <div className="flex items-center space-x-2">
-              <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-[11px] font-bold">
+              <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-[11px] font-bold">
                 <Flame className="w-3 h-3 fill-[#f59e0b] text-[#f59e0b]" />
                 <span>5d</span>
               </div>
@@ -1695,12 +1695,12 @@ export function AppContent() {
                       }}
                       className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] text-left cursor-pointer space-y-1.5 shadow-xs"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center">
                         <tool.icon className="w-4 h-4" />
                       </div>
                       <div>
                         <div className="font-bold text-xs text-slate-900 dark:text-white">{tool.title}</div>
-                        <div className="text-[10px] text-slate-400">{tool.desc}</div>
+                        <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium">{tool.desc}</div>
                       </div>
                     </button>
                   ))}
@@ -1734,13 +1734,13 @@ export function AppContent() {
                     <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
                     <div>
                       <h3 className="font-black text-base text-slate-900 dark:text-white">{profile.name}</h3>
-                      <p className="text-xs text-slate-400">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
                     </div>
                   </div>
 
                   <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-[#2D2018]">
                     <div>
-                      <label className="text-xs font-bold text-slate-500 block mb-1">Diet Preference</label>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block mb-1">Diet Preference</label>
                       <select
                         value={profile.dietType}
                         onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
@@ -1756,9 +1756,9 @@ export function AppContent() {
                     <div className="flex items-center justify-between pt-2">
                       <div>
                         <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Mifflin-St Jeor Target</div>
-                        <div className="text-[11px] text-slate-400">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
+                        <div className="text-[11px] text-slate-600 dark:text-slate-300 font-semibold">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
                       </div>
-                      <span className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C]">Active</span>
+                      <span className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA]">Active</span>
                     </div>
                   </div>
                 </div>

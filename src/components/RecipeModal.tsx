@@ -79,41 +79,41 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
           {/* Quick Macro Pills Bento */}
           <div className="grid grid-cols-4 gap-2 text-center">
             <div className="p-2.5 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#273a2c]">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Calories</div>
-              <div className="text-base font-black text-[#EA580C] dark:text-[#FB923C]">{food.calories}</div>
-              <div className="text-[9px] text-slate-400">kcal</div>
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">Calories</div>
+              <div className="text-base font-black text-[#9A3412] dark:text-[#FED7AA] font-bold">{food.calories}</div>
+              <div className="text-[9px] text-slate-600 dark:text-slate-300 font-medium">kcal</div>
             </div>
             <div className="p-2.5 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#273a2c]">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Protein</div>
-              <div className="text-base font-black text-[#EA580C] dark:text-[#FB923C]">{food.protein}g</div>
-              <div className="text-[9px] text-slate-400">muscle fuel</div>
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">Protein</div>
+              <div className="text-base font-black text-[#9A3412] dark:text-[#FED7AA] font-bold">{food.protein}g</div>
+              <div className="text-[9px] text-slate-600 dark:text-slate-300 font-medium">muscle fuel</div>
             </div>
             <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E]">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Carbs</div>
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">Carbs</div>
               <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.carbs}g</div>
-              <div className="text-[9px] text-slate-400">clean energy</div>
+              <div className="text-[9px] text-slate-600 dark:text-slate-300 font-medium">clean energy</div>
             </div>
             <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E]">
-              <div className="text-[10px] font-bold text-slate-400 uppercase">Fats</div>
+              <div className="text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase">Fats</div>
               <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.fats}g</div>
-              <div className="text-[9px] text-slate-400">healthy fats</div>
+              <div className="text-[9px] text-slate-600 dark:text-slate-300 font-medium">healthy fats</div>
             </div>
           </div>
 
           {/* Serving & Serving Size */}
           <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E]">
             <div className="flex items-center space-x-2">
-              <Utensils className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
+              <Utensils className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA] font-bold" />
               <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Portion Serving:</span>
             </div>
-            <span className="text-xs font-black text-[#EA580C] dark:text-[#FB923C]">
+            <span className="text-xs font-black text-[#9A3412] dark:text-[#FED7AA] font-bold">
               {food.servingSize}
             </span>
           </div>
 
           {/* Ingredients Section */}
           <div className="space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-semibold">
               Ingredients Required ({food.ingredients.length})
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -123,7 +123,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                   className="p-2.5 rounded-2xl bg-[#fcfdfc] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between text-xs"
                 >
                   <span className="font-semibold text-slate-800 dark:text-slate-200">{ing.item}</span>
-                  <span className="font-bold text-[#EA580C] dark:text-[#FB923C]">{ing.amount}</span>
+                  <span className="font-bold text-[#9A3412] dark:text-[#FED7AA] font-bold">{ing.amount}</span>
                 </div>
               ))}
             </div>
@@ -132,7 +132,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
           {/* Recipe Instructions */}
           {food.recipeInstructions && (
             <div className="space-y-2.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 font-semibold">
                 Step-by-Step Directions
               </h4>
               <div className="space-y-2">
@@ -154,7 +154,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
           {/* Nutrition Tips */}
           {food.tips && (
             <div className="p-3 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#3A291E] flex items-start space-x-2.5 text-xs text-slate-700 dark:text-slate-300">
-              <Lightbulb className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C] shrink-0 mt-0.5" />
+              <Lightbulb className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA] font-bold shrink-0 mt-0.5" />
               <span><strong>Nutritionist Note:</strong> {food.tips}</span>
             </div>
           )}

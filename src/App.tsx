@@ -12,6 +12,7 @@ import { initializeAndroidSystem, setupAndroidBackButton } from './utils/android
 import { AppClerkProvider, useClerkAuth } from './components/ClerkAuthProvider';
 import { SafeSignedIn, SafeUserButton } from './components/SafeClerkComponents';
 import { RecipeModal } from './components/RecipeModal';
+import { PlanComparisonModal } from './components/PlanComparisonModal';
 import { MealSwapperModal } from './components/MealSwapperModal';
 import { HandsFreeCookingModal } from './components/HandsFreeCookingModal';
 import { GroceryList } from './components/GroceryList';
@@ -51,7 +52,9 @@ import {
   ChefHat, 
   Play, 
   Smartphone, 
-  Monitor
+  Monitor,
+  Columns3,
+  Dumbbell
 } from 'lucide-react';
 
 /**
@@ -181,6 +184,18 @@ export function AppContent() {
     return calculateMacroGoals(profile);
   }, [profile]);
 
+  const weightLossMacros = useMemo(() => {
+    return calculateMacroGoals({ ...profile, goal: 'fat_loss' });
+  }, [profile]);
+
+  const maintainMacros = useMemo(() => {
+    return calculateMacroGoals({ ...profile, goal: 'maintenance' });
+  }, [profile]);
+
+  const weightGainMacros = useMemo(() => {
+    return calculateMacroGoals({ ...profile, goal: 'muscle_gain' });
+  }, [profile]);
+
   // Extended Goals & Metrics
   const targetWeight = 65.0;
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lb'>('kg');
@@ -263,6 +278,7 @@ export function AppContent() {
   const [swappingSlot, setSwappingSlot] = useState<MealSlot | null>(null);
   const [cookingFood, setCookingFood] = useState<FoodItem | null>(null);
   const [isCookModeOpen, setIsCookModeOpen] = useState(false);
+  const [isPlanCompareModalOpen, setIsPlanCompareModalOpen] = useState(false);
 
   // Sub-feature states
   const [workouts, setWorkouts] = useState<WorkoutEntry[]>([
@@ -491,6 +507,174 @@ export function AppContent() {
   // ========================================================
   const renderHomeScreen = (_isDual = false) => (
     <div className="space-y-5 animate-in fade-in duration-200">
+      
+      {/* 0. Dedicated 3-Plan Switcher (Weight Loss, Maintain, Weight Gain) */}
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
+              3 Dedicated Indian Diet Protocols
+            </span>
+            <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-1">
+              Select Your Target Plan (डाइट प्लान चुनें)
+            </h3>
+          </div>
+
+          <button
+            onClick={() => setIsPlanCompareModalOpen(true)}
+            className="px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-xs font-bold text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition cursor-pointer flex items-center space-x-1.5 shadow-2xs"
+            title="Compare all 3 diet plans side-by-side"
+          >
+            <Columns3 className="w-3.5 h-3.5" />
+            <span className="hidden xs:inline">Compare All 3</span>
+            <span className="xs:hidden">Compare</span>
+          </button>
+        </div>
+
+        {/* 3 Dedicated Plan Cards */}
+        <div className="grid grid-cols-3 gap-2 p-1 bg-stone-100 dark:bg-[#15100E] rounded-2xl">
+          {[
+            {
+              id: 'fat_loss' as const,
+              label: 'Weight Loss',
+              hindi: 'वजन घटाएं',
+              icon: Flame,
+              macros: weightLossMacros,
+              badge: '-20% Deficit'
+            },
+            {
+              id: 'maintenance' as const,
+              label: 'Maintain',
+              hindi: 'स्थिर वजन',
+              icon: Scale,
+              macros: maintainMacros,
+              badge: 'TDEE Fit'
+            },
+            {
+              id: 'muscle_gain' as const,
+              label: 'Weight Gain',
+              hindi: 'वजन बढ़ाएं',
+              icon: Dumbbell,
+              macros: weightGainMacros,
+              badge: '+15% Surplus'
+            }
+          ].map((planItem) => {
+            const isSelected = profile.goal === planItem.id;
+            return (
+              <button
+                key={planItem.id}
+                onClick={() => {
+                  setProfile(prev => ({ ...prev, goal: planItem.id }));
+                  haptic.selection();
+                  notify(`Activated ${planItem.label} Plan (${planItem.macros.calories} kcal)!`);
+                }}
+                className={cx(
+                  "p-2.5 sm:p-3 rounded-xl transition cursor-pointer active:scale-95 text-left flex flex-col justify-between group",
+                  isSelected
+                    ? "bg-[#EA580C] text-white shadow-md font-bold"
+                    : "bg-white dark:bg-[#1F1611] text-slate-800 dark:text-slate-200 hover:bg-stone-50 border border-transparent dark:border-[#2D2018]"
+                )}
+              >
+                <div className="flex items-center justify-between w-full">
+                  <div className={cx(
+                    "w-7 h-7 rounded-lg flex items-center justify-center shrink-0",
+                    isSelected ? "bg-white/20 text-white" : "bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200"
+                  )}>
+                    <planItem.icon className="w-4 h-4" />
+                  </div>
+                  <span className={cx(
+                    "text-[9px] font-black px-1.5 py-0.2 rounded-md",
+                    isSelected ? "bg-white/25 text-white" : "bg-stone-100 dark:bg-[#2A1E17] text-slate-600 dark:text-slate-300"
+                  )}>
+                    {planItem.badge}
+                  </span>
+                </div>
+
+                <div className="mt-2">
+                  <div className={cx("text-xs font-black truncate", isSelected ? "text-white" : "text-slate-900 dark:text-white")}>
+                    {planItem.label}
+                  </div>
+                  <div className={cx("text-[10px] truncate", isSelected ? "text-amber-100" : "text-slate-600 dark:text-slate-300 font-medium")}>
+                    {planItem.hindi}
+                  </div>
+                </div>
+
+                <div className={cx("text-[11px] font-black mt-1", isSelected ? "text-white" : "text-amber-800 dark:text-amber-400")}>
+                  {planItem.macros.calories} kcal
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Dedicated Strategy & Protocol Strip for the Selected Goal */}
+        <div className="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-[#201610] border border-amber-200/80 dark:border-[#38261A] space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] flex items-center space-x-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>
+                {profile.goal === 'fat_loss' 
+                  ? 'Weight Loss Protocol • Fat Burning & High Protein' 
+                  : profile.goal === 'muscle_gain' 
+                  ? 'Weight Gain Protocol • Clean Caloric Surplus & Anabolic Shakes' 
+                  : 'Maintain Protocol • TDEE Balance & Vitality Equilibrium'}
+              </span>
+            </span>
+            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300">
+              {profile.goal === 'fat_loss' ? '🎯 -500 kcal Deficit' : profile.goal === 'muscle_gain' ? '🎯 +400 kcal Surplus' : '🎯 Exact TDEE'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
+            {profile.goal === 'fat_loss' ? (
+              <>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🥗 Salad First</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Eat cucumber/tomato salad before rotis for high satiety.</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🌾 Millets Over Maida</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Switch to Jowar, Bajra & Ragi rotis for slow glucose burn.</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">💧 Detox Flush</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Warm jeera-lemon water at 06:30 AM to ignite fat metabolism.</div>
+                </div>
+              </>
+            ) : profile.goal === 'muscle_gain' ? (
+              <>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🥤 Sattu Mass Gainer</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">50g Sattu + Banana + Milk + Peanut butter (480 kcal, 26g protein).</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🧈 Pure Desi Ghee</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Add 1-2 tsp pure cow ghee over warm rotis & dals for clean fuel.</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🥜 Dense Snack Timing</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Soaked almonds, walnuts & dates in afternoon; eat every 3 hours.</div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🍛 Thali Harmony</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">50% vegetables, 25% protein (dal/paneer), 25% whole grains.</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🥛 Probiotic Chaas</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">1 glass roasted jeera buttermilk post-lunch for digestive flora.</div>
+                </div>
+                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
+                  <div className="font-bold text-slate-900 dark:text-white">🚶 8k Daily Steps</div>
+                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Maintain active daily walking to preserve baseline insulin sensitivity.</div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
       
       {/* 1. Daily Fuel & Macro Bento Card (Stitch Design) */}
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
@@ -1774,6 +1958,17 @@ export function AppContent() {
       {/* ========================================================
           GLOBAL MODALS
           ======================================================== */}
+      {/* 4. Weight Loss / Maintain / Weight Gain Comparison Modal */}
+      <PlanComparisonModal
+        isOpen={isPlanCompareModalOpen}
+        onClose={() => setIsPlanCompareModalOpen(false)}
+        profile={profile}
+        onSelectGoal={(g) => {
+          setProfile(prev => ({ ...prev, goal: g }));
+          notify(`Activated ${g === 'fat_loss' ? 'Weight Loss' : g === 'muscle_gain' ? 'Weight Gain' : 'Maintain'} Plan!`);
+        }}
+      />
+
       {/* 1. Recipe Detail Modal */}
       <RecipeModal 
         food={selectedRecipe}

@@ -23,7 +23,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
       dairy_poultry: { label: 'Dairy & Proteins (Paneer, Curd, Sattu)', icon: '🧀', items: [], estPrice: 120 },
       legumes: { label: 'Dals & Legumes (Moong, Chana, Dal)', icon: '🫘', items: [], estPrice: 65 },
       grains: { label: 'Grains & Flours (Besan, Oats, Rice)', icon: '🌾', items: [], estPrice: 50 },
-      vegetables: { label: 'Fresh Vegetables & Greens (Palak, Veggies)', icon: '🥬', items: [], estPrice: 45 },
+      vegetables: { label: 'Fresh Vegetables & Sabzi (Palak, Veggies)', icon: '🥬', items: [], estPrice: 45 },
       spices_pantry: { label: 'Spices, Nuts & Pantry (Almonds, Jeera, Ghee)', icon: '🧂', items: [], estPrice: 40 },
     };
 
@@ -115,10 +115,10 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
   return (
     <div className="space-y-4">
       {/* Top Banner with Stats & Progress */}
-      <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-3">
+      <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#006d41] text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-[#EA580C] text-white flex items-center justify-center shadow-xs">
               <ShoppingBag className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -131,7 +131,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
               ~₹{totalEstCost} INR
             </span>
           </div>
@@ -141,11 +141,11 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
         <div className="space-y-1.5 pt-1">
           <div className="flex justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
             <span>Pantry Readiness: {totalChecked} of {allItems.length} items checked</span>
-            <span className="text-[#006d41] dark:text-[#5be196]">{progressPercent}%</span>
+            <span className="text-[#EA580C] dark:text-[#FB923C]">{progressPercent}%</span>
           </div>
-          <div className="w-full h-2 rounded-full bg-[#e5f1e7] dark:bg-[#202d23] overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
             <div 
-              className="h-full bg-[#006d41] dark:bg-[#5be196] rounded-full transition-all duration-300"
+              className="h-full bg-[#EA580C] dark:bg-[#FB923C] rounded-full transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -155,7 +155,7 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
         <div className="grid grid-cols-2 gap-2 pt-1">
           <button
             onClick={copyToWhatsApp}
-            className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-2xl bg-[#006d41] hover:bg-[#005a36] text-white font-bold text-xs shadow-xs active:scale-95 transition cursor-pointer"
+            className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs shadow-xs active:scale-95 transition cursor-pointer"
           >
             {copiedMode === 'whatsapp' ? <Check className="w-4 h-4" /> : <Share2 className="w-4 h-4" />}
             <span>{copiedMode === 'whatsapp' ? 'Copied WhatsApp!' : 'Copy WhatsApp List'}</span>
@@ -163,9 +163,9 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
 
           <button
             onClick={copyForBlinkit}
-            className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-2xl bg-white dark:bg-[#1f2923] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-800 dark:text-slate-200 font-bold text-xs hover:border-slate-400 active:scale-95 transition cursor-pointer"
+            className="flex items-center justify-center space-x-1.5 py-2.5 px-3 rounded-2xl bg-white dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-800 dark:text-slate-200 font-bold text-xs hover:border-slate-400 active:scale-95 transition cursor-pointer"
           >
-            {copiedMode === 'blinkit' ? <Check className="w-4 h-4 text-[#006d41]" /> : <Copy className="w-4 h-4" />}
+            {copiedMode === 'blinkit' ? <Check className="w-4 h-4 text-[#EA580C]" /> : <Copy className="w-4 h-4" />}
             <span>{copiedMode === 'blinkit' ? 'Copied Quick Items!' : 'Blinkit / Zepto Copy'}</span>
           </button>
         </div>
@@ -179,9 +179,9 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
           return (
             <div 
               key={key}
-              className="p-4 rounded-3xl bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-2.5"
+              className="p-4 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-2.5"
             >
-              <div className="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-[#202c23]">
+              <div className="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-[#2D2018]">
                 <div className="flex items-center space-x-2">
                   <span className="text-base">{cat.icon}</span>
                   <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
@@ -202,14 +202,14 @@ export const GroceryList: React.FC<GroceryListProps> = ({ mealPlan, onNotify }) 
                       onClick={() => toggleCheck(item.name)}
                       className={`p-2.5 rounded-2xl border text-left flex items-center justify-between transition cursor-pointer ${
                         isChecked 
-                          ? 'bg-[#ebf7ed] dark:bg-[#1a251e] border-[#bceecf] dark:border-[#2c4031] text-slate-400 line-through'
-                          : 'bg-[#fcfdfc] dark:bg-[#141d16] border-[#dae5dc] dark:border-[#243328] text-slate-800 dark:text-slate-200 hover:border-slate-300'
+                          ? 'bg-[#FEF3C7] dark:bg-[#231811] border-[#FED7AA] dark:border-[#2c4031] text-slate-400 line-through'
+                          : 'bg-[#fcfdfc] dark:bg-[#141d16] border-[#EEDEC1] dark:border-[#34251B] text-slate-800 dark:text-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-center space-x-2.5">
                         <div className={`w-5 h-5 rounded-lg flex items-center justify-center border ${
                           isChecked 
-                            ? 'bg-[#006d41] border-[#006d41] text-white' 
+                            ? 'bg-[#EA580C] border-[#EA580C] text-white' 
                             : 'border-slate-300 dark:border-slate-600 bg-transparent'
                         }`}>
                           {isChecked && <Check className="w-3 h-3 stroke-[3]" />}

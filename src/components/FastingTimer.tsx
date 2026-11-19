@@ -40,7 +40,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   if (hoursElapsed >= 4 && hoursElapsed < 8) {
     stageName = 'Blood Sugar Normalization';
     stageDesc = 'Insulin drops, body starts mobilizing stored glycogen.';
-    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageColor = 'border-[var(--primarySoft)] bg-[var(--primarySoft)] text-[var(--primaryDark)]';
     stageBadge = 'Glycogen Release';
   } else if (hoursElapsed >= 8 && hoursElapsed < 12) {
     stageName = 'Glycogen Depletion';
@@ -50,12 +50,12 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
   } else if (hoursElapsed >= 12 && hoursElapsed < 16) {
     stageName = 'Ketosis & Accelerated Fat Burn';
     stageDesc = 'Body is actively burning fat stores for ketone energy.';
-    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageColor = 'border-[var(--primarySoft)] bg-[var(--primarySoft)] text-[var(--primaryDark)]';
     stageBadge = 'Optimal Fat Burn';
   } else if (hoursElapsed >= 16) {
     stageName = 'Autophagy & Cellular Regeneration';
     stageDesc = 'Cells recycle damaged organelles and reduce systemic inflammation.';
-    stageColor = 'border-[var(--greenSoft)] bg-[var(--greenSoft)] text-[var(--greenDark)]';
+    stageColor = 'border-[var(--primarySoft)] bg-[var(--primarySoft)] text-[var(--primaryDark)]';
     stageBadge = 'Autophagy Active';
   }
 
@@ -92,7 +92,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
     <div className="max-w-4xl mx-auto px-2 py-4 space-y-6">
       {/* Title Header */}
       <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center space-x-2 bg-[var(--primarySoft)] text-[var(--primaryDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
           <Timer className="w-4 h-4" />
           <span>Intermittent Fasting & Vrat Engine</span>
         </div>
@@ -121,7 +121,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 cx="50"
                 cy="50"
                 r="42"
-                className="stroke-[var(--green)] transition-all duration-1000 ease-linear"
+                className="stroke-[var(--primaryAccent)] transition-all duration-1000 ease-linear"
                 strokeWidth="7"
                 strokeDasharray={2 * Math.PI * 42}
                 strokeDashoffset={2 * Math.PI * 42 * (1 - progressPercent / 100)}
@@ -155,7 +155,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
           ) : (
             <button
               onClick={() => handleStartFasting('16_8', 16)}
-              className="w-full py-3 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
+              className="w-full py-3 bg-[var(--primaryAccent)] hover:bg-[var(--primaryDark)] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Start 16:8 Fast Now</span>
@@ -169,7 +169,7 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
           <div className={`border p-4 sm:p-5 rounded-2xl space-y-1.5 shadow-sm ${stageColor}`}>
             <div className="flex items-center justify-between text-xs font-semibold">
               <span>Metabolic Stage</span>
-              <span className="bg-[var(--surface)] text-[var(--greenDark)] px-2.5 py-0.5 rounded-full text-[10px] border border-[var(--line)] font-medium">
+              <span className="bg-[var(--surface)] text-[var(--primaryDark)] px-2.5 py-0.5 rounded-full text-[10px] border border-[var(--line)] font-medium">
                 {stageBadge}
               </span>
             </div>
@@ -186,8 +186,8 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 onClick={() => handleStartFasting('16_8', 16)}
                 className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '16_8' && fastingState.isFasting
-                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
-                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
+                    ? 'bg-[var(--primarySoft)] border-[var(--primaryAccent)] text-[var(--primaryDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--primaryAccent)]'
                 }`}
               >
                 <div className="font-semibold text-xs text-[var(--ink)]">16:8 Routine</div>
@@ -198,8 +198,8 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 onClick={() => handleStartFasting('14_10', 14)}
                 className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '14_10' && fastingState.isFasting
-                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
-                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
+                    ? 'bg-[var(--primarySoft)] border-[var(--primaryAccent)] text-[var(--primaryDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--primaryAccent)]'
                 }`}
               >
                 <div className="font-semibold text-xs text-[var(--ink)]">14:10 Gentle</div>
@@ -210,8 +210,8 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 onClick={() => handleStartFasting('18_6', 18)}
                 className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === '18_6' && fastingState.isFasting
-                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
-                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
+                    ? 'bg-[var(--primarySoft)] border-[var(--primaryAccent)] text-[var(--primaryDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--primaryAccent)]'
                 }`}
               >
                 <div className="font-semibold text-xs text-[var(--ink)]">18:6 Deep</div>
@@ -222,8 +222,8 @@ export const FastingTimer: React.FC<FastingTimerProps> = ({
                 onClick={() => handleStartFasting('vrat', 24)}
                 className={`p-3 rounded-xl border text-left transition ${
                   fastingState.protocol === 'vrat' && fastingState.isFasting
-                    ? 'bg-[var(--greenSoft)] border-[var(--green)] text-[var(--greenDark)] font-bold'
-                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--green)]'
+                    ? 'bg-[var(--primarySoft)] border-[var(--primaryAccent)] text-[var(--primaryDark)] font-bold'
+                    : 'bg-[var(--surface2)] border-[var(--line)] text-[var(--ink)] hover:border-[var(--primaryAccent)]'
                 }`}
               >
                 <div className="font-semibold text-xs text-[var(--ink)]">24h Vrat</div>

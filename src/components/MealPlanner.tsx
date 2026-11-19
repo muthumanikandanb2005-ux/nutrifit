@@ -87,14 +87,14 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
         <div className="bg-slate-800/80 border border-slate-700/60 p-4 rounded-2xl space-y-2">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-slate-300 flex items-center space-x-1">
-              <Utensils className="w-4 h-4 text-emerald-400" />
+              <Utensils className="w-4 h-4 text-amber-500" />
               <span>Protein</span>
             </span>
-            <span className="text-emerald-400">{mealPlan.totalProtein}g / {macroGoals.proteinGrams}g</span>
+            <span className="text-amber-500">{mealPlan.totalProtein}g / {macroGoals.proteinGrams}g</span>
           </div>
           <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden">
             <div
-              className="bg-emerald-500 h-full transition-all duration-500 rounded-full"
+              className="bg-amber-500 h-full transition-all duration-500 rounded-full"
               style={{ width: `${proteinPercentage}%` }}
             />
           </div>
@@ -216,7 +216,7 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
 
                   <div className="space-y-0.5 border-l border-slate-800">
                     <span className="text-[10px] text-slate-400 uppercase font-semibold">Protein</span>
-                    <div className="text-sm font-bold text-emerald-400">{food.protein}g</div>
+                    <div className="text-sm font-bold text-amber-500">{food.protein}g</div>
                   </div>
 
                   <div className="space-y-0.5 border-l border-slate-800">

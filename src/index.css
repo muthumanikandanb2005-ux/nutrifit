@@ -2,30 +2,30 @@
 
 :root {
   /* Stitch MCP Server Design Tokens: Botanical Culinary */
-  --surface: #f1fcf3;
-  --surface-dim: #d1ddd4;
-  --surface-bright: #f1fcf3;
+  --surface: #FFFBF5;
+  --surface-dim: #F2E7D5;
+  --surface-bright: #FFFBF5;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #ebf7ed;
-  --surface-container: #e5f1e7;
-  --surface-container-high: #e0ebe2;
-  --surface-container-highest: #dae5dc;
-  --on-surface: #141e18;
+  --surface-container-low: #FEF3C7;
+  --surface-container: #FAF0DC;
+  --surface-container-high: #F4E7CE;
+  --surface-container-highest: #EEDEC1;
+  --on-surface: #15100E;
   --on-surface-variant: #414943;
   --inverse-surface: #29332c;
   --inverse-on-surface: #e8f4ea;
   --outline: #717973;
   --outline-variant: #c0c9c1;
-  --surface-tint: #3a674f;
-  --primary: #14422d;
+  --surface-tint: #D97706;
+  --primary: #7C2D12;
   --on-primary: #ffffff;
-  --primary-container: #2d5a43;
-  --on-primary-container: #9fcfb2;
-  --inverse-primary: #a1d1b4;
-  --secondary: #006d41;
+  --primary-container: #9A3412;
+  --on-primary-container: #FDBA74;
+  --inverse-primary: #FDBA74;
+  --secondary: #EA580C;
   --on-secondary: #ffffff;
-  --secondary-container: #93f7bb;
-  --on-secondary-container: #007346;
+  --secondary-container: #FDE68A;
+  --on-secondary-container: #78350F;
   --tertiary: #6b210d;
   --on-tertiary: #ffffff;
   --tertiary-container: #893822;
@@ -33,16 +33,16 @@
   --error: #ba1a1a;
   --error-container: #ffdad6;
   --on-error-container: #93000a;
-  --primary-fixed: #bceecf;
-  --primary-fixed-dim: #a1d1b4;
-  --secondary-fixed: #93f7bb;
-  --secondary-fixed-dim: #77daa0;
+  --primary-fixed: #FED7AA;
+  --primary-fixed-dim: #FDBA74;
+  --secondary-fixed: #FDE68A;
+  --secondary-fixed-dim: #FCD34D;
 }
 
 html, body {
   margin: 0;
   min-height: 100%;
-  background: #f1fcf3;
+  background: #FFFBF5;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
   overscroll-behavior-y: none;
@@ -59,22 +59,29 @@ body {
 }
 
 body.dark-mode {
-  background: #141e18;
+  background: #15100E;
 }
 
 #morrow-app {
-  --ink: #141e18;
+  --ink: #15100E;
   --muted: #414943;
-  --paper: #f1fcf3;
+  --paper: #FFFBF5;
   --surface: #ffffff;
-  --surface2: #ebf7ed;
-  --line: #dae5dc;
-  --lime: #bceecf;
-  --limeDark: #14422d;
-  --limeVivid: #4caf79;
-  --green: #2d5a43;
-  --greenDark: #14422d;
-  --greenSoft: #e5f1e7;
+  --surface2: #FEF3C7;
+  --line: #EEDEC1;
+  --saffronGold: #FED7AA;
+  --saffronDeep: #7C2D12;
+  --saffronVivid: #F97316;
+  --primaryAccent: #EA580C;
+  --primaryDark: #9A3412;
+  --primarySoft: #FEF3C7;
+
+  --green: var(--primaryAccent);
+  --greenDark: var(--primaryDark);
+  --greenSoft: var(--primarySoft);
+  --lime: var(--saffronGold);
+  --limeDark: var(--saffronDeep);
+  --limeVivid: var(--saffronVivid);
   --peach: #ffdbd2;
   --peachText: #e07a5f;
   --cyan: #e8f6fd;
@@ -92,18 +99,25 @@ body.dark-mode {
 }
 
 #morrow-app[data-theme=light] {
-  --ink: #141e18;
+  --ink: #15100E;
   --muted: #414943;
-  --paper: #f1fcf3;
+  --paper: #FFFBF5;
   --surface: #ffffff;
-  --surface2: #ebf7ed;
-  --line: #dae5dc;
-  --lime: #bceecf;
-  --limeDark: #14422d;
-  --limeVivid: #4caf79;
-  --green: #2d5a43;
-  --greenDark: #14422d;
-  --greenSoft: #e5f1e7;
+  --surface2: #FEF3C7;
+  --line: #EEDEC1;
+  --saffronGold: #FED7AA;
+  --saffronDeep: #7C2D12;
+  --saffronVivid: #F97316;
+  --primaryAccent: #EA580C;
+  --primaryDark: #9A3412;
+  --primarySoft: #FEF3C7;
+
+  --green: var(--primaryAccent);
+  --greenDark: var(--primaryDark);
+  --greenSoft: var(--primarySoft);
+  --lime: var(--saffronGold);
+  --limeDark: var(--saffronDeep);
+  --limeVivid: var(--saffronVivid);
   --peach: #ffdbd2;
   --peachText: #e07a5f;
   --cyan: #e8f6fd;
@@ -118,18 +132,18 @@ body.dark-mode {
 
 #morrow-app[data-theme=dark] {
   color-scheme: dark;
-  --ink: #e8f4ea;
-  --muted: #a1d1b4;
-  --paper: #141e18;
-  --surface: #1f2923;
-  --surface2: #29332c;
-  --line: #3a473f;
-  --lime: #bceecf;
-  --limeDark: #002112;
-  --limeVivid: #77daa0;
-  --green: #4caf79;
-  --greenDark: #bceecf;
-  --greenSoft: #224f39;
+  --ink: #FDF6E9;
+  --muted: #FDBA74;
+  --paper: #15100E;
+  --surface: #251C17;
+  --surface2: #2A1F18;
+  --line: #3D2D23;
+  --saffronGold: #FED7AA;
+  --saffronDeep: #431407;
+  --saffronVivid: #FCD34D;
+  --primaryAccent: #F97316;
+  --primaryDark: #FED7AA;
+  --primarySoft: #3A2315;
   --peach: #3c0800;
   --peachText: #ffb4a1;
   --cyan: #1a2d39;
@@ -184,7 +198,7 @@ body.dark-mode {
   align-items: center;
   gap: 11px;
   padding: 2px 11px 7px;
-  color: var(--greenDark);
+  color: var(--primaryDark);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 23px;
   font-weight: 500;
@@ -199,8 +213,8 @@ body.dark-mode {
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
 }
 
 #morrow-app .brandmark svg {
@@ -247,8 +261,8 @@ body.dark-mode {
 }
 
 #morrow-app .navbtn[aria-current=page] {
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
   font-weight: 650;
 }
 
@@ -377,8 +391,8 @@ body.dark-mode {
 }
 
 #morrow-app .iconbtn:hover {
-  color: var(--green);
-  border-color: var(--green);
+  color: var(--primaryAccent);
+  border-color: var(--primaryAccent);
 }
 
 #morrow-app .pagehead {
@@ -391,7 +405,7 @@ body.dark-mode {
 
 #morrow-app .eyebrow {
   margin: 0 0 6px;
-  color: var(--green);
+  color: var(--primaryAccent);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.9px;
@@ -449,12 +463,12 @@ body.dark-mode {
 }
 
 #morrow-app .primary {
-  background: var(--green);
+  background: var(--primaryAccent);
   color: #fffefa;
 }
 
 #morrow-app .primary:hover {
-  background: var(--greenDark);
+  background: var(--primaryDark);
   transform: translateY(-1px);
 }
 
@@ -472,7 +486,7 @@ body.dark-mode {
   padding: 3px 0;
   border: 0;
   background: transparent;
-  color: var(--green);
+  color: var(--primaryAccent);
   font-size: 12px;
   font-weight: 650;
   cursor: pointer;
@@ -512,7 +526,7 @@ body.dark-mode {
   overflow: hidden;
   padding: 22px;
   border: 0;
-  background: var(--greenDark);
+  background: var(--primaryDark);
   color: #fffefa;
 }
 
@@ -614,7 +628,7 @@ body.dark-mode {
   place-items: center;
   border-radius: 12px;
   background: var(--surface2);
-  color: var(--green);
+  color: var(--primaryAccent);
   flex-shrink: 0;
 }
 
@@ -679,7 +693,7 @@ body.dark-mode {
 #morrow-app .fill {
   height: 100%;
   border-radius: inherit;
-  background: var(--green);
+  background: var(--primaryAccent);
   transition: width 0.3s ease;
 }
 
@@ -690,7 +704,7 @@ body.dark-mode {
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
-  background: conic-gradient(var(--green) var(--angle, 73%), var(--line) 0);
+  background: conic-gradient(var(--primaryAccent) var(--angle, 73%), var(--line) 0);
   transition: background 0.25s ease;
 }
 
@@ -761,7 +775,7 @@ body.dark-mode {
 }
 
 #morrow-app .weekdots i.done {
-  background: var(--green);
+  background: var(--primaryAccent);
 }
 
 #morrow-app .tipstrip {
@@ -817,8 +831,8 @@ body.dark-mode {
 }
 
 #morrow-app .daychip.active {
-  border-color: var(--green);
-  background: var(--green);
+  border-color: var(--primaryAccent);
+  background: var(--primaryAccent);
   color: #fffefa;
 }
 
@@ -866,7 +880,7 @@ body.dark-mode {
 }
 
 #morrow-app .slot:hover {
-  background: var(--greenSoft);
+  background: var(--primarySoft);
 }
 
 #morrow-app .slot small {
@@ -912,7 +926,7 @@ body.dark-mode {
   padding: 9px 11px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  outline-color: var(--green);
+  outline-color: var(--primaryAccent);
   background: var(--surface);
   color: var(--ink);
 }
@@ -930,9 +944,9 @@ body.dark-mode {
 }
 
 #morrow-app .filter[aria-pressed=true] {
-  border-color: var(--green);
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  border-color: var(--primaryAccent);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
   font-weight: 650;
 }
 
@@ -984,8 +998,8 @@ body.dark-mode {
   align-items: center;
   padding: 8px 10px;
   border-radius: 20px;
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
   font-size: 11px;
   font-weight: 700;
   white-space: nowrap;
@@ -1031,8 +1045,8 @@ body.dark-mode {
 }
 
 #morrow-app .check[aria-pressed=true] {
-  border-color: var(--green);
-  background: var(--green);
+  border-color: var(--primaryAccent);
+  background: var(--primaryAccent);
   color: #fffefa;
 }
 
@@ -1111,7 +1125,7 @@ body.dark-mode {
 }
 
 #morrow-app .stepday.today .bar {
-  background: var(--green);
+  background: var(--primaryAccent);
 }
 
 #morrow-app .goalcard {
@@ -1128,7 +1142,7 @@ body.dark-mode {
   place-items: center;
   border-radius: 12px;
   background: var(--surface2);
-  color: var(--green);
+  color: var(--primaryAccent);
 }
 
 #morrow-app .goalicon svg {
@@ -1192,14 +1206,14 @@ body.dark-mode {
 }
 
 #morrow-app .choice input:checked + span {
-  border-color: var(--green);
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  border-color: var(--primaryAccent);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
   font-weight: 650;
 }
 
 #morrow-app .choice input:focus-visible + span {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--primaryAccent);
   outline-offset: 2px;
 }
 
@@ -1268,7 +1282,7 @@ body.dark-mode {
 }
 
 #morrow-app .switch[aria-pressed=true] {
-  background: var(--green);
+  background: var(--primaryAccent);
 }
 
 #morrow-app .switch[aria-pressed=true]:after {
@@ -1284,7 +1298,7 @@ body.dark-mode {
   max-width: 90%;
   padding: 10px 16px;
   border-radius: 12px;
-  background: var(--greenDark);
+  background: var(--primaryDark);
   color: #fffefa;
   font-size: 12px;
   font-weight: 500;
@@ -1322,7 +1336,7 @@ body.dark-mode {
 }
 
 #morrow-app .watercard {
-  background: linear-gradient(135deg, var(--surface), var(--greenSoft));
+  background: linear-gradient(135deg, var(--surface), var(--primarySoft));
 }
 
 #morrow-app .water-top {
@@ -1403,13 +1417,13 @@ body.dark-mode {
 }
 
 #morrow-app .goal-option input:checked + span {
-  border-color: var(--green);
-  background: var(--greenSoft);
-  box-shadow: inset 0 0 0 1px var(--green);
+  border-color: var(--primaryAccent);
+  background: var(--primarySoft);
+  box-shadow: inset 0 0 0 1px var(--primaryAccent);
 }
 
 #morrow-app .goal-option input:focus-visible + span {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--primaryAccent);
   outline-offset: 2px;
 }
 
@@ -1443,7 +1457,7 @@ body.dark-mode {
   gap: 12px;
   padding: 14px;
   border-radius: 13px;
-  background: var(--greenSoft);
+  background: var(--primarySoft);
   overflow-wrap: anywhere;
 }
 
@@ -1455,7 +1469,7 @@ body.dark-mode {
   place-items: center;
   border-radius: 50%;
   background: var(--surface);
-  color: var(--green);
+  color: var(--primaryAccent);
 }
 
 #morrow-app .goal-summary-mark svg {
@@ -1516,8 +1530,8 @@ body.dark-mode {
 }
 
 #morrow-app .mobilebtn[aria-current=page] {
-  background: var(--greenSoft);
-  color: var(--greenDark);
+  background: var(--primarySoft);
+  color: var(--primaryDark);
   font-weight: 700;
 }
 
@@ -1771,11 +1785,11 @@ body.dark-mode .bg-white {
   color: var(--ink) !important;
 }
 
-body.dark-mode .bg-\[\#f1fcf3\] {
+body.dark-mode .bg-\[\#FFFBF5\] {
   background-color: var(--paper) !important;
 }
 
-body.dark-mode .border-\[\#dae5dc\] {
+body.dark-mode .border-\[\#EEDEC1\] {
   border-color: var(--line) !important;
 }
 
@@ -1791,7 +1805,7 @@ body.dark-mode .text-slate-400 {
 }
 
 body.dark-mode .phone-shell {
-  background-color: #141e18 !important;
+  background-color: #15100E !important;
   border-color: #0b110e !important;
 }
 
@@ -1801,7 +1815,7 @@ body.dark-mode .phone-shell {
 }
 
 .interactive-btn:focus-visible {
-  outline: 2px solid var(--secondary, #006d41);
+  outline: 2px solid var(--secondary, #EA580C);
   outline-offset: 2px;
 }
 
@@ -1810,7 +1824,7 @@ body.dark-mode .phone-shell {
     margin-top: 16px;
     margin-bottom: 24px;
     border-radius: 46px;
-    border: 9px solid #141e18;
+    border: 9px solid #15100E;
     box-shadow: 0 25px 60px -15px rgba(20, 30, 24, 0.15), 0 0 0 1px rgba(20, 30, 24, 0.06);
     overflow: hidden;
     max-width: 410px;
@@ -1823,22 +1837,22 @@ body.dark-mode .phone-shell {
 }
 
 .hero-lime {
-  background: linear-gradient(135deg, #e5f7ea 0%, #c5edd4 60%, #bceecf 100%);
-  color: #14422d;
+  background: linear-gradient(135deg, #e5f7ea 0%, #c5edd4 60%, #FED7AA 100%);
+  color: #7C2D12;
 }
 
 body.dark-mode .hero-lime {
-  background: linear-gradient(135deg, #224f39 0%, #2d5a43 100%);
+  background: linear-gradient(135deg, #431407 0%, #9A3412 100%);
   color: #ffffff;
 }
 
 .chart-striped-bar {
   background: repeating-linear-gradient(
     -45deg,
-    #dae5dc 0px,
-    #dae5dc 3px,
-    #ebf7ed 3px,
-    #ebf7ed 7px
+    #EEDEC1 0px,
+    #EEDEC1 3px,
+    #FEF3C7 3px,
+    #FEF3C7 7px
   );
   border: 1px solid rgba(192, 201, 193, 0.7);
   border-radius: 9999px;
@@ -1849,21 +1863,21 @@ body.dark-mode .chart-striped-bar {
     -45deg,
     #29332c 0px,
     #29332c 3px,
-    #1f2923 3px,
-    #1f2923 7px
+    #251C17 3px,
+    #251C17 7px
   );
   border: 1px solid rgba(113, 121, 115, 0.4);
   border-radius: 9999px;
 }
 
 .chart-peak-bar {
-  background: #006d41;
+  background: #EA580C;
   box-shadow: 0 4px 14px rgba(0, 109, 65, 0.35);
   border-radius: 9999px;
 }
 
 body.dark-mode .chart-peak-bar {
-  background: #4caf79;
+  background: #F97316;
   box-shadow: 0 4px 14px rgba(76, 175, 121, 0.4);
   border-radius: 9999px;
 }
@@ -1920,7 +1934,7 @@ body.dark-mode .floating-nav-embedded {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #006d41;
+  background: #EA580C;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -1934,9 +1948,9 @@ body.dark-mode .floating-nav-embedded {
 }
 
 body.dark-mode .fab-raised {
-  background: #4caf79;
+  background: #F97316;
   color: #002110;
-  border-color: #1f2923;
+  border-color: #251C17;
   box-shadow: 0 8px 22px rgba(76, 175, 121, 0.4);
 }
 

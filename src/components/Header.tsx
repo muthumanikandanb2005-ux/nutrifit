@@ -15,7 +15,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, targetC
         <div className="flex items-center justify-between h-14 sm:h-18">
           {/* Brand Logo & Title */}
           <div className="flex items-center space-x-2.5 cursor-pointer active:scale-95 transition-transform" onClick={() => setActiveTab('planner')}>
-            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl overflow-hidden border border-white/40 shadow shrink-0 bg-emerald-800">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl overflow-hidden border border-white/40 shadow shrink-0 bg-orange-800">
               <img src="/logo.png" alt="NutriFit Logo" className="w-full h-full object-cover" />
             </div>
             <div>
@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, targetC
                 <span className="font-black text-lg sm:text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-amber-100">
                   NutriFit
                 </span>
-                <span className="px-1.5 py-0.2 text-[10px] font-bold bg-emerald-500 text-white rounded-full shadow-sm border border-emerald-400">
+                <span className="px-1.5 py-0.2 text-[10px] font-bold bg-amber-500 text-white rounded-full shadow-sm border border-amber-400">
                   🇮🇳
                 </span>
               </div>
@@ -39,8 +39,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, targetC
                 <span><strong>{targetCalories}</strong> <span className="hidden xs:inline">kcal</span></span>
               </div>
               <div className="h-2.5 w-px bg-white/20" />
-              <div className="flex items-center space-x-1 text-emerald-200">
-                <Utensils className="w-3.5 h-3.5 text-emerald-400" />
+              <div className="flex items-center space-x-1 text-amber-200">
+                <Utensils className="w-3.5 h-3.5 text-amber-500" />
                 <span><strong>{targetProtein}g</strong> <span className="hidden xs:inline">P</span></span>
               </div>
             </div>
@@ -100,11 +100,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, targetC
               onClick={() => setActiveTab('coach')}
               className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all shrink-0 ${
                 activeTab === 'coach'
-                  ? 'bg-white text-emerald-900 shadow-md scale-105 font-bold'
+                  ? 'bg-white text-orange-950 shadow-md scale-105 font-bold'
                   : 'text-amber-100 hover:bg-white/15'
               }`}
             >
-              <Bot className="w-3.5 h-3.5 text-emerald-300" />
+              <Bot className="w-3.5 h-3.5 text-amber-400" />
               <span>AI Coach</span>
             </button>
 
@@ -152,7 +152,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, targetC
                   : 'text-amber-100 hover:bg-white/15'
               }`}
             >
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-300" />
+              <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
               <span>Progress</span>
             </button>
 

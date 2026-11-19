@@ -40,7 +40,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
       {/* Backdrop */}
       <div className="absolute inset-0" onClick={handleClose} />
 
-      <div className="relative bg-white dark:bg-[#162019] border-t sm:border border-[#dae5dc] dark:border-[#28382c] rounded-t-[32px] sm:rounded-[32px] max-w-2xl w-full p-4 sm:p-6 space-y-4 shadow-2xl z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 max-h-[88vh] overflow-y-auto pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+      <div className="relative bg-white dark:bg-[#1C1511] border-t sm:border border-[#EEDEC1] dark:border-[#3A291E] rounded-t-[32px] sm:rounded-[32px] max-w-2xl w-full p-4 sm:p-6 space-y-4 shadow-2xl z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 max-h-[88vh] overflow-y-auto pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         
         {/* Android Native Drag Handle */}
         <div className="flex justify-center pt-1 pb-1 sm:hidden">
@@ -48,14 +48,14 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
         </div>
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#dae5dc] dark:border-[#28382c]">
+        <div className="flex items-center justify-between pb-3 border-b border-[#EEDEC1] dark:border-[#3A291E]">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#006d41] text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-[#EA580C] text-white flex items-center justify-center shadow-xs">
               <RefreshCw className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
                   {slot.replace('_', ' ')}
                 </span>
                 <span className="text-xs text-slate-400">Authentic Indian Swaps</span>
@@ -67,7 +67,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
           </div>
           <button 
             onClick={handleClose}
-            className="w-9 h-9 rounded-full bg-slate-100 dark:bg-[#1f2923] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-9 h-9 rounded-full bg-slate-100 dark:bg-[#251C17] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
             aria-label="Close meal swapper"
           >
             <X className="w-4 h-4" />
@@ -75,13 +75,13 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
         </div>
 
         {/* Current Dish Preview */}
-        <div className="p-3.5 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between">
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Current Choice</div>
             <div className="text-sm font-bold text-slate-800 dark:text-slate-200">{currentFood.name}</div>
           </div>
           <div className="text-right">
-            <div className="text-xs font-black text-[#006d41] dark:text-[#5be196]">{currentFood.calories} kcal</div>
+            <div className="text-xs font-black text-[#EA580C] dark:text-[#FB923C]">{currentFood.calories} kcal</div>
             <div className="text-[11px] text-slate-400">{currentFood.protein}g Protein</div>
           </div>
         </div>
@@ -90,7 +90,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
         <div className="space-y-2.5">
           <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
             <span>Available Alternatives ({compatibleOptions.length})</span>
-            <span className="text-[#006d41] dark:text-[#5be196] flex items-center space-x-1">
+            <span className="text-[#EA580C] dark:text-[#FB923C] flex items-center space-x-1">
               <Sparkles className="w-3 h-3" />
               <span>Calibrated for your macros</span>
             </span>
@@ -109,7 +109,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
                 return (
                   <div
                     key={opt.id}
-                    className="p-3 rounded-2xl bg-white dark:bg-[#1c2920] border border-[#dae5dc] dark:border-[#293d2e] hover:border-[#006d41] dark:hover:border-[#5be196] transition flex items-center justify-between gap-3 shadow-2xs group"
+                    className="p-3 rounded-2xl bg-white dark:bg-[#1c2920] border border-[#EEDEC1] dark:border-[#293d2e] hover:border-[#EA580C] dark:hover:border-[#FB923C] transition flex items-center justify-between gap-3 shadow-2xs group"
                   >
                     <div className="flex items-center space-x-3 min-w-0">
                       <img 
@@ -119,7 +119,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
                       />
                       <div className="min-w-0">
                         <div className="flex items-center space-x-1.5 mb-0.5">
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#ebf7ed] dark:bg-[#233527] text-[#006d41] dark:text-[#5be196]">
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-[#FEF3C7] dark:bg-[#233527] text-[#EA580C] dark:text-[#FB923C]">
                             {opt.servingSize}
                           </span>
                           <span className="text-[10px] text-slate-400">⏱ {opt.prepTimeMins}m</span>
@@ -130,9 +130,9 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
                         <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                           <span className="font-semibold text-slate-800 dark:text-slate-200">{opt.calories} kcal</span>
                           <span>•</span>
-                          <span className="font-bold text-[#006d41] dark:text-[#5be196]">{opt.protein}g Protein</span>
+                          <span className="font-bold text-[#EA580C] dark:text-[#FB923C]">{opt.protein}g Protein</span>
                           {protDiff > 0 && (
-                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                            <span className="text-[10px] font-bold text-amber-700 dark:text-amber-500">
                               (+{protDiff}g pro)
                             </span>
                           )}
@@ -142,7 +142,7 @@ export const MealSwapperModal: React.FC<MealSwapperModalProps> = ({
 
                     <button
                       onClick={() => handleSelect(opt)}
-                      className="px-4 py-2 rounded-xl bg-[#006d41] hover:bg-[#005a36] text-white text-xs font-bold shrink-0 shadow-xs active:scale-95 transition cursor-pointer flex items-center space-x-1"
+                      className="px-4 py-2 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold shrink-0 shadow-xs active:scale-95 transition cursor-pointer flex items-center space-x-1"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>Select</span>

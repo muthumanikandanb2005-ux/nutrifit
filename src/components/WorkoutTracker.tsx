@@ -66,7 +66,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
       {/* Title Header */}
       <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase">
+          <div className="inline-flex items-center space-x-2 bg-[var(--primarySoft)] text-[var(--primaryDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase">
             <Flame className="w-3.5 h-3.5" />
             <span>Active Energy Burn Tracker</span>
           </div>
@@ -80,7 +80,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
         <div className="bg-[var(--surface2)] border border-[var(--line)] p-4 rounded-2xl text-center shrink-0">
           <div className="text-xs text-[var(--muted)] uppercase font-semibold">Total Active Burn</div>
-          <div className="text-2xl sm:text-3xl font-bold text-[var(--green)] tracking-tight">{totalCaloriesBurned} <span className="text-xs font-normal text-[var(--muted)]">kcal</span></div>
+          <div className="text-2xl sm:text-3xl font-bold text-[var(--primaryAccent)] tracking-tight">{totalCaloriesBurned} <span className="text-xs font-normal text-[var(--muted)]">kcal</span></div>
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
         {/* Workout Form */}
         <form onSubmit={handleAdd} className="lg:col-span-6 bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl space-y-4 shadow-sm">
           <h2 className="text-base font-bold text-[var(--ink)] flex items-center space-x-2 border-b border-[var(--line)] pb-3">
-            <Dumbbell className="w-4 h-4 text-[var(--green)]" />
+            <Dumbbell className="w-4 h-4 text-[var(--primaryAccent)]" />
             <span>Log Exercise Activity</span>
           </h2>
 
@@ -97,7 +97,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
             <select
               value={workoutType}
               onChange={(e) => setWorkoutType(e.target.value as WorkoutEntry['category'])}
-              className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--green)]"
+              className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--primaryAccent)]"
             >
               <option value="weightlifting">Gym Strength & Weightlifting</option>
               <option value="hiit">HIIT & Calisthenics</option>
@@ -114,7 +114,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
               placeholder="e.g. Upper Body Push or 12 Surya Namaskars"
               value={customName}
               onChange={(e) => setCustomName(e.target.value)}
-              className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] placeholder:text-[var(--muted)] text-sm focus:outline-none focus:border-[var(--green)]"
+              className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] placeholder:text-[var(--muted)] text-sm focus:outline-none focus:border-[var(--primaryAccent)]"
             />
           </div>
 
@@ -127,7 +127,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                 max="240"
                 value={duration}
                 onChange={(e) => setDuration(Number(e.target.value))}
-                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--green)]"
+                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--primaryAccent)]"
               />
             </div>
 
@@ -136,7 +136,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
               <select
                 value={intensity}
                 onChange={(e) => setIntensity(e.target.value as WorkoutEntry['intensity'])}
-                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--green)]"
+                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3 py-2.5 text-[var(--ink)] text-sm focus:outline-none focus:border-[var(--primaryAccent)]"
               >
                 <option value="low">Light (Conversational)</option>
                 <option value="moderate">Moderate (Paced)</option>
@@ -147,7 +147,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center space-x-2"
+            className="w-full py-3 bg-[var(--primaryAccent)] hover:bg-[var(--primaryDark)] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm transition-all cursor-pointer flex items-center justify-center space-x-2"
           >
             <Plus className="w-4 h-4" />
             <span>Log Activity (~{calculateCaloriesBurned(workoutType, duration, intensity, profile.weightKg)} kcal)</span>
@@ -158,7 +158,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
         <div className="lg:col-span-6 space-y-3">
           <h2 className="text-base font-bold text-[var(--ink)] flex items-center justify-between">
             <span className="flex items-center space-x-2">
-              <Trophy className="w-4 h-4 text-[var(--green)]" />
+              <Trophy className="w-4 h-4 text-[var(--primaryAccent)]" />
               <span>Today's Logged Workouts ({workouts.length})</span>
             </span>
           </h2>
@@ -178,7 +178,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <h3 className="font-bold text-sm text-[var(--ink)]">{w.name}</h3>
-                      <span className="text-[10px] bg-[var(--greenSoft)] text-[var(--greenDark)] px-2 py-0.5 rounded-full font-semibold uppercase">
+                      <span className="text-[10px] bg-[var(--primarySoft)] text-[var(--primaryDark)] px-2 py-0.5 rounded-full font-semibold uppercase">
                         {w.category}
                       </span>
                     </div>
@@ -197,7 +197,7 @@ export const WorkoutTracker: React.FC<WorkoutTrackerProps> = ({
 
                   <div className="flex items-center space-x-3 shrink-0">
                     <div className="text-right">
-                      <div className="font-bold text-[var(--green)] text-base">-{w.caloriesBurned}</div>
+                      <div className="font-bold text-[var(--primaryAccent)] text-base">-{w.caloriesBurned}</div>
                       <div className="text-[9px] text-[var(--muted)] font-semibold uppercase">kcal burned</div>
                     </div>
 

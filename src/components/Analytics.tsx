@@ -24,7 +24,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
   const currentBMI = calculateBMI(profile.weightKg, profile.heightCm);
 
   let bmiCategory = 'Normal';
-  let bmiColor = 'text-emerald-400';
+  let bmiColor = 'text-amber-500';
   if (currentBMI < 18.5) { bmiCategory = 'Underweight'; bmiColor = 'text-sky-400'; }
   else if (currentBMI >= 25 && currentBMI < 29.9) { bmiCategory = 'Overweight'; bmiColor = 'text-yellow-400'; }
   else if (currentBMI >= 30) { bmiCategory = 'Obese'; bmiColor = 'text-red-400'; }
@@ -40,7 +40,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Header Banner */}
       <div className="bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center space-x-2 bg-amber-500/10 border border-amber-500/20 text-amber-500 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
           <TrendingUp className="w-4 h-4" />
           <span>Weight & BMI Progress Analytics</span>
         </div>
@@ -75,7 +75,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
         <div className="bg-slate-800/80 border border-slate-700/60 p-5 rounded-3xl space-y-1">
           <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
             <span>Estimated Body Fat %</span>
-            <Award className="w-4 h-4 text-emerald-400" />
+            <Award className="w-4 h-4 text-amber-500" />
           </div>
           <div className="text-3xl font-extrabold text-white">
             {profile.gender === 'male' ? Math.round(currentBMI * 1.2 + 0.23 * profile.age - 16.2) : Math.round(currentBMI * 1.2 + 0.23 * profile.age - 5.4)}%
@@ -89,7 +89,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
         {/* Recharts Area Chart */}
         <div className="lg:col-span-8 bg-slate-800/80 border border-slate-700/60 p-6 rounded-3xl shadow-xl space-y-4">
           <h2 className="text-base font-bold text-white flex items-center space-x-2">
-            <TrendingUp className="w-5 h-5 text-emerald-400" />
+            <TrendingUp className="w-5 h-5 text-amber-500" />
             <span>Weight Progress Trend (kg)</span>
           </h2>
 
@@ -139,13 +139,13 @@ export const Analytics: React.FC<AnalyticsProps> = ({
                 required
                 value={newWeight}
                 onChange={(e) => setNewWeight(Number(e.target.value))}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:border-amber-500"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition cursor-pointer"
+              className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition cursor-pointer"
             >
               Log Weight Entry
             </button>

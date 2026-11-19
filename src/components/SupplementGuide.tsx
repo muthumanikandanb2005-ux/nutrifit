@@ -86,7 +86,7 @@ export const SupplementGuide: React.FC = () => {
                     <span className="text-xs bg-purple-500/20 text-purple-300 px-2.5 py-0.5 rounded-full border border-purple-500/30 font-bold uppercase">
                       {supp.category}
                     </span>
-                    <span className="text-xs bg-slate-900 text-emerald-400 px-2 py-0.5 rounded border border-slate-700 font-bold">
+                    <span className="text-xs bg-slate-900 text-amber-500 px-2 py-0.5 rounded border border-slate-700 font-bold">
                       Grade {supp.scientificRating}
                     </span>
                   </div>
@@ -124,7 +124,7 @@ export const SupplementGuide: React.FC = () => {
                 <div className="flex flex-wrap gap-1.5">
                   {supp.benefits.map((b, i) => (
                     <span key={i} className="text-[10px] bg-slate-900 text-slate-300 px-2.5 py-1 rounded-lg border border-slate-700 flex items-center space-x-1">
-                      <Check className="w-3 h-3 text-emerald-400" />
+                      <Check className="w-3 h-3 text-amber-500" />
                       <span>{b}</span>
                     </span>
                   ))}

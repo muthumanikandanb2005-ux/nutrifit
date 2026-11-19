@@ -14,7 +14,7 @@ export const SwiggyGuide: React.FC = () => {
     <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Title Header */}
       <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center space-x-2 bg-[var(--primarySoft)] text-[var(--primaryDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
           <ShoppingBag className="w-4 h-4" />
           <span>Dining Out & Delivery Guide</span>
         </div>
@@ -31,7 +31,7 @@ export const SwiggyGuide: React.FC = () => {
             <button
               onClick={() => setSelectedCuisine('all')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-                selectedCuisine === 'all' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
+                selectedCuisine === 'all' ? 'bg-[var(--surface)] text-[var(--primaryDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               All Cuisines
@@ -39,7 +39,7 @@ export const SwiggyGuide: React.FC = () => {
             <button
               onClick={() => setSelectedCuisine('north_indian')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-                selectedCuisine === 'north_indian' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
+                selectedCuisine === 'north_indian' ? 'bg-[var(--surface)] text-[var(--primaryDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               North Indian
@@ -47,7 +47,7 @@ export const SwiggyGuide: React.FC = () => {
             <button
               onClick={() => setSelectedCuisine('south_indian')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-                selectedCuisine === 'south_indian' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
+                selectedCuisine === 'south_indian' ? 'bg-[var(--surface)] text-[var(--primaryDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               South Indian
@@ -55,7 +55,7 @@ export const SwiggyGuide: React.FC = () => {
             <button
               onClick={() => setSelectedCuisine('chinese')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-                selectedCuisine === 'chinese' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
+                selectedCuisine === 'chinese' ? 'bg-[var(--surface)] text-[var(--primaryDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               Indo-Chinese
@@ -63,7 +63,7 @@ export const SwiggyGuide: React.FC = () => {
             <button
               onClick={() => setSelectedCuisine('mughlai')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition ${
-                selectedCuisine === 'mughlai' ? 'bg-[var(--surface)] text-[var(--greenDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
+                selectedCuisine === 'mughlai' ? 'bg-[var(--surface)] text-[var(--primaryDark)] shadow-sm font-bold' : 'text-[var(--muted)] hover:text-[var(--ink)]'
               }`}
             >
               Mughlai
@@ -93,18 +93,18 @@ export const SwiggyGuide: React.FC = () => {
 
             {/* Swap Arrow */}
             <div className="md:col-span-2 text-center flex flex-col items-center justify-center">
-              <div className="w-9 h-9 rounded-full bg-[var(--surface2)] text-[var(--green)] flex items-center justify-center border border-[var(--line)]">
+              <div className="w-9 h-9 rounded-full bg-[var(--surface2)] text-[var(--primaryAccent)] flex items-center justify-center border border-[var(--line)]">
                 <ArrowRight className="w-4 h-4 hidden md:block" />
                 <span className="md:hidden text-[10px] font-bold">SWAP</span>
               </div>
-              <span className="text-[10px] text-[var(--greenDark)] font-semibold mt-1">
+              <span className="text-[10px] text-[var(--primaryDark)] font-semibold mt-1">
                 -{item.unhealthyCalories - item.healthyCalories} kcal
               </span>
             </div>
 
             {/* Healthy Fitness Swap */}
-            <div className="md:col-span-5 bg-[var(--greenSoft)] border border-[var(--line)] p-4 rounded-xl space-y-1.5">
-              <div className="flex justify-between items-center text-xs font-semibold text-[var(--greenDark)]">
+            <div className="md:col-span-5 bg-[var(--primarySoft)] border border-[var(--line)] p-4 rounded-xl space-y-1.5">
+              <div className="flex justify-between items-center text-xs font-semibold text-[var(--primaryDark)]">
                 <span className="flex items-center space-x-1">
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Nourishing Swap</span>

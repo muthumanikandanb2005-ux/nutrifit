@@ -150,17 +150,17 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
       {/* Backdrop */}
       <div className="fixed inset-0" onClick={onClose} />
 
-      <div className="relative w-full max-w-2xl bg-white dark:bg-[#162019] rounded-[32px] border border-[#dae5dc] dark:border-[#28382c] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] z-10 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-[#1C1511] rounded-[32px] border border-[#EEDEC1] dark:border-[#3A291E] shadow-2xl overflow-hidden flex flex-col max-h-[92vh] z-10 animate-in zoom-in-95 duration-200">
         
         {/* Top Header Bar */}
-        <div className="p-4 sm:p-5 pb-3 border-b border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between bg-[#f8faf8] dark:bg-[#131c15]">
+        <div className="p-4 sm:p-5 pb-3 border-b border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between bg-[#f8faf8] dark:bg-[#19120E]">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#006d41] text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-[#EA580C] text-white flex items-center justify-center shadow-xs">
               <ChefHat className="w-5 h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
                   Hands-Free Cook Mode
                 </span>
                 <span className="text-xs text-slate-400 font-medium">
@@ -174,7 +174,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           </div>
           <button 
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white dark:bg-[#1f2923] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-9 h-9 rounded-full bg-white dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
             aria-label="Close cook mode"
           >
             <X className="w-4 h-4" />
@@ -187,26 +187,26 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           {/* Step Progress Visual Bar */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-bold text-slate-500 dark:text-slate-400">
-              <span className="text-[#006d41] dark:text-[#5be196]">Step {currentStep + 1} of {instructions.length}</span>
+              <span className="text-[#EA580C] dark:text-[#FB923C]">Step {currentStep + 1} of {instructions.length}</span>
               <span>{Math.round(((currentStep + 1) / instructions.length) * 100)}% Complete</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[#e5f1e7] dark:bg-[#202d23] overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
               <div 
-                className="h-full bg-[#006d41] dark:bg-[#5be196] rounded-full transition-all duration-300"
+                className="h-full bg-[#EA580C] dark:bg-[#FB923C] rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep + 1) / instructions.length) * 100}%` }}
               />
             </div>
           </div>
 
           {/* Current Step Active Card (Big Readable Type for Kitchen) */}
-          <div className="p-5 sm:p-6 rounded-3xl bg-[#f1fcf3] dark:bg-[#1c2920] border-2 border-[#bceecf] dark:border-[#2f4234] shadow-sm space-y-4">
+          <div className="p-5 sm:p-6 rounded-3xl bg-[#FFFBF5] dark:bg-[#1c2920] border-2 border-[#FED7AA] dark:border-[#2f4234] shadow-sm space-y-4">
             <div className="flex items-center justify-between">
-              <span className="w-8 h-8 rounded-full bg-[#006d41] text-white flex items-center justify-center font-black text-sm shadow-xs">
+              <span className="w-8 h-8 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-black text-sm shadow-xs">
                 {currentStep + 1}
               </span>
               <button
                 onClick={speakCurrentStep}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#2d3a31] text-xs font-bold text-[#006d41] dark:text-[#5be196] shadow-xs active:scale-95 transition cursor-pointer"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-[#EA580C] dark:text-[#FB923C] shadow-xs active:scale-95 transition cursor-pointer"
                 title="Read step out loud"
               >
                 {isSpeaking ? (
@@ -228,17 +228,17 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
             </p>
 
             {food.tips && currentStep === 0 && (
-              <div className="p-3 rounded-2xl bg-white/80 dark:bg-[#141d16] border border-[#dae5dc] dark:border-[#2d3a31] flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-300">
-                <Sparkles className="w-4 h-4 text-[#006d41] dark:text-[#5be196] shrink-0 mt-0.5" />
+              <div className="p-3 rounded-2xl bg-white/80 dark:bg-[#141d16] border border-[#EEDEC1] dark:border-[#3A2A1F] flex items-start space-x-2.5 text-xs text-slate-600 dark:text-slate-300">
+                <Sparkles className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C] shrink-0 mt-0.5" />
                 <span><strong>Chef's Tip:</strong> {food.tips}</span>
               </div>
             )}
           </div>
 
           {/* Built-in Kitchen Timer */}
-          <div className="p-4 rounded-3xl bg-[#f8faf8] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="p-4 rounded-3xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
                 <Clock className="w-5 h-5" />
               </div>
               <div>
@@ -258,7 +258,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
                 className={`flex items-center space-x-1.5 px-4 py-2 rounded-2xl font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer ${
                   isTimerRunning 
                     ? 'bg-amber-500 hover:bg-amber-600 text-white' 
-                    : 'bg-[#006d41] hover:bg-[#005a36] text-white'
+                    : 'bg-[#EA580C] hover:bg-[#C2410C] text-white'
                 }`}
               >
                 {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -269,7 +269,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
                   haptic.light();
                   setTimeLeft(prev => prev + 60);
                 }}
-                className="px-2.5 py-2 rounded-2xl bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#2d3a31] text-xs font-bold text-slate-700 dark:text-slate-200 active:scale-95 transition cursor-pointer"
+                className="px-2.5 py-2 rounded-2xl bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-700 dark:text-slate-200 active:scale-95 transition cursor-pointer"
                 title="Add 1 minute"
               >
                 +1 min
@@ -280,7 +280,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
                   setIsTimerRunning(false);
                   setTimeLeft(defaultTimerSeconds);
                 }}
-                className="w-8 h-8 rounded-2xl bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center active:scale-95 transition cursor-pointer"
+                className="w-8 h-8 rounded-2xl bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center justify-center active:scale-95 transition cursor-pointer"
                 title="Reset timer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -306,14 +306,14 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
                     onClick={() => toggleIngredient(idx)}
                     className={`p-2.5 rounded-2xl border text-left flex items-center justify-between transition cursor-pointer ${
                       isChecked 
-                        ? 'bg-[#ebf7ed] dark:bg-[#1c2920] border-[#bceecf] dark:border-[#2c4031] text-slate-400 line-through'
-                        : 'bg-white dark:bg-[#1a251e] border-[#dae5dc] dark:border-[#28382c] text-slate-800 dark:text-slate-200 hover:border-slate-300'
+                        ? 'bg-[#FEF3C7] dark:bg-[#1c2920] border-[#FED7AA] dark:border-[#2c4031] text-slate-400 line-through'
+                        : 'bg-white dark:bg-[#231811] border-[#EEDEC1] dark:border-[#3A291E] text-slate-800 dark:text-slate-200 hover:border-slate-300'
                     }`}
                   >
                     <div className="flex items-center space-x-2">
                       <div className={`w-5 h-5 rounded-lg flex items-center justify-center border ${
                         isChecked 
-                          ? 'bg-[#006d41] border-[#006d41] text-white' 
+                          ? 'bg-[#EA580C] border-[#EA580C] text-white' 
                           : 'border-slate-300 dark:border-slate-600 bg-transparent'
                       }`}>
                         {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
@@ -330,11 +330,11 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
         </div>
 
         {/* Bottom Navigation Buttons */}
-        <div className="p-4 sm:p-5 border-t border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between bg-[#f8faf8] dark:bg-[#131c15]">
+        <div className="p-4 sm:p-5 border-t border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between bg-[#f8faf8] dark:bg-[#19120E]">
           <button
             onClick={handlePrevStep}
             disabled={currentStep === 0}
-            className="px-4 py-2.5 rounded-2xl border border-[#dae5dc] dark:border-[#2d3a31] text-xs font-bold text-slate-700 dark:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-[#1f2923] flex items-center space-x-1.5 transition cursor-pointer"
+            className="px-4 py-2.5 rounded-2xl border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-700 dark:text-slate-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-[#251C17] flex items-center space-x-1.5 transition cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
             <span>Previous</span>
@@ -343,7 +343,7 @@ export const HandsFreeCookingModal: React.FC<HandsFreeCookingModalProps> = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={handleNextStep}
-              className="px-6 py-2.5 rounded-2xl bg-[#006d41] hover:bg-[#005a36] text-white text-xs font-bold flex items-center space-x-1.5 shadow-md active:scale-95 transition cursor-pointer"
+              className="px-6 py-2.5 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold flex items-center space-x-1.5 shadow-md active:scale-95 transition cursor-pointer"
             >
               <span>{currentStep === instructions.length - 1 ? 'Finish & Mark Eaten' : 'Next Step'}</span>
               {currentStep === instructions.length - 1 ? (

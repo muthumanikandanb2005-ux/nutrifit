@@ -13,10 +13,10 @@ export async function initializeAndroidSystem(theme: 'light' | 'dark' = 'light')
     // Set status bar theme & background matching Botanical Culinary canvas
     if (theme === 'dark') {
       await StatusBar.setStyle({ style: Style.Dark });
-      await StatusBar.setBackgroundColor({ color: '#141e18' });
+      await StatusBar.setBackgroundColor({ color: '#15100E' });
     } else {
       await StatusBar.setStyle({ style: Style.Light });
-      await StatusBar.setBackgroundColor({ color: '#f1fcf3' });
+      await StatusBar.setBackgroundColor({ color: '#FFFBF5' });
     }
     // Prevent web content from being awkwardly cut off by system bars
     await StatusBar.setOverlaysWebView({ overlay: false });

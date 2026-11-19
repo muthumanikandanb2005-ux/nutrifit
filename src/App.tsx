@@ -359,8 +359,8 @@ export function AppContent() {
               className={cx(
                 "p-4 rounded-3xl border transition-all shadow-xs group",
                 isEaten 
-                  ? "bg-[#f8faf8] dark:bg-[#131d16] border-[#dae5dc] dark:border-[#223326] opacity-90"
-                  : "bg-white dark:bg-[#162019] border-[#dae5dc] dark:border-[#28382c] hover:border-[#006d41] dark:hover:border-[#5be196]"
+                  ? "bg-[#f8faf8] dark:bg-[#131d16] border-[#EEDEC1] dark:border-[#312219] opacity-90"
+                  : "bg-white dark:bg-[#1C1511] border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] dark:hover:border-[#FB923C]"
               )}
             >
               <div className="flex items-start sm:items-center justify-between gap-3">
@@ -375,8 +375,8 @@ export function AppContent() {
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
                   />
                   {isEaten && (
-                    <div className="absolute inset-0 bg-[#006d41]/40 backdrop-blur-[1px] flex items-center justify-center">
-                      <div className="w-7 h-7 rounded-full bg-white text-[#006d41] flex items-center justify-center shadow">
+                    <div className="absolute inset-0 bg-[#EA580C]/40 backdrop-blur-[1px] flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full bg-white text-[#EA580C] flex items-center justify-center shadow">
                         <Check className="w-4 h-4 stroke-[3]" />
                       </div>
                     </div>
@@ -389,7 +389,7 @@ export function AppContent() {
                 {/* Dish Details */}
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
                       {slotData.label}
                     </span>
                     <span className="text-xs text-slate-400 font-medium">• {slotData.time}</span>
@@ -398,7 +398,7 @@ export function AppContent() {
                   <h4 
                     onClick={() => setSelectedRecipe(dish)}
                     className={cx(
-                      "text-sm sm:text-base font-bold truncate cursor-pointer hover:text-[#006d41] dark:hover:text-[#5be196] transition",
+                      "text-sm sm:text-base font-bold truncate cursor-pointer hover:text-[#EA580C] dark:hover:text-[#FB923C] transition",
                       isEaten ? "line-through text-slate-500 dark:text-slate-400" : "text-slate-900 dark:text-white"
                     )}
                     title={dish.name}
@@ -416,10 +416,10 @@ export function AppContent() {
                       <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
                       <span>{dish.calories} kcal</span>
                     </span>
-                    <span className="px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1a2c1f] text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">
+                    <span className="px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#251912] text-amber-800 dark:text-amber-400 text-[10px] font-bold">
                       {dish.protein}g Protein
                     </span>
-                    <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#202c23] text-slate-600 dark:text-slate-400 text-[10px] font-medium">
+                    <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#2D2018] text-slate-600 dark:text-slate-400 text-[10px] font-medium">
                       {dish.carbs}g Carbs
                     </span>
                   </div>
@@ -432,8 +432,8 @@ export function AppContent() {
                     className={cx(
                       "flex items-center space-x-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer active:scale-95 shadow-2xs",
                       isEaten 
-                        ? "bg-[#006d41] text-white" 
-                        : "bg-white dark:bg-[#1f2923] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-700 dark:text-slate-200 hover:border-[#006d41]"
+                        ? "bg-[#EA580C] text-white" 
+                        : "bg-white dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-700 dark:text-slate-200 hover:border-[#EA580C]"
                     )}
                     title={isEaten ? "Mark as not eaten" : "Mark as eaten"}
                   >
@@ -444,7 +444,7 @@ export function AppContent() {
               </div>
 
               {/* Action Toolbar on Card */}
-              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#202c23] flex items-center justify-between gap-2">
+              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#2D2018] flex items-center justify-between gap-2">
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => {
@@ -452,7 +452,7 @@ export function AppContent() {
                       setCookingFood(dish);
                       setIsCookModeOpen(true);
                     }}
-                    className="flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-[#006d41] hover:bg-[#005a36] text-white font-bold text-xs shadow-xs active:scale-95 transition cursor-pointer"
+                    className="flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs shadow-xs active:scale-95 transition cursor-pointer"
                   >
                     <Play className="w-3.5 h-3.5 fill-white" />
                     <span>Cook Mode</span>
@@ -463,16 +463,16 @@ export function AppContent() {
                       haptic.selection();
                       setSwappingSlot(slotData.slot);
                     }}
-                    className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-[#f8faf8] dark:bg-[#1f2923] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-700 dark:text-slate-200 font-bold text-xs hover:border-[#006d41] active:scale-95 transition cursor-pointer"
+                    className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-[#f8faf8] dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-700 dark:text-slate-200 font-bold text-xs hover:border-[#EA580C] active:scale-95 transition cursor-pointer"
                   >
-                    <RefreshCw className="w-3 h-3 text-[#006d41] dark:text-[#5be196]" />
+                    <RefreshCw className="w-3 h-3 text-[#EA580C] dark:text-[#FB923C]" />
                     <span>Swap</span>
                   </button>
                 </div>
 
                 <button
                   onClick={() => setSelectedRecipe(dish)}
-                  className="text-xs font-bold text-[#006d41] dark:text-[#5be196] hover:underline cursor-pointer flex items-center space-x-1"
+                  className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline cursor-pointer flex items-center space-x-1"
                 >
                   <span>Recipe Details</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -493,14 +493,14 @@ export function AppContent() {
     <div className="space-y-5 animate-in fade-in duration-200">
       
       {/* 1. Daily Fuel & Macro Bento Card (Stitch Design) */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-4">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
               Daily Energy Fuel
             </span>
             <div className="flex items-baseline space-x-2 mt-0.5">
-              <h2 className="text-2xl sm:text-3xl font-black text-[#14422d] dark:text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-black text-[#7C2D12] dark:text-white tracking-tight">
                 {caloriesLogged.toLocaleString()}
               </h2>
               <span className="text-sm font-semibold text-slate-400">
@@ -510,8 +510,8 @@ export function AppContent() {
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="px-3 py-1.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] font-bold text-xs flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#006d41] dark:bg-[#5be196] animate-pulse" />
+            <span className="px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] font-bold text-xs flex items-center space-x-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#EA580C] dark:bg-[#FB923C] animate-pulse" />
               <span>{Math.max(0, macroGoals.calories - caloriesLogged)} kcal remaining</span>
             </span>
           </div>
@@ -520,16 +520,16 @@ export function AppContent() {
         {/* 3 Macro Progress Bars */}
         <div className="grid grid-cols-3 gap-2.5">
           {/* Protein */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328]">
+          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
               <span className="font-bold text-slate-600 dark:text-slate-400">Protein</span>
-              <span className="font-black text-[#006d41] dark:text-[#5be196]">
+              <span className="font-black text-[#EA580C] dark:text-[#FB923C]">
                 {Math.min(100, Math.round((proteinLogged / (macroGoals.proteinGrams || 1)) * 100))}%
               </span>
             </div>
-            <div className="w-full h-2 rounded-full bg-[#e5f1e7] dark:bg-[#202d23] overflow-hidden">
+            <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
               <div 
-                className="h-full bg-[#006d41] dark:bg-[#5be196] rounded-full transition-all duration-500"
+                className="h-full bg-[#EA580C] dark:bg-[#FB923C] rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.round((proteinLogged / (macroGoals.proteinGrams || 1)) * 100))}%` }}
               />
             </div>
@@ -539,7 +539,7 @@ export function AppContent() {
           </div>
 
           {/* Carbs */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328]">
+          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
               <span className="font-bold text-slate-600 dark:text-slate-400">Carbs</span>
               <span className="font-black text-[#2ba5f7]">
@@ -558,7 +558,7 @@ export function AppContent() {
           </div>
 
           {/* Fats */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328]">
+          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
             <div className="flex justify-between items-center text-xs mb-1">
               <span className="font-bold text-slate-600 dark:text-slate-400">Fats</span>
               <span className="font-black text-[#e07a5f]">
@@ -578,7 +578,7 @@ export function AppContent() {
         </div>
 
         {/* Interactive Hydration Counter Bar */}
-        <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328] flex items-center justify-between">
+        <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B] flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
             <div className="w-8 h-8 rounded-full bg-[#e8f6fd] text-[#2ba5f7] flex items-center justify-center">
               <Droplets className="w-4 h-4" />
@@ -597,7 +597,7 @@ export function AppContent() {
                 setWaterAmount(prev => Math.max(0, prev - 200));
                 haptic.light();
               }}
-              className="w-8 h-8 rounded-full bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#2d3a31] text-slate-600 dark:text-slate-300 flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer"
+              className="w-8 h-8 rounded-full bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-600 dark:text-slate-300 flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer"
               title="Minus 1 glass"
             >
               -
@@ -608,7 +608,7 @@ export function AppContent() {
                 haptic.medium();
                 notify("Logged 1 glass of water (+200ml)!");
               }}
-              className="w-8 h-8 rounded-full bg-[#006d41] text-white flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer shadow-xs"
+              className="w-8 h-8 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer shadow-xs"
               title="Add 1 glass"
             >
               +
@@ -618,12 +618,12 @@ export function AppContent() {
       </div>
 
       {/* 2. AI Smart Sous-Chef Coach Tip Banner */}
-      <div className="p-4 rounded-3xl bg-[#2d5a43] text-white shadow-sm flex items-center space-x-3.5 relative overflow-hidden">
+      <div className="p-4 rounded-3xl bg-[#9A3412] text-white shadow-sm flex items-center space-x-3.5 relative overflow-hidden">
         <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
-          <Sparkles className="w-5 h-5 text-[#9fcfb2]" />
+          <Sparkles className="w-5 h-5 text-[#FDBA74]" />
         </div>
         <div className="flex-1 min-w-0 pr-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#9fcfb2] block">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#FDBA74] block">
             AI Nutrition Cue • {profile.bodyType ? profile.bodyType.toUpperCase() : 'FITNESS'}
           </span>
           <p className="text-xs sm:text-sm font-medium leading-snug text-white/95">
@@ -637,21 +637,21 @@ export function AppContent() {
       </div>
 
       {/* 3. Goal & Somatotype Controller */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-4 sm:p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-3.5">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 sm:p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <SlidersHorizontal className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+            <SlidersHorizontal className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Diet Goal & Body Type (Somatotype)
             </h3>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
             100% Indian Diet
           </span>
         </div>
 
         {/* 3 Goal Selection Buttons */}
-        <div className="grid grid-cols-3 gap-2 p-1 bg-[#ebf7ed] dark:bg-[#141d16] rounded-2xl">
+        <div className="grid grid-cols-3 gap-2 p-1 bg-[#FEF3C7] dark:bg-[#141d16] rounded-2xl">
           {[
             { id: 'fat_loss' as const, label: 'Weight Loss', desc: '-20% Deficit' },
             { id: 'maintenance' as const, label: 'Maintain', desc: 'TDEE Balance' },
@@ -669,12 +669,12 @@ export function AppContent() {
                 className={cx(
                   "py-2 px-1 rounded-xl text-center transition cursor-pointer active:scale-95 flex flex-col items-center justify-center",
                   isSelected
-                    ? "bg-[#006d41] text-white shadow-xs font-bold"
+                    ? "bg-[#EA580C] text-white shadow-xs font-bold"
                     : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-xs"
                 )}
               >
                 <span className="text-xs">{g.label}</span>
-                <span className={cx("text-[9px] mt-0.5", isSelected ? "text-[#bceecf]" : "opacity-60")}>
+                <span className={cx("text-[9px] mt-0.5", isSelected ? "text-[#FED7AA]" : "opacity-60")}>
                   {g.desc}
                 </span>
               </button>
@@ -708,8 +708,8 @@ export function AppContent() {
                   className={cx(
                     "p-2 rounded-xl text-left border transition cursor-pointer active:scale-95",
                     isSelected
-                      ? "border-[#006d41] bg-[#f1fcf3] dark:bg-[#1a251e] text-[#006d41] dark:text-[#5be196] font-bold"
-                      : "border-[#dae5dc] dark:border-[#28382c] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#1a251e]"
+                      ? "border-[#EA580C] bg-[#FFFBF5] dark:bg-[#231811] text-[#EA580C] dark:text-[#FB923C] font-bold"
+                      : "border-[#EEDEC1] dark:border-[#3A291E] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#231811]"
                   )}
                 >
                   <div className="text-[11px] font-bold leading-tight">{bt.label}</div>
@@ -722,7 +722,7 @@ export function AppContent() {
       </div>
 
       {/* 4. Horizontal 7-Day Date Selector Strip */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-3 sm:p-4 border border-[#dae5dc] dark:border-[#28382c] shadow-xs">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs">
         <div className="flex items-center justify-between mb-2 px-1">
           <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
             August 2025 • Daily Kitchen Schedule
@@ -733,7 +733,7 @@ export function AppContent() {
               setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex + Math.floor(Math.random() * 5 + 1)));
               notify("Shuffled with fresh regional recipes!");
             }}
-            className="flex items-center space-x-1 text-xs font-bold text-[#006d41] dark:text-[#5be196] hover:underline cursor-pointer"
+            className="flex items-center space-x-1 text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline cursor-pointer"
           >
             <RefreshCw className="w-3 h-3" />
             <span>Shuffle Dishes</span>
@@ -753,17 +753,17 @@ export function AppContent() {
                 className={cx(
                   "py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition cursor-pointer active:scale-95",
                   isSelected 
-                    ? "bg-[#006d41] text-white font-bold shadow-xs" 
-                    : "bg-[#f8faf8] dark:bg-[#131c15] text-slate-700 dark:text-slate-300 hover:bg-[#ebf7ed] dark:hover:bg-[#1f2b22]"
+                    ? "bg-[#EA580C] text-white font-bold shadow-xs" 
+                    : "bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 hover:bg-[#FEF3C7] dark:hover:bg-[#261B14]"
                 )}
               >
-                <span className={cx("text-[10px] font-medium", isSelected ? "text-[#bceecf]" : "text-slate-400")}>
+                <span className={cx("text-[10px] font-medium", isSelected ? "text-[#FED7AA]" : "text-slate-400")}>
                   {item.day}
                 </span>
                 <span className={cx("text-sm font-bold mt-0.5", isSelected ? "text-white" : "text-slate-800 dark:text-slate-200")}>
                   {item.date}
                 </span>
-                <span className={cx("w-1.5 h-1.5 rounded-full mt-1", isSelected ? "bg-[#bceecf]" : "bg-transparent")} />
+                <span className={cx("w-1.5 h-1.5 rounded-full mt-1", isSelected ? "bg-[#FED7AA]" : "bg-transparent")} />
               </button>
             );
           })}
@@ -775,7 +775,7 @@ export function AppContent() {
         <div className="flex items-center justify-between px-1">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2">
-              <Utensils className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+              <Utensils className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
               <span>Today's Indian Fitness Meal Plan</span>
             </h3>
             <p className="text-xs text-slate-400">
@@ -800,32 +800,32 @@ export function AppContent() {
     <div className="space-y-5">
       
       {/* 1. Fasting Tracker Live Ring Widget */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Timer className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+            <Timer className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Intermittent Fasting
             </h3>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
             16:8 Protocol
           </span>
         </div>
 
-        <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328]">
+        <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
           <div>
             <div className="text-[10px] text-slate-400 font-bold uppercase">Status</div>
             <div className="text-lg font-black text-slate-900 dark:text-white font-mono">
               14h 22m fasted
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
+            <div className="text-[11px] text-amber-700 dark:text-amber-500 font-semibold mt-0.5">
               🔥 Ketosis & Autophagy Zone
             </div>
           </div>
           <button
             onClick={() => setActiveScreen('fasting')}
-            className="px-3 py-1.5 rounded-xl bg-[#006d41] text-white text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer"
+            className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer"
           >
             Fasting Hub
           </button>
@@ -833,10 +833,10 @@ export function AppContent() {
       </div>
 
       {/* 2. Weight & Somatotype Telemetry */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Scale className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+            <Scale className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               Body Telemetry
             </h3>
@@ -850,7 +850,7 @@ export function AppContent() {
                 setWeightUnit(prev => prev === 'kg' ? 'lb' : 'kg');
                 haptic.selection();
               }}
-              className="px-1.5 py-0.5 rounded-md bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] text-[10px] font-bold cursor-pointer"
+              className="px-1.5 py-0.5 rounded-md bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-[10px] font-bold cursor-pointer"
               title="Toggle kg/lb unit"
             >
               {weightUnit.toUpperCase()}
@@ -866,7 +866,7 @@ export function AppContent() {
             <span className="text-xs font-bold text-slate-400 ml-1.5">{weightUnit}</span>
           </div>
           <div className="text-right">
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+            <span className="text-xs font-bold text-amber-700 dark:text-amber-500">
               -3.4 kg past 30 days
             </span>
             <div className="text-[10px] text-slate-400">BMI: 22.6 (Healthy)</div>
@@ -882,7 +882,7 @@ export function AppContent() {
             step={0.1}
             value={profile.weightKg}
             onChange={(e) => setProfile(prev => ({ ...prev, weightKg: parseFloat(e.target.value) }))}
-            className="w-full accent-[#006d41] cursor-pointer"
+            className="w-full accent-[#EA580C] cursor-pointer"
           />
           <div className="flex justify-between text-[10px] text-slate-400">
             <span>50 kg</span>
@@ -893,17 +893,17 @@ export function AppContent() {
       </div>
 
       {/* 3. Quick AI Personal Nutritionist Assistant Widget */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Bot className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+            <Bot className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
               AI Desi Nutritionist
             </h3>
           </div>
           <button 
             onClick={() => setActiveScreen('coach')}
-            className="text-xs font-bold text-[#006d41] dark:text-[#5be196] hover:underline"
+            className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C] hover:underline"
           >
             Open Full Chat
           </button>
@@ -918,19 +918,19 @@ export function AppContent() {
             <button
               key={i}
               onClick={() => setActiveScreen('coach')}
-              className="w-full text-left p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#243328] hover:border-[#006d41] text-xs font-semibold text-slate-700 dark:text-slate-300 transition cursor-pointer flex items-center justify-between group"
+              className="w-full text-left p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B] hover:border-[#EA580C] text-xs font-semibold text-slate-700 dark:text-slate-300 transition cursor-pointer flex items-center justify-between group"
             >
               <span>{prompt}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#006d41]" />
+              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#EA580C]" />
             </button>
           ))}
         </div>
       </div>
 
       {/* 4. Quick Smart Grocery Hub Trigger */}
-      <div className="p-4 rounded-3xl bg-[#ebf7ed] dark:bg-[#16241a] border border-[#bceecf] dark:border-[#273d2d] flex items-center justify-between">
+      <div className="p-4 rounded-3xl bg-[#FEF3C7] dark:bg-[#241811] border border-[#FED7AA] dark:border-[#3A281E] flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-2xl bg-[#006d41] text-white flex items-center justify-center shadow-xs">
+          <div className="w-9 h-9 rounded-2xl bg-[#EA580C] text-white flex items-center justify-center shadow-xs">
             <ShoppingBag className="w-4 h-4 text-white" />
           </div>
           <div>
@@ -940,7 +940,7 @@ export function AppContent() {
         </div>
         <button
           onClick={() => setActiveScreen('grocery')}
-          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#202c23] border border-[#dae5dc] dark:border-[#2d3a31] text-xs font-bold text-slate-800 dark:text-slate-200 shadow-xs hover:border-[#006d41] transition cursor-pointer"
+          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-800 dark:text-slate-200 shadow-xs hover:border-[#EA580C] transition cursor-pointer"
         >
           View List
         </button>
@@ -965,28 +965,28 @@ export function AppContent() {
         </div>
         <button
           onClick={() => setActiveScreen('dashboard')}
-          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#1a251e] border border-[#dae5dc] dark:border-[#28382c] text-xs font-bold text-slate-700 dark:text-slate-300"
+          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-700 dark:text-slate-300"
         >
           Back to Plan
         </button>
       </div>
 
       {/* Calorie Balance Summary */}
-      <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-4">
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Average Daily Intake</span>
-            <div className="text-3xl font-black text-[#14422d] dark:text-white mt-0.5">
+            <div className="text-3xl font-black text-[#7C2D12] dark:text-white mt-0.5">
               1,840 <span className="text-sm font-normal text-slate-400">kcal/day</span>
             </div>
           </div>
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196]">
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C]">
             -420 kcal Deficit (On Track)
           </span>
         </div>
 
         {/* 7-Day Chart Bars */}
-        <div className="grid grid-cols-7 gap-2 items-end h-40 pt-4 border-b border-slate-100 dark:border-[#202c23] pb-2">
+        <div className="grid grid-cols-7 gap-2 items-end h-40 pt-4 border-b border-slate-100 dark:border-[#2D2018] pb-2">
           {[
             { day: 'Mon', pct: 85, kcal: 1780 },
             { day: 'Tue', pct: 90, kcal: 1890 },
@@ -1001,11 +1001,11 @@ export function AppContent() {
               <div 
                 className={cx(
                   "w-full rounded-t-xl transition-all duration-500",
-                  item.peak ? "bg-[#006d41] shadow-xs" : "bg-[#dae5dc] dark:bg-[#28382c]"
+                  item.peak ? "bg-[#EA580C] shadow-xs" : "bg-[#EEDEC1] dark:bg-[#3A291E]"
                 )}
                 style={{ height: `${item.pct}%` }}
               />
-              <span className={cx("text-xs font-semibold", item.peak ? "text-[#006d41] dark:text-[#5be196] font-bold" : "text-slate-400")}>
+              <span className={cx("text-xs font-semibold", item.peak ? "text-[#EA580C] dark:text-[#FB923C] font-bold" : "text-slate-400")}>
                 {item.day}
               </span>
             </div>
@@ -1017,10 +1017,10 @@ export function AppContent() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <div 
           onClick={() => setActiveScreen('workouts')}
-          className="p-4 rounded-3xl bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#006d41] transition"
+          className="p-4 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#EA580C] transition"
         >
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#eef9ee] dark:bg-[#1a2c1f] text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-[#FFF7ED] dark:bg-[#251912] text-amber-700 dark:text-amber-500 flex items-center justify-center">
               <Activity className="w-5 h-5" />
             </div>
             <div>
@@ -1033,7 +1033,7 @@ export function AppContent() {
 
         <div 
           onClick={() => setActiveScreen('account')}
-          className="p-4 rounded-3xl bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#006d41] transition"
+          className="p-4 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#EA580C] transition"
         >
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-2xl bg-[#fef6e7] dark:bg-[#2b2214] text-amber-600 dark:text-amber-400 flex items-center justify-center">
@@ -1055,13 +1055,13 @@ export function AppContent() {
   // RENDER: Desktop Top Navigation Bar
   // ========================================================
   const renderDesktopTopNav = () => (
-    <header className="bg-white/90 dark:bg-[#162019]/90 backdrop-blur-xl border border-[#dae5dc] dark:border-[#28382c] rounded-3xl px-6 py-3 flex items-center justify-between shadow-xs select-none">
+    <header className="bg-white/90 dark:bg-[#1C1511]/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-[#3A291E] rounded-3xl px-6 py-3 flex items-center justify-between shadow-xs select-none">
       {/* Brand Logo */}
       <div className="flex items-center space-x-3">
         <img 
           src="/app-icon.png" 
           alt="NutriFit Logo" 
-          className="w-9 h-9 rounded-2xl object-cover border border-[#dae5dc] dark:border-[#2f4034] shadow-xs" 
+          className="w-9 h-9 rounded-2xl object-cover border border-[#EEDEC1] dark:border-[#2f4034] shadow-xs" 
         />
         <div>
           <span className="font-extrabold text-base text-slate-900 dark:text-white tracking-tight">NutriFit</span>
@@ -1072,7 +1072,7 @@ export function AppContent() {
       </div>
 
       {/* Center Navigation Links */}
-      <nav className="hidden md:flex items-center space-x-1 bg-[#f8faf8] dark:bg-[#131c15] p-1 rounded-2xl border border-[#dae5dc] dark:border-[#243328]">
+      <nav className="hidden md:flex items-center space-x-1 bg-[#f8faf8] dark:bg-[#19120E] p-1 rounded-2xl border border-[#EEDEC1] dark:border-[#34251B]">
         {[
           { id: 'dashboard', label: 'Today Plan' },
           { id: 'statistic', label: 'Analytics' },
@@ -1090,7 +1090,7 @@ export function AppContent() {
             className={cx(
               "px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer",
               activeScreen === item.id 
-                ? "bg-[#006d41] text-white shadow-xs" 
+                ? "bg-[#EA580C] text-white shadow-xs" 
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             )}
           >
@@ -1101,7 +1101,7 @@ export function AppContent() {
 
       {/* Right Controls: Streak, Simulator Toggle, Theme, Clerk Auth */}
       <div className="flex items-center space-x-2.5">
-        <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] text-xs font-bold">
+        <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-xs font-bold">
           <Flame className="w-3.5 h-3.5 fill-[#f59e0b] text-[#f59e0b]" />
           <span>5d Streak</span>
         </div>
@@ -1113,7 +1113,7 @@ export function AppContent() {
             setDesktopMode(next);
             notify(`Switched to ${next === 'responsive' ? 'Responsive Web' : 'Phone Simulator'} mode`);
           }}
-          className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#dae5dc] dark:border-[#2d3a31] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1f2923] transition cursor-pointer"
+          className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#251C17] transition cursor-pointer"
           title="Toggle view mode"
         >
           {desktopMode === 'responsive' ? <Smartphone className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
@@ -1128,7 +1128,7 @@ export function AppContent() {
             haptic.selection();
             notify(`Switched to ${next} theme.`);
           }}
-          className="w-9 h-9 rounded-xl bg-white dark:bg-[#1a251e] border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-xs hover:bg-slate-50 transition cursor-pointer"
+          className="w-9 h-9 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-xs hover:bg-slate-50 transition cursor-pointer"
           title="Toggle Dark Mode"
         >
           {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-700" />}
@@ -1144,7 +1144,7 @@ export function AppContent() {
   // ========================================================
   const renderMobileBottomNav = () => (
     <nav 
-      className="floating-nav flex items-center justify-around fixed bottom-3 inset-x-3 max-w-[420px] mx-auto z-40 bg-white/95 dark:bg-[#162019]/95 backdrop-blur-xl border border-[#dae5dc] dark:border-[#28382c] rounded-3xl py-2 px-3 shadow-xl"
+      className="floating-nav flex items-center justify-around fixed bottom-3 inset-x-3 max-w-[420px] mx-auto z-40 bg-white/95 dark:bg-[#1C1511]/95 backdrop-blur-xl border border-[#EEDEC1] dark:border-[#3A291E] rounded-3xl py-2 px-3 shadow-xl"
       aria-label="Bottom Navigation"
     >
       <button 
@@ -1154,7 +1154,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'dashboard' ? 'text-[#006d41] dark:text-[#5be196] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'dashboard' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
         )}
       >
         <Home className="w-5 h-5 stroke-[2.2]" />
@@ -1168,7 +1168,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'statistic' ? 'text-[#006d41] dark:text-[#5be196] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'statistic' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
         )}
       >
         <BarChart3 className="w-5 h-5 stroke-[2.2]" />
@@ -1180,7 +1180,7 @@ export function AppContent() {
           haptic.selection();
           setActiveScreen('scanner');
         }}
-        className="w-11 h-11 rounded-full bg-[#006d41] text-white flex items-center justify-center shadow-md active:scale-95 transition -mt-5 cursor-pointer"
+        className="w-11 h-11 rounded-full bg-[#EA580C] text-white flex items-center justify-center shadow-md active:scale-95 transition -mt-5 cursor-pointer"
         aria-label="Scan food"
       >
         <Scan className="w-5 h-5 stroke-[2.5]" />
@@ -1193,7 +1193,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'coach' ? 'text-[#006d41] dark:text-[#5be196] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'coach' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
         )}
       >
         <Bot className="w-5 h-5 stroke-[2.2]" />
@@ -1207,7 +1207,7 @@ export function AppContent() {
         }}
         className={cx(
           "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'menu' ? 'text-[#006d41] dark:text-[#5be196] font-black' : 'text-slate-400 hover:text-slate-700'
+          activeScreen === 'menu' ? 'text-[#EA580C] dark:text-[#FB923C] font-black' : 'text-slate-400 hover:text-slate-700'
         )}
       >
         <LayoutGrid className="w-5 h-5 stroke-[2.2]" />
@@ -1217,12 +1217,12 @@ export function AppContent() {
   );
 
   return (
-    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#f1fcf3] dark:bg-[#111a14] text-slate-900 dark:text-white pb-20">
+    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#FFFBF5] dark:bg-[#130E0C] text-slate-900 dark:text-white pb-20">
       
       {/* Toast Notification Banner */}
       {notification && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#006d41] text-white px-5 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center space-x-2 animate-in fade-in slide-in-from-top-4 duration-200">
-          <Sparkles className="w-4 h-4 text-[#bceecf]" />
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#EA580C] text-white px-5 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center space-x-2 animate-in fade-in slide-in-from-top-4 duration-200">
+          <Sparkles className="w-4 h-4 text-[#FED7AA]" />
           <span>{notification}</span>
         </div>
       )}
@@ -1288,7 +1288,7 @@ export function AppContent() {
           {activeScreen === 'recipes' && (
             <div className="max-w-4xl mx-auto">
               {/* Recipe browser */}
-              <div className="bg-white dark:bg-[#162019] rounded-3xl p-6 border border-[#dae5dc] dark:border-[#28382c] space-y-4">
+              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="font-black text-xl text-slate-900 dark:text-white">50+ Authentic Indian Fitness Recipes</h3>
                   <span className="text-xs text-slate-400">Curated with macros</span>
@@ -1300,7 +1300,7 @@ export function AppContent() {
                     placeholder="Search dal, paneer, oats, chilla, khichdi, sattu..."
                     value={recipeSearch}
                     onChange={(e) => setRecipeSearch(e.target.value)}
-                    className="w-full bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] rounded-2xl pl-10 pr-4 py-3 text-xs font-medium focus:outline-none focus:border-[#006d41]"
+                    className="w-full bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-2xl pl-10 pr-4 py-3 text-xs font-medium focus:outline-none focus:border-[#EA580C]"
                   />
                 </div>
                 {/* Category Filter Pills */}
@@ -1318,8 +1318,8 @@ export function AppContent() {
                       className={cx(
                         "px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer shrink-0",
                         recipeFilter === cat.id
-                          ? "bg-[#006d41] text-white shadow-xs"
-                          : "bg-[#f8faf8] dark:bg-[#131c15] text-slate-600 dark:text-slate-400 border border-[#dae5dc] dark:border-[#243328] hover:border-[#006d41]"
+                          ? "bg-[#EA580C] text-white shadow-xs"
+                          : "bg-[#f8faf8] dark:bg-[#19120E] text-slate-600 dark:text-slate-400 border border-[#EEDEC1] dark:border-[#34251B] hover:border-[#EA580C]"
                       )}
                     >
                       {cat.label}
@@ -1331,7 +1331,7 @@ export function AppContent() {
                     <div 
                       key={food.id}
                       onClick={() => setSelectedRecipe(food)}
-                      className="p-3 bg-[#f8faf8] dark:bg-[#131c15] rounded-2xl border border-[#dae5dc] dark:border-[#28382c] hover:border-[#006d41] transition cursor-pointer flex items-center space-x-3"
+                      className="p-3 bg-[#f8faf8] dark:bg-[#19120E] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition cursor-pointer flex items-center space-x-3"
                     >
                       <img src={getIndianFoodImage(food)} alt={food.name} className="w-14 h-14 rounded-xl object-cover shrink-0" />
                       <div className="min-w-0">
@@ -1362,9 +1362,9 @@ export function AppContent() {
                   <button
                     key={tool.id}
                     onClick={() => setActiveScreen(tool.id)}
-                    className="p-4 bg-white dark:bg-[#162019] rounded-3xl border border-[#dae5dc] dark:border-[#28382c] hover:border-[#006d41] transition text-left cursor-pointer space-y-2 group shadow-xs"
+                    className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs"
                   >
-                    <div className="w-10 h-10 rounded-2xl bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
                       <tool.icon className="w-5 h-5" />
                     </div>
                     <div>
@@ -1418,23 +1418,23 @@ export function AppContent() {
 
           {activeScreen === 'account' && (
             <div className="max-w-2xl mx-auto space-y-4">
-              <div className="bg-white dark:bg-[#162019] rounded-3xl p-6 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-4">
+              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#006d41]" />
+                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
                     <div>
                       <h3 className="font-black text-lg text-slate-900 dark:text-white">{profile.name}</h3>
                       <p className="text-xs text-slate-400">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <label className="px-3 py-1.5 rounded-xl bg-[#006d41] text-white text-xs font-bold cursor-pointer hover:bg-[#005a36] transition shadow-xs">
+                    <label className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold cursor-pointer hover:bg-[#C2410C] transition shadow-xs">
                       Upload Photo
                       <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
                     </label>
                     <button 
                       onClick={resetToProvidedAvatar}
-                      className="px-2.5 py-1.5 rounded-xl border border-[#dae5dc] dark:border-[#28382c] text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition cursor-pointer"
+                      className="px-2.5 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition cursor-pointer"
                       title="Reset Avatar"
                     >
                       Reset
@@ -1442,13 +1442,13 @@ export function AppContent() {
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-[#202c23] space-y-3">
+                <div className="pt-2 border-t border-slate-100 dark:border-[#2D2018] space-y-3">
                   <div>
                     <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1">Diet Type</label>
                     <select
                       value={profile.dietType}
                       onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                      className="w-full p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] text-xs font-bold text-slate-800 dark:text-white"
+                      className="w-full p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
                     >
                       <option value="pure_veg">Pure Vegetarian (Indian Lacto-Veg)</option>
                       <option value="eggetarian">Eggetarian (Veg + Eggs)</option>
@@ -1477,12 +1477,12 @@ export function AppContent() {
         <div className={`phone-shell ${desktopMode === 'mobile_preview' ? 'hidden lg:block phone-simulator-frame mx-auto' : 'lg:hidden'}`}>
           
           {/* Mobile Top App Header */}
-          <header className="sticky top-0 z-40 bg-[#f1fcf3]/90 dark:bg-[#111a14]/90 backdrop-blur-xl border-b border-[#dae5dc] dark:border-[#202c23] px-4 py-2.5 flex items-center justify-between safe-top">
+          <header className="sticky top-0 z-40 bg-[#FFFBF5]/90 dark:bg-[#130E0C]/90 backdrop-blur-xl border-b border-[#EEDEC1] dark:border-[#2D2018] px-4 py-2.5 flex items-center justify-between safe-top">
             <div className="flex items-center space-x-2.5">
               <img 
                 src="/app-icon.png" 
                 alt="NutriFit" 
-                className="w-8 h-8 rounded-xl object-cover border border-[#dae5dc] dark:border-[#28382c]" 
+                className="w-8 h-8 rounded-xl object-cover border border-[#EEDEC1] dark:border-[#3A291E]" 
               />
               <div>
                 <span className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">NutriFit</span>
@@ -1491,7 +1491,7 @@ export function AppContent() {
             </div>
 
             <div className="flex items-center space-x-2">
-              <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] text-[11px] font-bold">
+              <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] text-[11px] font-bold">
                 <Flame className="w-3 h-3 fill-[#f59e0b] text-[#f59e0b]" />
                 <span>5d</span>
               </div>
@@ -1503,7 +1503,7 @@ export function AppContent() {
                   haptic.selection();
                   notify(`Switched to ${next} theme.`);
                 }}
-                className="w-8 h-8 rounded-full bg-white dark:bg-[#1a251e] border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-center text-slate-700 dark:text-slate-200 transition"
+                className="w-8 h-8 rounded-full bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-center text-slate-700 dark:text-slate-200 transition"
                 title="Toggle theme"
               >
                 {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-300" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
@@ -1511,7 +1511,7 @@ export function AppContent() {
 
               <button 
                 onClick={() => setActiveScreen('account')}
-                className="w-8 h-8 rounded-full overflow-hidden border border-[#006d41]"
+                className="w-8 h-8 rounded-full overflow-hidden border border-[#EA580C]"
               >
                 <img src={userAvatar} alt="Profile" className="w-full h-full object-cover" />
               </button>
@@ -1527,7 +1527,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
@@ -1543,7 +1543,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
@@ -1556,7 +1556,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
@@ -1569,7 +1569,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
@@ -1582,7 +1582,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
@@ -1600,7 +1600,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Menu</span>
@@ -1619,7 +1619,7 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Menu</span>
@@ -1632,12 +1632,12 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
                 </button>
-                <div className="bg-white dark:bg-[#162019] rounded-3xl p-4 border border-[#dae5dc] dark:border-[#28382c] space-y-3">
+                <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 border border-[#EEDEC1] dark:border-[#3A291E] space-y-3">
                   <h3 className="font-bold text-sm text-slate-900 dark:text-white">Indian Recipe Library</h3>
                   <div className="relative">
                     <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -1646,7 +1646,7 @@ export function AppContent() {
                       placeholder="Search paneer, dal, oats, chilla..."
                       value={recipeSearch}
                       onChange={(e) => setRecipeSearch(e.target.value)}
-                      className="w-full bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] rounded-xl pl-9 pr-3 py-2 text-xs font-medium focus:outline-none"
+                      className="w-full bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-xl pl-9 pr-3 py-2 text-xs font-medium focus:outline-none"
                     />
                   </div>
                   <div className="space-y-2 max-h-[460px] overflow-y-auto">
@@ -1654,7 +1654,7 @@ export function AppContent() {
                       <div 
                         key={food.id}
                         onClick={() => setSelectedRecipe(food)}
-                        className="p-2.5 bg-[#f8faf8] dark:bg-[#131c15] rounded-2xl border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between cursor-pointer"
+                        className="p-2.5 bg-[#f8faf8] dark:bg-[#19120E] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between cursor-pointer"
                       >
                         <div className="flex items-center space-x-2.5">
                           <img src={getIndianFoodImage(food)} alt={food.name} className="w-10 h-10 rounded-xl object-cover" />
@@ -1693,9 +1693,9 @@ export function AppContent() {
                         setActiveScreen(tool.id);
                         haptic.selection();
                       }}
-                      className="p-3.5 bg-white dark:bg-[#162019] rounded-2xl border border-[#dae5dc] dark:border-[#28382c] text-left cursor-pointer space-y-1.5 shadow-xs"
+                      className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] text-left cursor-pointer space-y-1.5 shadow-xs"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-[#ebf7ed] dark:bg-[#1f2b22] text-[#006d41] dark:text-[#5be196] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#EA580C] dark:text-[#FB923C] flex items-center justify-center">
                         <tool.icon className="w-4 h-4" />
                       </div>
                       <div>
@@ -1708,7 +1708,7 @@ export function AppContent() {
 
                 <button 
                   onClick={() => setActiveScreen('account')}
-                  className="w-full p-3.5 bg-white dark:bg-[#162019] rounded-2xl border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between text-left cursor-pointer mt-2"
+                  className="w-full p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between text-left cursor-pointer mt-2"
                 >
                   <div className="flex items-center space-x-3">
                     <User className="w-4 h-4 text-slate-600 dark:text-slate-400" />
@@ -1723,28 +1723,28 @@ export function AppContent() {
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Menu</span>
                 </button>
 
-                <div className="bg-white dark:bg-[#162019] rounded-3xl p-5 border border-[#dae5dc] dark:border-[#28382c] shadow-xs space-y-4">
+                <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
                   <div className="flex items-center space-x-3">
-                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#006d41]" />
+                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
                     <div>
                       <h3 className="font-black text-base text-slate-900 dark:text-white">{profile.name}</h3>
                       <p className="text-xs text-slate-400">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
                     </div>
                   </div>
 
-                  <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-[#202c23]">
+                  <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-[#2D2018]">
                     <div>
                       <label className="text-xs font-bold text-slate-500 block mb-1">Diet Preference</label>
                       <select
                         value={profile.dietType}
                         onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] text-xs font-bold text-slate-800 dark:text-white"
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
                       >
                         <option value="pure_veg">Pure Vegetarian (Lacto-Veg)</option>
                         <option value="eggetarian">Eggetarian</option>
@@ -1758,7 +1758,7 @@ export function AppContent() {
                         <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Mifflin-St Jeor Target</div>
                         <div className="text-[11px] text-slate-400">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
                       </div>
-                      <span className="text-xs font-bold text-[#006d41] dark:text-[#5be196]">Active</span>
+                      <span className="text-xs font-bold text-[#EA580C] dark:text-[#FB923C]">Active</span>
                     </div>
                   </div>
                 </div>

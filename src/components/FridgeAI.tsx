@@ -36,7 +36,7 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
     <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Banner */}
       <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold">
+        <div className="inline-flex items-center space-x-2 bg-[var(--primarySoft)] text-[var(--primaryDark)] px-3.5 py-1 rounded-full text-xs font-semibold">
           <Refrigerator className="w-4 h-4" />
           <span>Smart Indian Fridge Finder</span>
         </div>
@@ -57,7 +57,7 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
                 onClick={() => toggleIngredient(ing)}
                 className={`px-3.5 py-2 rounded-2xl text-xs font-semibold border transition-all duration-200 cursor-pointer flex items-center space-x-1.5 ${
                   isSelected
-                    ? 'bg-[var(--greenSoft)] text-[var(--greenDark)] border-[var(--green)] shadow-sm font-bold'
+                    ? 'bg-[var(--primarySoft)] text-[var(--primaryDark)] border-[var(--primaryAccent)] shadow-sm font-bold'
                     : 'bg-[var(--surface2)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)]'
                 }`}
               >
@@ -72,7 +72,7 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
       {/* Matching Results Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-base font-bold text-[var(--ink)] flex items-center space-x-2">
-          <Sparkles className="w-4 h-4 text-[var(--green)]" />
+          <Sparkles className="w-4 h-4 text-[var(--primaryAccent)]" />
           <span>Matching Indian Fitness Dishes ({matchingFoods.length})</span>
         </h2>
         <span className="text-xs text-[var(--muted)]">Tap any card to view recipe</span>
@@ -94,11 +94,11 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
               type="button"
               key={food.id}
               onClick={() => onSelectRecipe(food)}
-              className="w-full text-left bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--green)] p-4 sm:p-5 rounded-2xl space-y-2.5 cursor-pointer transition-all duration-200 shadow-sm flex flex-col justify-between"
+              className="w-full text-left bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--primaryAccent)] p-4 sm:p-5 rounded-2xl space-y-2.5 cursor-pointer transition-all duration-200 shadow-sm flex flex-col justify-between"
             >
               <div className="space-y-1.5 w-full">
                 <div className="flex justify-between items-start">
-                  <span className="text-[10px] bg-[var(--greenSoft)] text-[var(--greenDark)] px-2.5 py-0.5 rounded-full font-semibold uppercase">
+                  <span className="text-[10px] bg-[var(--primarySoft)] text-[var(--primaryDark)] px-2.5 py-0.5 rounded-full font-semibold uppercase">
                     {food.slot.replace('_', ' ')}
                   </span>
                   <span className="text-xs text-[var(--muted)] flex items-center space-x-1">
@@ -117,10 +117,10 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
               <div className="w-full pt-2.5 border-t border-[var(--line)] flex items-center justify-between text-xs">
                 <div className="space-x-2">
                   <span className="font-semibold text-[var(--ink)]">{food.calories} kcal</span>
-                  <span className="font-semibold text-[var(--green)]">{food.protein}g protein</span>
+                  <span className="font-semibold text-[var(--primaryAccent)]">{food.protein}g protein</span>
                 </div>
 
-                <span className="flex items-center space-x-1 px-2.5 py-1 bg-[var(--surface2)] text-[var(--greenDark)] rounded-lg font-medium text-xs">
+                <span className="flex items-center space-x-1 px-2.5 py-1 bg-[var(--surface2)] text-[var(--primaryDark)] rounded-lg font-medium text-xs">
                   <ChefHat className="w-3.5 h-3.5" />
                   <span>View</span>
                 </span>

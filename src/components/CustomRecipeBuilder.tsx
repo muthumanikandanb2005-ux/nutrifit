@@ -78,7 +78,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
     <div className="max-w-5xl mx-auto px-2 py-4 space-y-6">
       {/* Title Header */}
       <div className="bg-[var(--surface)] border border-[var(--line)] p-6 sm:p-8 rounded-3xl shadow-sm space-y-3 text-center">
-        <div className="inline-flex items-center space-x-2 bg-[var(--greenSoft)] text-[var(--greenDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center space-x-2 bg-[var(--primarySoft)] text-[var(--primaryDark)] px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
           <ChefHat className="w-4 h-4" />
           <span>Custom Recipe Builder</span>
         </div>
@@ -102,7 +102,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
                 placeholder="e.g. Mum's High Protein Paneer Besan Chilla"
                 value={recipeName}
                 onChange={(e) => setRecipeName(e.target.value)}
-                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2 text-[var(--ink)] text-xs focus:outline-none focus:border-[var(--green)]"
+                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2 text-[var(--ink)] text-xs focus:outline-none focus:border-[var(--primaryAccent)]"
               />
             </div>
 
@@ -114,7 +114,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
                 max="20"
                 value={servings}
                 onChange={(e) => setServings(Number(e.target.value))}
-                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2 text-[var(--ink)] text-xs focus:outline-none focus:border-[var(--green)]"
+                className="w-full bg-[var(--surface2)] border border-[var(--line)] rounded-xl px-3.5 py-2 text-[var(--ink)] text-xs focus:outline-none focus:border-[var(--primaryAccent)]"
               />
             </div>
           </div>
@@ -128,9 +128,9 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => handleAddIngredient(preset)}
-                  className="px-2.5 py-1 bg-[var(--surface2)] hover:bg-[var(--greenSoft)] border border-[var(--line)] text-xs text-[var(--ink)] rounded-xl transition flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1 bg-[var(--surface2)] hover:bg-[var(--primarySoft)] border border-[var(--line)] text-xs text-[var(--ink)] rounded-xl transition flex items-center space-x-1 cursor-pointer"
                 >
-                  <Plus className="w-3 h-3 text-[var(--green)]" />
+                  <Plus className="w-3 h-3 text-[var(--primaryAccent)]" />
                   <span>{preset.name}</span>
                 </button>
               ))}
@@ -177,7 +177,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
 
           <button
             type="submit"
-            className="w-full py-3 bg-[var(--green)] hover:bg-[var(--greenDark)] text-white font-semibold text-xs rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
+            className="w-full py-3 bg-[var(--primaryAccent)] hover:bg-[var(--primaryDark)] text-white font-semibold text-xs rounded-xl shadow-sm transition cursor-pointer flex items-center justify-center space-x-2"
           >
             <ChefHat className="w-4 h-4" />
             <span>Save Recipe to My Custom Dishes</span>
@@ -198,7 +198,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
             <div className="grid grid-cols-3 gap-2 text-xs">
               <div className="bg-[var(--surface2)] p-2.5 rounded-xl border border-[var(--line)]">
                 <span className="text-[10px] text-[var(--muted)] font-semibold uppercase">Protein</span>
-                <div className="text-base font-bold text-[var(--green)]">{protPerServing}g</div>
+                <div className="text-base font-bold text-[var(--primaryAccent)]">{protPerServing}g</div>
               </div>
               <div className="bg-[var(--surface2)] p-2.5 rounded-xl border border-[var(--line)]">
                 <span className="text-[10px] text-[var(--muted)] font-semibold uppercase">Carbs</span>
@@ -216,7 +216,7 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
             <div className="bg-[var(--surface)] border border-[var(--line)] p-4 rounded-2xl space-y-3 shadow-sm">
               <h3 className="text-xs font-semibold text-[var(--ink)] uppercase tracking-wider flex items-center justify-between">
                 <span>My Saved Custom Dishes</span>
-                <span className="bg-[var(--greenSoft)] text-[var(--greenDark)] px-2 py-0.5 rounded-full text-[10px] font-semibold">
+                <span className="bg-[var(--primarySoft)] text-[var(--primaryDark)] px-2 py-0.5 rounded-full text-[10px] font-semibold">
                   {savedRecipes.length} saved
                 </span>
               </h3>
@@ -225,11 +225,11 @@ export const CustomRecipeBuilder: React.FC<CustomRecipeBuilderProps> = ({
                   <div key={r.id} className="bg-[var(--surface2)] p-2.5 rounded-xl border border-[var(--line)] space-y-1">
                     <div className="flex justify-between items-start">
                       <h4 className="text-xs font-semibold text-[var(--ink)]">{r.name}</h4>
-                      <span className="text-[10px] text-[var(--green)] font-semibold">{r.caloriesPerServing} kcal</span>
+                      <span className="text-[10px] text-[var(--primaryAccent)] font-semibold">{r.caloriesPerServing} kcal</span>
                     </div>
                     <div className="flex justify-between items-center text-[10px] text-[var(--muted)]">
                       <span>Yields {r.servingCount} servings</span>
-                      <span className="text-[var(--green)] font-semibold">{r.proteinPerServing}g P</span>
+                      <span className="text-[var(--primaryAccent)] font-semibold">{r.proteinPerServing}g P</span>
                     </div>
                   </div>
                 ))}

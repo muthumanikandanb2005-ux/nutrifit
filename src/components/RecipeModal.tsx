@@ -34,7 +34,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
         aria-hidden="true" 
       />
 
-      <div className="relative bg-white dark:bg-[#162019] border-t sm:border border-[#dae5dc] dark:border-[#28382c] rounded-t-[32px] sm:rounded-[32px] max-w-2xl w-full max-h-[90vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
+      <div className="relative bg-white dark:bg-[#1C1511] border-t sm:border border-[#EEDEC1] dark:border-[#3A291E] rounded-t-[32px] sm:rounded-[32px] max-w-2xl w-full max-h-[90vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
         
         {/* Android Native Drag Handle Bar */}
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
@@ -60,7 +60,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
 
           <div className="absolute bottom-3 left-4 right-4 text-white">
             <div className="flex items-center space-x-2 mb-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#006d41] text-white">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#EA580C] text-white">
                 {food.slot.replace('_', ' ')}
               </span>
               <span className="text-[10px] font-semibold text-white/80">
@@ -78,22 +78,22 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
           
           {/* Quick Macro Pills Bento */}
           <div className="grid grid-cols-4 gap-2 text-center">
-            <div className="p-2.5 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#273a2c]">
+            <div className="p-2.5 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#273a2c]">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Calories</div>
-              <div className="text-base font-black text-[#006d41] dark:text-[#5be196]">{food.calories}</div>
+              <div className="text-base font-black text-[#EA580C] dark:text-[#FB923C]">{food.calories}</div>
               <div className="text-[9px] text-slate-400">kcal</div>
             </div>
-            <div className="p-2.5 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#273a2c]">
+            <div className="p-2.5 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#273a2c]">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Protein</div>
-              <div className="text-base font-black text-[#006d41] dark:text-[#5be196]">{food.protein}g</div>
+              <div className="text-base font-black text-[#EA580C] dark:text-[#FB923C]">{food.protein}g</div>
               <div className="text-[9px] text-slate-400">muscle fuel</div>
             </div>
-            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c]">
+            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E]">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Carbs</div>
               <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.carbs}g</div>
               <div className="text-[9px] text-slate-400">clean energy</div>
             </div>
-            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c]">
+            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E]">
               <div className="text-[10px] font-bold text-slate-400 uppercase">Fats</div>
               <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.fats}g</div>
               <div className="text-[9px] text-slate-400">healthy fats</div>
@@ -101,12 +101,12 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
           </div>
 
           {/* Serving & Serving Size */}
-          <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c]">
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E]">
             <div className="flex items-center space-x-2">
-              <Utensils className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+              <Utensils className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C]" />
               <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Portion Serving:</span>
             </div>
-            <span className="text-xs font-black text-[#006d41] dark:text-[#5be196]">
+            <span className="text-xs font-black text-[#EA580C] dark:text-[#FB923C]">
               {food.servingSize}
             </span>
           </div>
@@ -120,10 +120,10 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
               {food.ingredients.map((ing, idx) => (
                 <div 
                   key={idx}
-                  className="p-2.5 rounded-2xl bg-[#fcfdfc] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between text-xs"
+                  className="p-2.5 rounded-2xl bg-[#fcfdfc] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between text-xs"
                 >
                   <span className="font-semibold text-slate-800 dark:text-slate-200">{ing.item}</span>
-                  <span className="font-bold text-[#006d41] dark:text-[#5be196]">{ing.amount}</span>
+                  <span className="font-bold text-[#EA580C] dark:text-[#FB923C]">{ing.amount}</span>
                 </div>
               ))}
             </div>
@@ -139,9 +139,9 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
                 {food.recipeInstructions.map((step, idx) => (
                   <div 
                     key={idx}
-                    className="p-3 rounded-2xl bg-[#fcfdfc] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] flex items-start space-x-3 text-xs leading-relaxed"
+                    className="p-3 rounded-2xl bg-[#fcfdfc] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] flex items-start space-x-3 text-xs leading-relaxed"
                   >
-                    <span className="w-5 h-5 rounded-full bg-[#006d41] text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                    <span className="w-5 h-5 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       {idx + 1}
                     </span>
                     <span className="text-slate-700 dark:text-slate-300 font-medium">{step}</span>
@@ -153,8 +153,8 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
 
           {/* Nutrition Tips */}
           {food.tips && (
-            <div className="p-3 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#28382c] flex items-start space-x-2.5 text-xs text-slate-700 dark:text-slate-300">
-              <Lightbulb className="w-4 h-4 text-[#006d41] dark:text-[#5be196] shrink-0 mt-0.5" />
+            <div className="p-3 rounded-2xl bg-[#FEF3C7] dark:bg-[#231811] border border-[#FED7AA] dark:border-[#3A291E] flex items-start space-x-2.5 text-xs text-slate-700 dark:text-slate-300">
+              <Lightbulb className="w-4 h-4 text-[#EA580C] dark:text-[#FB923C] shrink-0 mt-0.5" />
               <span><strong>Nutritionist Note:</strong> {food.tips}</span>
             </div>
           )}
@@ -162,14 +162,14 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
         </div>
 
         {/* Action Footer */}
-        <div className="p-4 sm:p-5 border-t border-[#dae5dc] dark:border-[#28382c] bg-[#f8faf8] dark:bg-[#131c15] flex items-center justify-between gap-3">
+        <div className="p-4 sm:p-5 border-t border-[#EEDEC1] dark:border-[#3A291E] bg-[#f8faf8] dark:bg-[#19120E] flex items-center justify-between gap-3">
           {onStartCookMode && (
             <button
               onClick={() => {
                 onClose();
                 onStartCookMode(food);
               }}
-              className="flex-1 py-3 px-4 rounded-2xl bg-[#006d41] hover:bg-[#005a36] text-white text-xs font-bold flex items-center justify-center space-x-2 shadow-md active:scale-95 transition cursor-pointer"
+              className="flex-1 py-3 px-4 rounded-2xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold flex items-center justify-center space-x-2 shadow-md active:scale-95 transition cursor-pointer"
             >
               <Play className="w-4 h-4" />
               <span>Start Hands-Free Cook Mode</span>
@@ -178,7 +178,7 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({
 
           <button
             onClick={handleClose}
-            className="py-3 px-5 rounded-2xl border border-[#dae5dc] dark:border-[#2d3a31] bg-white dark:bg-[#1a251e] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 transition cursor-pointer"
+            className="py-3 px-5 rounded-2xl border border-[#EEDEC1] dark:border-[#3A2A1F] bg-white dark:bg-[#231811] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 transition cursor-pointer"
           >
             Close
           </button>

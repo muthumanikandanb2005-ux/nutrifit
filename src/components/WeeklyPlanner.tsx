@@ -95,7 +95,7 @@ export const WeeklyPlanner: React.FC<WeeklyPlannerProps> = ({ profile, targetCal
               <p className="text-[10px] text-slate-400 print:text-gray-600">{food.servingSize}</p>
               <div className="pt-2 border-t border-slate-800 text-[10px] flex justify-between text-slate-300 print:text-black">
                 <span className="font-bold text-amber-400">{food.calories} kcal</span>
-                <span className="font-bold text-emerald-400">{food.protein}g Prot</span>
+                <span className="font-bold text-amber-500">{food.protein}g Prot</span>
               </div>
             </div>
           ))}

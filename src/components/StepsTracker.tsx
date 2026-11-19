@@ -240,7 +240,7 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
 
             <div className="space-y-0.5">
               <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Pace</span>
-              <div className="text-2xl font-black text-emerald-400">{avgPace} <span className="text-xs text-slate-400 font-normal">/km</span></div>
+              <div className="text-2xl font-black text-amber-500">{avgPace} <span className="text-xs text-slate-400 font-normal">/km</span></div>
             </div>
           </div>
 
@@ -431,7 +431,7 @@ export const StepsTracker: React.FC<StepsTrackerProps> = ({ profile, stepsLogs, 
 
                 <div>
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Avg Pace</span>
-                  <span className="text-2xl font-black text-emerald-400">{selectedShareLog.avgPaceMinutesPerKm} <span className="text-xs font-normal">/km</span></span>
+                  <span className="text-2xl font-black text-amber-500">{selectedShareLog.avgPaceMinutesPerKm} <span className="text-xs font-normal">/km</span></span>
                 </div>
               </div>
 

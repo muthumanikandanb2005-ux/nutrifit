@@ -48,7 +48,7 @@ export const SafeUserButton: React.FC<{
             afterSignOutUrl="/"
             appearance={{
               elements: {
-                avatarBox: 'w-10 h-10 border-2 border-white dark:border-[#2d5a43] shadow-xs'
+                avatarBox: 'w-10 h-10 border-2 border-white dark:border-[#9A3412] shadow-xs'
               }
             }}
           />
@@ -59,7 +59,7 @@ export const SafeUserButton: React.FC<{
               haptic.selection();
               openAuthModal();
             }}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#006d41] hover:bg-[#005a35] text-white text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer"
             title="Sign in with Clerk"
           >
             <Lock className="w-3.5 h-3.5" />
@@ -77,10 +77,10 @@ export const SafeUserButton: React.FC<{
         haptic.selection();
         openAuthModal();
       }}
-      className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#ebf7ed] dark:bg-[#1f2923] border border-[#bceecf] dark:border-[#2d5a43] text-[#006d41] dark:text-[#5be196] text-[11px] font-bold hover:bg-[#dae5dc] transition cursor-pointer"
+      className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#251C17] border border-[#FED7AA] dark:border-[#9A3412] text-[#EA580C] dark:text-[#FB923C] text-[11px] font-bold hover:bg-[#EEDEC1] transition cursor-pointer"
       title="Connect Clerk Authentication"
     >
-      <Lock className="w-3 h-3 text-[#006d41] dark:text-[#5be196]" />
+      <Lock className="w-3 h-3 text-[#EA580C] dark:text-[#FB923C]" />
       <span>Clerk Auth</span>
     </button>
   );

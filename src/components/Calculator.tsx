@@ -252,10 +252,10 @@ export const Calculator: React.FC<CalculatorProps> = ({ profile, setProfile, onC
 
             {/* Macro Targets Cards */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-slate-900/80 border border-emerald-500/30 p-4 rounded-2xl space-y-1">
-                <div className="text-xs font-semibold text-emerald-400 flex items-center justify-between">
+              <div className="bg-slate-900/80 border border-amber-500/30 p-4 rounded-2xl space-y-1">
+                <div className="text-xs font-semibold text-amber-500 flex items-center justify-between">
                   <span>Protein</span>
-                  <span className="text-[10px] bg-emerald-950 px-1.5 py-0.5 rounded text-emerald-300">High</span>
+                  <span className="text-[10px] bg-amber-950 px-1.5 py-0.5 rounded text-amber-400">High</span>
                 </div>
                 <div className="text-2xl font-bold text-white">{macroGoals.proteinGrams}g</div>
                 <div className="text-[10px] text-slate-400">{Math.round((macroGoals.proteinGrams * 4 * 100) / macroGoals.calories)}% of calories</div>

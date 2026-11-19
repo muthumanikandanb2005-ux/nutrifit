@@ -22,7 +22,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
 
   const primaryTabs: { id: typeof activeTab; label: string; icon: React.ReactNode }[] = [
     { id: 'planner', label: 'Thali', icon: <Utensils className="w-5 h-5" /> },
-    { id: 'coach', label: 'AI Coach', icon: <Bot className="w-5 h-5 text-emerald-400" /> },
+    { id: 'coach', label: 'AI Coach', icon: <Bot className="w-5 h-5 text-amber-500" /> },
     { id: 'steps', label: 'Steps', icon: <Footprints className="w-5 h-5 text-orange-400" /> },
     { id: 'scanner', label: 'Scanner', icon: <Camera className="w-5 h-5" /> },
   ];
@@ -33,7 +33,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
       items: [
         { id: 'workouts' as const, label: 'Workouts & Burn', icon: <Dumbbell className="w-5 h-5 text-amber-400" />, desc: 'Desi gym & cardio' },
         { id: 'water' as const, label: 'Water Tracker', icon: <Droplet className="w-5 h-5 text-sky-400" />, desc: 'Hydration logging' },
-        { id: 'analytics' as const, label: 'Weight & BMI Chart', icon: <TrendingUp className="w-5 h-5 text-emerald-400" />, desc: 'Visual progress' },
+        { id: 'analytics' as const, label: 'Weight & BMI Chart', icon: <TrendingUp className="w-5 h-5 text-amber-500" />, desc: 'Visual progress' },
       ]
     },
     {

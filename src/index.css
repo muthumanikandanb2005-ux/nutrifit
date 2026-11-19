@@ -1806,16 +1806,17 @@ body.dark-mode .phone-shell {
 }
 
 @media (min-width: 640px) {
-  .phone-shell {
+  .phone-simulator-frame {
     margin-top: 16px;
     margin-bottom: 24px;
     border-radius: 46px;
     border: 9px solid #141e18;
     box-shadow: 0 25px 60px -15px rgba(20, 30, 24, 0.15), 0 0 0 1px rgba(20, 30, 24, 0.06);
     overflow: hidden;
+    max-width: 410px;
   }
   
-  body.dark-mode .phone-shell {
+  body.dark-mode .phone-simulator-frame {
     border-color: #0b110e;
     box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
   }

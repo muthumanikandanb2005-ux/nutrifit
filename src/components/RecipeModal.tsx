@@ -1,15 +1,21 @@
 import React from 'react';
 import type { FoodItem } from '../types';
-import { X, ChefHat, Clock, Utensils, Lightbulb } from 'lucide-react';
+import { X, Utensils, Lightbulb, Play } from 'lucide-react';
 import { haptic } from '../utils/haptics';
+import { getIndianFoodImage } from '../utils/indianFoodImages';
 
 interface RecipeModalProps {
   food: FoodItem | null;
   onClose: () => void;
   onAddToPlan?: (food: FoodItem) => void;
+  onStartCookMode?: (food: FoodItem) => void;
 }
 
-export const RecipeModal: React.FC<RecipeModalProps> = ({ food, onClose, onAddToPlan }) => {
+export const RecipeModal: React.FC<RecipeModalProps> = ({ 
+  food, 
+  onClose, 
+  onStartCookMode
+}) => {
   if (!food) return null;
 
   const handleClose = () => {
@@ -17,205 +23,167 @@ export const RecipeModal: React.FC<RecipeModalProps> = ({ food, onClose, onAddTo
     onClose();
   };
 
+  const dishImage = getIndianFoodImage(food);
+
   return (
-    <div className="fixed inset-0 z-50 bg-[#1c261f]/45 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
-      {/* Backdrop tap to close */}
+    <div className="fixed inset-0 z-50 bg-[#0e1611]/70 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto animate-in fade-in duration-200">
+      {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-transparent" 
         onClick={handleClose} 
         aria-hidden="true" 
       />
 
-      <div 
-        className="relative border-t sm:border rounded-t-[26px] sm:rounded-3xl max-w-2xl w-full max-h-[88vh] sm:max-h-[85vh] flex flex-col shadow-2xl animate-in slide-in-from-bottom-5 duration-200"
-        style={{
-          background: 'var(--surface)',
-          borderColor: 'var(--line)',
-          color: 'var(--ink)'
-        }}
-      >
+      <div className="relative bg-white dark:bg-[#162019] border-t sm:border border-[#dae5dc] dark:border-[#28382c] rounded-t-[32px] sm:rounded-[32px] max-w-2xl w-full max-h-[90vh] sm:max-h-[88vh] flex flex-col shadow-2xl overflow-hidden z-10 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
+        
         {/* Android Native Drag Handle Bar */}
         <div className="flex justify-center pt-3 pb-1 sm:hidden">
-          <div className="w-12 h-1.5 rounded-full" style={{ background: 'var(--line)' }} />
+          <div className="w-12 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700" />
         </div>
 
-        {/* Modal Header */}
-        <div 
-          className="flex items-start justify-between p-4 sm:p-6 pb-3"
-          style={{ borderBottom: '1px solid var(--line)' }}
-        >
-          <div className="space-y-1 pr-2">
-            <div className="flex items-center space-x-2">
-              <span 
-                className="text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-full"
-                style={{
-                  background: 'var(--greenSoft)',
-                  color: 'var(--greenDark)',
-                  border: '1px solid var(--line)'
-                }}
-              >
-                Indian Recipe
-              </span>
-              <span className="text-xs flex items-center space-x-1" style={{ color: 'var(--muted)' }}>
-                <Clock className="w-3.5 h-3.5" />
-                <span>{food.prepTimeMins} mins</span>
-              </span>
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold flex items-baseline space-x-2" style={{ color: 'var(--ink)' }}>
-              <span>{food.name}</span>
-              {food.hindiName && (
-                <span className="text-sm font-normal font-serif" style={{ color: 'var(--muted)' }}>({food.hindiName})</span>
-              )}
-            </h2>
-            <p className="text-xs" style={{ color: 'var(--muted)' }}>Serving Size: {food.servingSize}</p>
-          </div>
-
-          <button
+        {/* Modal Header Banner with Dish Image */}
+        <div className="relative h-44 sm:h-52 w-full overflow-hidden shrink-0">
+          <img 
+            src={dishImage} 
+            alt={food.name}
+            className="w-full h-full object-cover" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          
+          <button 
             onClick={handleClose}
-            className="p-2 rounded-full cursor-pointer shrink-0 transition-colors"
-            style={{
-              background: 'var(--surface2)',
-              color: 'var(--muted)',
-              border: '1px solid var(--line)'
-            }}
-            aria-label="Close recipe"
+            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/60 transition cursor-pointer"
+            aria-label="Close recipe details"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
+
+          <div className="absolute bottom-3 left-4 right-4 text-white">
+            <div className="flex items-center space-x-2 mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#006d41] text-white">
+                {food.slot.replace('_', ' ')}
+              </span>
+              <span className="text-[10px] font-semibold text-white/80">
+                ⏱ {food.prepTimeMins} mins
+              </span>
+            </div>
+            <h3 className="text-lg sm:text-2xl font-black tracking-tight leading-snug truncate">
+              {food.name}
+            </h3>
+          </div>
         </div>
 
-        {/* Scrollable Modal Content Body */}
-        <div className="p-4 sm:p-6 space-y-5 overflow-y-auto overscroll-contain pb-[max(2rem,env(safe-area-inset-bottom))]">
-          {/* Nutritional Facts Grid */}
-          <div 
-            className="grid grid-cols-4 gap-2 sm:gap-3 p-3.5 sm:p-4 rounded-2xl text-center"
-            style={{
-              background: 'var(--surface2)',
-              border: '1px solid var(--line)'
-            }}
-          >
-            <div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-semibold" style={{ color: 'var(--muted)' }}>Calories</span>
-              <div className="text-base sm:text-lg font-bold" style={{ color: 'var(--greenDark)' }}>{food.calories}</div>
-              <span className="text-[9px]" style={{ color: 'var(--muted)' }}>kcal</span>
+        {/* Content Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
+          
+          {/* Quick Macro Pills Bento */}
+          <div className="grid grid-cols-4 gap-2 text-center">
+            <div className="p-2.5 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#273a2c]">
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Calories</div>
+              <div className="text-base font-black text-[#006d41] dark:text-[#5be196]">{food.calories}</div>
+              <div className="text-[9px] text-slate-400">kcal</div>
             </div>
-            <div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-semibold" style={{ color: 'var(--muted)' }}>Protein</span>
-              <div className="text-base sm:text-lg font-bold" style={{ color: 'var(--green)' }}>{food.protein}g</div>
-              <span className="text-[9px]" style={{ color: 'var(--muted)' }}>protein</span>
+            <div className="p-2.5 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#273a2c]">
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Protein</div>
+              <div className="text-base font-black text-[#006d41] dark:text-[#5be196]">{food.protein}g</div>
+              <div className="text-[9px] text-slate-400">muscle fuel</div>
             </div>
-            <div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-semibold" style={{ color: 'var(--muted)' }}>Carbs</span>
-              <div className="text-base sm:text-lg font-bold" style={{ color: 'var(--ink)' }}>{food.carbs}g</div>
-              <span className="text-[9px]" style={{ color: 'var(--muted)' }}>carbs</span>
+            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c]">
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Carbs</div>
+              <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.carbs}g</div>
+              <div className="text-[9px] text-slate-400">clean energy</div>
             </div>
-            <div>
-              <span className="text-[9px] sm:text-[10px] uppercase font-semibold" style={{ color: 'var(--muted)' }}>Fats</span>
-              <div className="text-base sm:text-lg font-bold" style={{ color: 'var(--muted)' }}>{food.fats}g</div>
-              <span className="text-[9px]" style={{ color: 'var(--muted)' }}>fats</span>
+            <div className="p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#162019] border border-[#dae5dc] dark:border-[#28382c]">
+              <div className="text-[10px] font-bold text-slate-400 uppercase">Fats</div>
+              <div className="text-base font-black text-slate-800 dark:text-slate-200">{food.fats}g</div>
+              <div className="text-[9px] text-slate-400">healthy fats</div>
             </div>
           </div>
 
-          {/* Ingredients Required */}
-          <div className="space-y-2.5">
-            <h3 className="text-xs sm:text-sm font-bold flex items-center space-x-2" style={{ color: 'var(--ink)' }}>
-              <Utensils className="w-4 h-4" style={{ color: 'var(--green)' }} />
-              <span>Ingredients Required</span>
-            </h3>
+          {/* Serving & Serving Size */}
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c]">
+            <div className="flex items-center space-x-2">
+              <Utensils className="w-4 h-4 text-[#006d41] dark:text-[#5be196]" />
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Portion Serving:</span>
+            </div>
+            <span className="text-xs font-black text-[#006d41] dark:text-[#5be196]">
+              {food.servingSize}
+            </span>
+          </div>
 
+          {/* Ingredients Section */}
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Ingredients Required ({food.ingredients.length})
+            </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {food.ingredients.map((ing, i) => (
+              {food.ingredients.map((ing, idx) => (
                 <div 
-                  key={i} 
-                  className="flex items-center justify-between p-2.5 rounded-xl text-xs"
-                  style={{
-                    background: 'var(--surface2)',
-                    border: '1px solid var(--line)'
-                  }}
+                  key={idx}
+                  className="p-2.5 rounded-2xl bg-[#fcfdfc] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] flex items-center justify-between text-xs"
                 >
-                  <span className="font-medium" style={{ color: 'var(--ink)' }}>{ing.item}</span>
-                  <span 
-                    className="font-mono font-bold px-2 py-0.5 rounded"
-                    style={{ background: 'var(--surface)', color: 'var(--greenDark)' }}
-                  >
-                    {ing.amount}
-                  </span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200">{ing.item}</span>
+                  <span className="font-bold text-[#006d41] dark:text-[#5be196]">{ing.amount}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Step-by-Step Instructions */}
-          {food.recipeInstructions && food.recipeInstructions.length > 0 && (
+          {/* Recipe Instructions */}
+          {food.recipeInstructions && (
             <div className="space-y-2.5">
-              <h3 className="text-xs sm:text-sm font-bold flex items-center space-x-2" style={{ color: 'var(--ink)' }}>
-                <ChefHat className="w-4 h-4" style={{ color: 'var(--green)' }} />
-                <span>Step-by-Step Preparation</span>
-              </h3>
-
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Step-by-Step Directions
+              </h4>
               <div className="space-y-2">
                 {food.recipeInstructions.map((step, idx) => (
                   <div 
-                    key={idx} 
-                    className="flex items-start space-x-3 text-xs p-3 rounded-xl"
-                    style={{
-                      background: 'var(--surface2)',
-                      border: '1px solid var(--line)',
-                      color: 'var(--ink)'
-                    }}
+                    key={idx}
+                    className="p-3 rounded-2xl bg-[#fcfdfc] dark:bg-[#131c15] border border-[#dae5dc] dark:border-[#28382c] flex items-start space-x-3 text-xs leading-relaxed"
                   >
-                    <span 
-                      className="flex items-center justify-center w-5 h-5 rounded-full font-bold text-[11px] shrink-0"
-                      style={{
-                        background: 'var(--greenSoft)',
-                        color: 'var(--greenDark)',
-                        border: '1px solid var(--line)'
-                      }}
-                    >
+                    <span className="w-5 h-5 rounded-full bg-[#006d41] text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       {idx + 1}
                     </span>
-                    <p className="leading-relaxed" style={{ margin: 0 }}>{step}</p>
+                    <span className="text-slate-700 dark:text-slate-300 font-medium">{step}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Desi Chef Tip */}
+          {/* Nutrition Tips */}
           {food.tips && (
-            <div 
-              className="p-3.5 sm:p-4 rounded-2xl flex items-start space-x-3 text-xs"
-              style={{
-                background: 'var(--yellow)',
-                border: '1px solid var(--line)',
-                color: 'var(--ink)'
-              }}
-            >
-              <Lightbulb className="w-5 h-5 shrink-0 mt-0.5" style={{ color: 'var(--greenDark)' }} />
-              <div>
-                <span className="font-bold" style={{ color: 'var(--greenDark)' }}>Kitchen tip:</span>
-                <p className="mt-0.5 leading-relaxed" style={{ margin: 0 }}>{food.tips}</p>
-              </div>
+            <div className="p-3 rounded-2xl bg-[#ebf7ed] dark:bg-[#1a251e] border border-[#bceecf] dark:border-[#28382c] flex items-start space-x-2.5 text-xs text-slate-700 dark:text-slate-300">
+              <Lightbulb className="w-4 h-4 text-[#006d41] dark:text-[#5be196] shrink-0 mt-0.5" />
+              <span><strong>Nutritionist Note:</strong> {food.tips}</span>
             </div>
           )}
 
-          {/* Bottom Action */}
-          {onAddToPlan && (
-            <div className="pt-2">
-              <button
-                onClick={() => {
-                  haptic.medium();
-                  onAddToPlan(food);
-                  onClose();
-                }}
-                className="primary w-full"
-                type="button"
-              >
-                ＋ Add to meal plan
-              </button>
-            </div>
-          )}
         </div>
+
+        {/* Action Footer */}
+        <div className="p-4 sm:p-5 border-t border-[#dae5dc] dark:border-[#28382c] bg-[#f8faf8] dark:bg-[#131c15] flex items-center justify-between gap-3">
+          {onStartCookMode && (
+            <button
+              onClick={() => {
+                onClose();
+                onStartCookMode(food);
+              }}
+              className="flex-1 py-3 px-4 rounded-2xl bg-[#006d41] hover:bg-[#005a36] text-white text-xs font-bold flex items-center justify-center space-x-2 shadow-md active:scale-95 transition cursor-pointer"
+            >
+              <Play className="w-4 h-4" />
+              <span>Start Hands-Free Cook Mode</span>
+            </button>
+          )}
+
+          <button
+            onClick={handleClose}
+            className="py-3 px-5 rounded-2xl border border-[#dae5dc] dark:border-[#2d3a31] bg-white dark:bg-[#1a251e] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 transition cursor-pointer"
+          >
+            Close
+          </button>
+        </div>
+
       </div>
     </div>
   );

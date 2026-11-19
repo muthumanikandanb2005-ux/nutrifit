@@ -181,11 +181,6 @@ export const MealPlanner: React.FC<MealPlannerProps> = ({
                 <div className="lg:col-span-7 space-y-2">
                   <div className="flex items-baseline space-x-2">
                     <h4 className="text-lg font-extrabold text-white">{food.name}</h4>
-                    {food.hindiName && (
-                      <span className="text-xs text-amber-300/80 font-medium font-serif">
-                        ({food.hindiName})
-                      </span>
-                    )}
                   </div>
 
                   <div className="text-xs text-slate-300 flex items-center space-x-2">

@@ -298,9 +298,6 @@ export const FoodScanner: React.FC<FoodScannerProps> = ({ onAddScannedFoodToPlan
                     </span>
                   </div>
                   <h2 className="text-xl font-bold text-[var(--ink)] mt-1">{scannedResult.foodName}</h2>
-                  {scannedResult.hindiName && (
-                    <p className="text-xs text-[var(--muted)] font-serif">({scannedResult.hindiName})</p>
-                  )}
                 </div>
 
                 <div className="text-right bg-[var(--surface2)] p-2.5 rounded-xl border border-[var(--line)]">

@@ -34,7 +34,7 @@ export const PlanComparisonModal: React.FC<PlanComparisonModalProps> = ({
     {
       id: 'fat_loss' as const,
       name: 'Weight Loss Plan',
-      hindiTitle: 'वजन घटाने का डाइट प्लान',
+      subtitle: 'Calorie Deficit & Fat Burn',
       icon: Flame,
       badge: '-20% Calorie Deficit',
       badgeColor: 'bg-orange-100 text-orange-900 border-orange-200 dark:bg-orange-950/70 dark:text-orange-200',
@@ -47,7 +47,7 @@ export const PlanComparisonModal: React.FC<PlanComparisonModalProps> = ({
     {
       id: 'maintenance' as const,
       name: 'Maintain Plan',
-      hindiTitle: 'वजन स्थिर व फिटनेस डाइट प्लान',
+      subtitle: 'Energy Balance & Weight Stability',
       icon: Scale,
       badge: 'TDEE Equilibrium',
       badgeColor: 'bg-amber-100 text-amber-900 border-amber-200 dark:bg-amber-950/70 dark:text-amber-200',
@@ -60,7 +60,7 @@ export const PlanComparisonModal: React.FC<PlanComparisonModalProps> = ({
     {
       id: 'muscle_gain' as const,
       name: 'Weight Gain Plan',
-      hindiTitle: 'वजन व मसल्स बढ़ाने का डाइट प्लान',
+      subtitle: 'Clean Calorie Surplus & Hypertrophy',
       icon: Dumbbell,
       badge: '+15% Caloric Surplus',
       badgeColor: 'bg-amber-200 text-amber-950 border-amber-300 dark:bg-amber-900/60 dark:text-amber-100',
@@ -139,7 +139,7 @@ export const PlanComparisonModal: React.FC<PlanComparisonModalProps> = ({
                             {p.name}
                           </h3>
                           <span className="text-[10px] text-slate-600 dark:text-slate-300 font-semibold block">
-                            {p.hindiTitle}
+                            {p.subtitle}
                           </span>
                         </div>
                       </div>

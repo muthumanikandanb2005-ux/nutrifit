@@ -13,6 +13,7 @@ import { AppClerkProvider, useClerkAuth } from './components/ClerkAuthProvider';
 import { SafeSignedIn, SafeUserButton } from './components/SafeClerkComponents';
 import { RecipeModal } from './components/RecipeModal';
 import { PlanComparisonModal } from './components/PlanComparisonModal';
+import { ProfileModal } from './components/ProfileModal';
 import { MealSwapperModal } from './components/MealSwapperModal';
 import { HandsFreeCookingModal } from './components/HandsFreeCookingModal';
 import { GroceryList } from './components/GroceryList';
@@ -54,7 +55,8 @@ import {
   Smartphone, 
   Monitor,
   Columns3,
-  Dumbbell
+  Dumbbell,
+  Upload
 } from 'lucide-react';
 
 /**
@@ -197,7 +199,7 @@ export function AppContent() {
   }, [profile]);
 
   // Extended Goals & Metrics
-  const targetWeight = 65.0;
+  const targetWeight = profile.targetWeightKg || 65.0;
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lb'>('kg');
   const [waterAmount, setWaterAmount] = useState<number>(2400); // 12 glasses (200ml each)
 
@@ -279,6 +281,7 @@ export function AppContent() {
   const [cookingFood, setCookingFood] = useState<FoodItem | null>(null);
   const [isCookModeOpen, setIsCookModeOpen] = useState(false);
   const [isPlanCompareModalOpen, setIsPlanCompareModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   // Sub-feature states
   const [workouts, setWorkouts] = useState<WorkoutEntry[]>([
@@ -505,10 +508,60 @@ export function AppContent() {
   // ========================================================
   // RENDER: Home Screen / Daily Dashboard
   // ========================================================
-  const renderHomeScreen = (_isDual = false) => (
+  const renderHomeScreen = (_isDual = false) => {
+    const heightM = profile.heightCm / 100;
+    const bmiVal = heightM > 0 ? (profile.weightKg / (heightM * heightM)).toFixed(1) : '22.0';
+
+    return (
     <div className="space-y-5 animate-in fade-in duration-200">
       
-      {/* 0. Dedicated 3-Plan Switcher (Weight Loss, Maintain, Weight Gain) */}
+      {/* 0. User Profile Banner & Details Bar */}
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3.5 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div 
+            className="relative cursor-pointer group" 
+            onClick={() => {
+              setIsProfileModalOpen(true);
+              haptic.selection();
+            }}
+            title="Click to edit profile"
+          >
+            <img 
+              src={userAvatar} 
+              alt={profile.name} 
+              className="w-12 h-12 rounded-2xl object-cover border-2 border-[#EA580C] shadow-2xs group-hover:scale-105 transition" 
+            />
+          </div>
+          <div>
+            <div className="flex items-center space-x-2">
+              <h2 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-tight">
+                {profile.name}
+              </h2>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
+                BMI {bmiVal}
+              </span>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+              {profile.age} yrs • {profile.heightCm} cm • {profile.weightKg} kg {profile.targetWeightKg ? `• Target ${profile.targetWeightKg} kg` : ''}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            setIsProfileModalOpen(true);
+            haptic.selection();
+          }}
+          className="px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold transition cursor-pointer flex items-center space-x-1.5 shadow-2xs active:scale-95"
+          title="Edit Profile, Height, Weight, Age"
+        >
+          <User className="w-3.5 h-3.5" />
+          <span className="hidden xs:inline">Edit Details</span>
+          <span className="xs:hidden">Edit</span>
+        </button>
+      </div>
+
+      {/* 1. Dedicated 3-Plan Switcher (Weight Loss, Maintain, Weight Gain) */}
       <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
         <div className="flex items-center justify-between px-1">
           <div>
@@ -516,7 +569,7 @@ export function AppContent() {
               3 Dedicated Indian Diet Protocols
             </span>
             <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-1">
-              Select Your Target Plan (डाइट प्लान चुनें)
+              Select Your Target Fitness Plan
             </h3>
           </div>
 
@@ -537,7 +590,7 @@ export function AppContent() {
             {
               id: 'fat_loss' as const,
               label: 'Weight Loss',
-              hindi: 'वजन घटाएं',
+              subtitle: 'Calorie Deficit',
               icon: Flame,
               macros: weightLossMacros,
               badge: '-20% Deficit'
@@ -545,7 +598,7 @@ export function AppContent() {
             {
               id: 'maintenance' as const,
               label: 'Maintain',
-              hindi: 'स्थिर वजन',
+              subtitle: 'Balance TDEE',
               icon: Scale,
               macros: maintainMacros,
               badge: 'TDEE Fit'
@@ -553,7 +606,7 @@ export function AppContent() {
             {
               id: 'muscle_gain' as const,
               label: 'Weight Gain',
-              hindi: 'वजन बढ़ाएं',
+              subtitle: 'Muscle Surplus',
               icon: Dumbbell,
               macros: weightGainMacros,
               badge: '+15% Surplus'
@@ -595,7 +648,7 @@ export function AppContent() {
                     {planItem.label}
                   </div>
                   <div className={cx("text-[10px] truncate", isSelected ? "text-amber-100" : "text-slate-600 dark:text-slate-300 font-medium")}>
-                    {planItem.hindi}
+                    {planItem.subtitle}
                   </div>
                 </div>
 
@@ -975,7 +1028,8 @@ export function AppContent() {
       </div>
 
     </div>
-  );
+    );
+  };
 
   // ========================================================
   // RENDER: Desktop Companion Sidebar
@@ -1318,6 +1372,22 @@ export function AppContent() {
           {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-700" />}
         </button>
 
+        {/* Profile Details Quick Edit */}
+        <button
+          onClick={() => {
+            setIsProfileModalOpen(true);
+            haptic.selection();
+          }}
+          className="flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A291E] bg-white dark:bg-[#231811] text-xs font-bold text-slate-800 dark:text-white hover:border-[#EA580C] transition cursor-pointer shadow-2xs"
+          title="Edit Profile & Body Metrics"
+        >
+          <img src={userAvatar} alt="Profile" className="w-5 h-5 rounded-full object-cover border border-[#EA580C]" />
+          <span className="hidden xl:inline">{profile.name}</span>
+          <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
+            {profile.weightKg}kg • {profile.heightCm}cm
+          </span>
+        </button>
+
         <SafeUserButton userAvatar={userAvatar} userName={profile.name} />
       </div>
     </header>
@@ -1602,52 +1672,205 @@ export function AppContent() {
 
           {activeScreen === 'account' && (
             <div className="max-w-2xl mx-auto space-y-4">
-              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
+              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-6">
+                
+                {/* Header & Avatar */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center space-x-3.5">
+                    <img src={userAvatar} alt="Profile" className="w-16 h-16 rounded-2xl object-cover border-2 border-[#EA580C] shadow-md" />
                     <div>
-                      <h3 className="font-black text-lg text-slate-900 dark:text-white">{profile.name}</h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
+                      <h3 className="font-black text-xl text-slate-900 dark:text-white leading-tight">{profile.name}</h3>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                        {profile.gender === 'female' ? 'Female' : 'Male'} • {profile.age} yrs • {profile.heightCm} cm • {profile.weightKg} kg
+                      </p>
                     </div>
                   </div>
+
                   <div className="flex items-center space-x-2">
-                    <label className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold cursor-pointer hover:bg-[#C2410C] transition shadow-xs">
-                      Upload Photo
+                    <label className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold cursor-pointer hover:bg-[#C2410C] transition shadow-xs flex items-center space-x-1">
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Upload</span>
                       <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
                     </label>
                     <button 
-                      onClick={resetToProvidedAvatar}
-                      className="px-2.5 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 transition cursor-pointer"
-                      title="Reset Avatar"
+                      onClick={() => setIsProfileModalOpen(true)}
+                      className="px-3 py-1.5 rounded-xl border border-[#EA580C] text-[#EA580C] hover:bg-[#EA580C]/10 text-xs font-bold transition cursor-pointer flex items-center space-x-1"
                     >
-                      Reset
+                      <User className="w-3.5 h-3.5" />
+                      <span>Full Editor</span>
                     </button>
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-[#2D2018] space-y-3">
-                  <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1">Diet Type</label>
-                    <select
-                      value={profile.dietType}
-                      onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                      className="w-full p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                    >
-                      <option value="pure_veg">Pure Vegetarian (Indian Lacto-Veg)</option>
-                      <option value="eggetarian">Eggetarian (Veg + Eggs)</option>
-                      <option value="non_veg">Non-Vegetarian (Chicken & Fish)</option>
-                      <option value="high_protein_veg">High-Protein Veg (Paneer, Tofu, Sattu)</option>
-                    </select>
-                  </div>
+                {/* Direct Details Editor Grid */}
+                <div className="pt-4 border-t border-[#EEDEC1]/60 dark:border-[#3A291E] space-y-4">
+                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Personal & Physical Details
+                  </h4>
 
-                  <div>
-                    <label className="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1">Daily Target</label>
-                    <div className="text-xs text-slate-500">
-                      Mifflin-St Jeor TDEE: <strong>{macroGoals.calories} kcal</strong> ({macroGoals.proteinGrams}g Protein)
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Full Name</label>
+                      <input
+                        type="text"
+                        value={profile.name}
+                        onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Biological Gender</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setProfile(prev => ({ ...prev, gender: 'male' }))}
+                          className={`py-2 px-3 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                            profile.gender === 'male'
+                              ? 'bg-[#EA580C] text-white border-[#EA580C]'
+                              : 'bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 border-[#EEDEC1] dark:border-[#3A291E]'
+                          }`}
+                        >
+                          👨 Male
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setProfile(prev => ({ ...prev, gender: 'female' }))}
+                          className={`py-2 px-3 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                            profile.gender === 'female'
+                              ? 'bg-[#EA580C] text-white border-[#EA580C]'
+                              : 'bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 border-[#EEDEC1] dark:border-[#3A291E]'
+                          }`}
+                        >
+                          👩 Female
+                        </button>
+                      </div>
                     </div>
                   </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Age (yrs)</label>
+                      <input
+                        type="number"
+                        min="12"
+                        max="100"
+                        value={profile.age}
+                        onChange={(e) => setProfile(prev => ({ ...prev, age: Number(e.target.value) }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Height (cm)</label>
+                      <input
+                        type="number"
+                        min="100"
+                        max="240"
+                        value={profile.heightCm}
+                        onChange={(e) => setProfile(prev => ({ ...prev, heightCm: Number(e.target.value) }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Weight (kg)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="30"
+                        max="220"
+                        value={profile.weightKg}
+                        onChange={(e) => setProfile(prev => ({ ...prev, weightKg: Number(e.target.value) }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Target (kg)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="30"
+                        max="220"
+                        value={profile.targetWeightKg || ''}
+                        placeholder="e.g. 65"
+                        onChange={(e) => setProfile(prev => ({ ...prev, targetWeightKg: Number(e.target.value) }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Fitness Goal</label>
+                      <select
+                        value={profile.goal}
+                        onChange={(e) => setProfile(prev => ({ ...prev, goal: e.target.value as any }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
+                      >
+                        <option value="fat_loss">Weight Loss (-20% Deficit)</option>
+                        <option value="maintenance">Maintain (TDEE Fit)</option>
+                        <option value="muscle_gain">Weight Gain (+15% Surplus)</option>
+                        <option value="recomp">Body Recomposition (-5% Deficit)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Diet Type</label>
+                      <select
+                        value={profile.dietType}
+                        onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
+                      >
+                        <option value="pure_veg">Pure Vegetarian (Lacto-Veg)</option>
+                        <option value="eggetarian">Eggetarian (Veg + Eggs)</option>
+                        <option value="non_veg">Non-Vegetarian (Chicken/Fish)</option>
+                        <option value="high_protein_veg">High-Protein Veg</option>
+                        <option value="jain">Jain Food</option>
+                        <option value="sattvic">Sattvic Ayurvedic</option>
+                        <option value="vegan">Vegan (Plant-Based)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Activity Level</label>
+                      <select
+                        value={profile.activityLevel}
+                        onChange={(e) => setProfile(prev => ({ ...prev, activityLevel: e.target.value as any }))}
+                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
+                      >
+                        <option value="sedentary">Sedentary (1.2x)</option>
+                        <option value="lightly_active">Lightly Active (1.375x)</option>
+                        <option value="moderately_active">Moderately Active (1.55x)</option>
+                        <option value="very_active">Very Active (1.725x)</option>
+                        <option value="extra_active">Extra Active (1.9x)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Telemetry card */}
+                  <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-[#251C17] dark:to-[#1F1611] p-3.5 rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs font-bold text-slate-900 dark:text-white">
+                        Mifflin-St Jeor Target: <span className="text-[#EA580C]">{macroGoals.calories} kcal/day</span>
+                      </div>
+                      <div className="text-[11px] text-slate-600 dark:text-slate-400 font-semibold mt-0.5">
+                        {macroGoals.proteinGrams}g Protein • {macroGoals.carbsGrams}g Carbs • {macroGoals.fatsGrams}g Healthy Fats
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        haptic.selection();
+                        notify(`Profile saved! Target updated to ${macroGoals.calories} kcal.`);
+                      }}
+                      className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold transition shadow-xs cursor-pointer"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
                 </div>
+
               </div>
             </div>
           )}
@@ -1694,10 +1917,15 @@ export function AppContent() {
               </button>
 
               <button 
-                onClick={() => setActiveScreen('account')}
-                className="w-8 h-8 rounded-full overflow-hidden border border-[#EA580C]"
+                onClick={() => {
+                  setIsProfileModalOpen(true);
+                  haptic.selection();
+                }}
+                className="flex items-center space-x-1.5 p-0.5 pr-2 rounded-full border border-[#EA580C]/50 bg-white dark:bg-[#1C1511] cursor-pointer"
+                title="Edit Profile"
               >
-                <img src={userAvatar} alt="Profile" className="w-full h-full object-cover" />
+                <img src={userAvatar} alt="Profile" className="w-6 h-6 rounded-full object-cover border border-[#EA580C]" />
+                <span className="text-[11px] font-bold text-slate-800 dark:text-white max-w-[65px] truncate">{profile.name.split(' ')[0]}</span>
               </button>
             </div>
           </header>
@@ -1905,44 +2133,142 @@ export function AppContent() {
 
             {activeScreen === 'account' && (
               <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Menu</span>
-                </button>
+                <div className="flex items-center justify-between">
+                  <button 
+                    onClick={() => setActiveScreen('menu')}
+                    className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Back to Menu</span>
+                  </button>
+
+                  <button 
+                    onClick={() => setIsProfileModalOpen(true)}
+                    className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#EA580C] bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 px-3 py-1.5 rounded-xl shadow-xs cursor-pointer"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span>Full Editor Modal</span>
+                  </button>
+                </div>
 
                 <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
-                    <div>
-                      <h3 className="font-black text-base text-slate-900 dark:text-white">{profile.name}</h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
+                      <div>
+                        <h3 className="font-black text-base text-slate-900 dark:text-white">{profile.name}</h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.gender === 'female' ? 'Female' : 'Male'} • {profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
+                      </div>
                     </div>
+
+                    <label className="px-2.5 py-1 rounded-lg bg-[#EA580C] text-white text-[11px] font-bold cursor-pointer hover:bg-[#C2410C]">
+                      Photo
+                      <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
+                    </label>
                   </div>
 
                   <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-[#2D2018]">
+                    {/* Name */}
                     <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block mb-1">Diet Preference</label>
-                      <select
-                        value={profile.dietType}
-                        onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                      >
-                        <option value="pure_veg">Pure Vegetarian (Lacto-Veg)</option>
-                        <option value="eggetarian">Eggetarian</option>
-                        <option value="non_veg">Non-Vegetarian</option>
-                        <option value="high_protein_veg">High-Protein Vegetarian</option>
-                      </select>
+                      <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Full Name</label>
+                      <input
+                        type="text"
+                        value={profile.name}
+                        onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
+                        className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
+                      />
+                    </div>
+
+                    {/* Metrics 4-grid */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Age (yrs)</label>
+                        <input
+                          type="number"
+                          value={profile.age}
+                          onChange={(e) => setProfile(prev => ({ ...prev, age: Number(e.target.value) }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Height (cm)</label>
+                        <input
+                          type="number"
+                          value={profile.heightCm}
+                          onChange={(e) => setProfile(prev => ({ ...prev, heightCm: Number(e.target.value) }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Weight (kg)</label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          value={profile.weightKg}
+                          onChange={(e) => setProfile(prev => ({ ...prev, weightKg: Number(e.target.value) }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Target (kg)</label>
+                        <input
+                          type="number"
+                          step="0.1"
+                          placeholder="e.g. 65"
+                          value={profile.targetWeightKg || ''}
+                          onChange={(e) => setProfile(prev => ({ ...prev, targetWeightKg: Number(e.target.value) }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Goal & Diet */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Fitness Goal</label>
+                        <select
+                          value={profile.goal}
+                          onChange={(e) => setProfile(prev => ({ ...prev, goal: e.target.value as any }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
+                        >
+                          <option value="fat_loss">Weight Loss</option>
+                          <option value="maintenance">Maintain</option>
+                          <option value="muscle_gain">Weight Gain</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Diet Type</label>
+                        <select
+                          value={profile.dietType}
+                          onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
+                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
+                        >
+                          <option value="pure_veg">Pure Veg</option>
+                          <option value="eggetarian">Eggetarian</option>
+                          <option value="non_veg">Non-Veg</option>
+                          <option value="high_protein_veg">High-Protein Veg</option>
+                          <option value="jain">Jain Food</option>
+                          <option value="sattvic">Sattvic</option>
+                          <option value="vegan">Vegan</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
                       <div>
-                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Mifflin-St Jeor Target</div>
+                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Daily Target</div>
                         <div className="text-[11px] text-slate-600 dark:text-slate-300 font-semibold">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
                       </div>
-                      <span className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA]">Active</span>
+                      <button
+                        onClick={() => {
+                          haptic.selection();
+                          notify(`Profile details saved successfully!`);
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold shadow-2xs cursor-pointer"
+                      >
+                        Save
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -2009,6 +2335,20 @@ export function AppContent() {
             notify(`Celebration! You finished cooking & logged ${cookingFood.name}!`);
           }
         }}
+      />
+
+      {/* 5. User Profile & Body Metrics Editor Modal */}
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        profile={profile}
+        onSaveProfile={(updated) => {
+          setProfile(updated);
+          notify(`Profile saved! Goals updated for ${updated.name}.`);
+        }}
+        userAvatar={userAvatar}
+        onAvatarUpload={handleAvatarUpload}
+        onResetAvatar={resetToProvidedAvatar}
       />
 
     </div>

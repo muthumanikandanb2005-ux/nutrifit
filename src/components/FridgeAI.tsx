@@ -108,9 +108,6 @@ export const FridgeAI: React.FC<FridgeAIProps> = ({ onSelectRecipe }) => {
                 </div>
 
                 <h3 className="font-bold text-sm sm:text-base text-[var(--ink)]">{food.name}</h3>
-                {food.hindiName && (
-                  <p className="text-xs text-[var(--muted)] font-serif">({food.hindiName})</p>
-                )}
                 <p className="text-xs text-[var(--muted)]">{food.servingSize}</p>
               </div>
 

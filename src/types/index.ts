@@ -30,6 +30,7 @@ export interface UserProfile {
   gender: 'male' | 'female';
   weightKg: number;
   heightCm: number;
+  targetWeightKg?: number;
   activityLevel: 'sedentary' | 'lightly_active' | 'moderately_active' | 'very_active' | 'extra_active';
   goal: FitnessGoal;
   bodyType?: BodyType;

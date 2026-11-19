@@ -29,7 +29,7 @@ export const WaterTracker: React.FC<WaterTrackerProps> = ({
       <div className="bg-white dark:bg-slate-800/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-4 text-center">
         <div className="inline-flex items-center space-x-2 bg-sky-500/10 border border-sky-500/20 text-sky-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
           <Droplet className="w-4 h-4 animate-bounce" />
-          <span>Hydration & Fluid Intake Tracker (जल ट्रैकर)</span>
+          <span>Hydration & Fluid Intake Tracker</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Track Daily Water & Desi Hydration

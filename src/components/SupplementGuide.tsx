@@ -16,7 +16,7 @@ export const SupplementGuide: React.FC = () => {
       <div className="bg-white dark:bg-slate-800/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-slate-700/60 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3 text-center">
         <div className="inline-flex items-center space-x-2 bg-purple-500/10 border border-purple-500/20 text-purple-400 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider">
           <Pill className="w-4 h-4" />
-          <span>Evidence-Based Supplement Advisor (सप्लीमेंट गाइड)</span>
+          <span>Evidence-Based Supplement Advisor</span>
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           Scientific Fitness & Herbal Supplements
@@ -91,9 +91,6 @@ export const SupplementGuide: React.FC = () => {
                     </span>
                   </div>
                   <h3 className="text-lg font-extrabold text-white mt-1">{supp.name}</h3>
-                  {supp.hindiName && (
-                    <p className="text-xs text-amber-300/80 font-serif">({supp.hindiName})</p>
-                  )}
                 </div>
 
                 <span className="text-xs px-2 py-1 bg-slate-900 rounded-lg border border-slate-700 text-slate-300">

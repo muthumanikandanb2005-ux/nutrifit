@@ -52,6 +52,7 @@ export interface FoodItem {
   id: string;
   name: string;
   hindiName?: string;
+  image?: string;
   slot: MealSlot;
   calories: number;
   protein: number; // in grams

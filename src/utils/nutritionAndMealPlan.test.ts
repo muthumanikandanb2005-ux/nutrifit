@@ -236,12 +236,13 @@ test('getIndianFoodImage: returns authentic Indian image URL for various foods',
   const paneerFood = INDIAN_FOOD_DATABASE.find(f => f.name.toLowerCase().includes('paneer'));
   if (paneerFood) {
     const img = getIndianFoodImage(paneerFood);
-    assert.ok(img.startsWith('https://images.unsplash.com'));
+    assert.ok(img.startsWith('/food-images/') || img.startsWith('https://'));
   }
   const idliFood = INDIAN_FOOD_DATABASE.find(f => f.name.toLowerCase().includes('idli'));
   if (idliFood) {
     const img = getIndianFoodImage(idliFood);
-    assert.ok(img.startsWith('https://images.unsplash.com'));
+    assert.ok(img.startsWith('/food-images/') || img.startsWith('https://'));
+    assert.strictEqual(img, '/food-images/bf_4.jpg');
   }
 });
 

@@ -4,6 +4,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- EARLY MORNING ---
   {
     id: 'em_1',
+    image: '/food-images/em_1.jpg',
     name: 'Warm Lemon Honey Water & Soaked Almonds',
     hindiName: 'नींबू पानी और भीगे बादाम',
     slot: 'early_morning',
@@ -32,6 +33,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'em_2',
+    image: '/food-images/em_2.jpg',
     name: 'Sattu Protein Drink (Salted)',
     hindiName: 'सत्तू नमकीन शरबत',
     slot: 'early_morning',
@@ -60,6 +62,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'em_3',
+    image: '/food-images/em_3.jpg',
     name: 'Methi Water & Soaked Walnuts',
     hindiName: 'मेथी पानी और अखरोट',
     slot: 'early_morning',
@@ -88,6 +91,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- BREAKFAST ---
   {
     id: 'bf_1',
+    image: '/food-images/bf_1.jpg',
     name: 'Sprouted Moong & Paneer Salad',
     hindiName: 'अंकुरित मूंग और पनीर सलाद',
     slot: 'breakfast',
@@ -117,6 +121,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'bf_2',
+    image: '/food-images/bf_2.jpg',
     name: 'Egg Bhurji (3 Eggs) + 2 Whole Wheat Rotis',
     hindiName: 'अंडा भूर्जी और 2 रोटी',
     slot: 'breakfast',
@@ -147,6 +152,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'bf_3',
+    image: '/food-images/bf_3.jpg',
     name: 'High-Protein Oats Besan Chela (2 Pcs)',
     hindiName: 'ओट्स बेसन चीला (2)',
     slot: 'breakfast',
@@ -176,6 +182,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'bf_4',
+    image: '/food-images/bf_4.jpg',
     name: 'South Indian Steamed Idli (3) + Sambar & Chutney',
     hindiName: 'इडली, सांभर और प्रोटीन नारियल चटनी',
     slot: 'breakfast',
@@ -204,6 +211,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'bf_5',
+    image: '/food-images/bf_5.jpg',
     name: 'Paneer Stuffed Multigrain Paratha (1) + Curd',
     hindiName: 'पनीर पराठा और दही',
     slot: 'breakfast',
@@ -235,6 +243,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- LUNCH ---
   {
     id: 'lc_1',
+    image: '/food-images/lc_1.jpg',
     name: 'High Protein Chicken Curry + 2 Rotis + Salad',
     hindiName: 'चिकन करी, 2 रोटी और सलाद',
     slot: 'lunch',
@@ -265,6 +274,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'lc_2',
+    image: '/food-images/lc_2.jpg',
     name: 'Soya Chunks Masala Curry + Brown Rice/Roti + Dal',
     hindiName: 'सोया चंक्स करी, ब्राउन राइस और दाल',
     slot: 'lunch',
@@ -294,6 +304,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'lc_3',
+    image: '/food-images/lc_3.jpg',
     name: 'Rajma Masala + Steamed Brown Rice + Sirka Onion',
     hindiName: 'राजमा चावल और सिरका प्याज',
     slot: 'lunch',
@@ -323,6 +334,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'lc_4',
+    image: '/food-images/lc_4.jpg',
     name: 'South Indian Fish Curry (Meen Kuzhambu) + Matta Rice + Poriyal',
     hindiName: 'साउथ इंडियन फिश करी, मट्टा राइस और बीन्स पोरियल',
     slot: 'lunch',
@@ -351,6 +363,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'lc_5',
+    image: '/food-images/lc_5.jpg',
     name: 'Paneer Bhurji Gravy + 2 Jowar/Multigrain Rotis + Green Salad',
     hindiName: 'पनीर भूर्जी ग्रेवी, 2 ज्वार रोटी और सलाद',
     slot: 'lunch',
@@ -382,6 +395,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- EVENING SNACK ---
   {
     id: 'sn_1',
+    image: '/food-images/sn_1.jpg',
     name: 'Roasted Makhana (Foxnuts) + 1 Cup Masala Chai (No Sugar)',
     hindiName: 'भुना मखाना और मसाला चाय',
     slot: 'snack',
@@ -411,6 +425,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'sn_2',
+    image: '/food-images/sn_2.jpg',
     name: 'Boiled Chana / Peanut Chaat',
     hindiName: 'उबला काला चना / मूंगफली चाट',
     slot: 'snack',
@@ -438,6 +453,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'sn_3',
+    image: '/food-images/sn_3.jpg',
     name: '3 Boiled Egg Whites + Black Pepper',
     hindiName: '3 उबले अंडे (सफेद भाग)',
     slot: 'snack',
@@ -464,6 +480,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'sn_4',
+    image: '/food-images/sn_4.jpg',
     name: 'Desi Whey Protein Shake with Cold Water/Milk',
     hindiName: 'वे प्रोटीन शेक',
     slot: 'snack',
@@ -492,6 +509,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- DINNER ---
   {
     id: 'dn_1',
+    image: '/food-images/dn_1.jpg',
     name: 'Grilled Tandoori Paneer / Tofu Tikka + Mint Chutney & Salad',
     hindiName: 'तंदूरी पनीर/टोफू टिक्का और हरी चटनी',
     slot: 'dinner',
@@ -521,6 +539,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'dn_2',
+    image: '/food-images/dn_2.jpg',
     name: 'Grilled Tandoori Chicken Tikka + Garlic Spinach Salad',
     hindiName: 'चिकन टिक्का और पालक सलाद',
     slot: 'dinner',
@@ -549,6 +568,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'dn_3',
+    image: '/food-images/dn_3.jpg',
     name: 'Yellow Moong Dal Khichdi + Desi Ghee + Curd',
     hindiName: 'मूंग दाल खिचड़ी, घी और दही',
     slot: 'dinner',
@@ -579,6 +599,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'dn_4',
+    image: '/food-images/dn_4.jpg',
     name: 'Steamed Fish Fillet + Sautéed Exotic Veggies',
     hindiName: 'स्टीम्ड फिश और टॉस की हुई सब्जियां',
     slot: 'dinner',
@@ -609,6 +630,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   // --- INDIAN FRUITS & NATURALLY SWEET SUPERFOODS ---
   {
     id: 'fruit_1',
+    image: '/food-images/fruit_1.jpg',
     name: 'Fresh Papaya (Papiha) Bowl',
     hindiName: 'ताजा पपीता',
     slot: 'snack',
@@ -631,6 +653,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_2',
+    image: '/food-images/fruit_2.jpg',
     name: 'Fresh Guava (Amrood) with Chaat Masala',
     hindiName: 'ताजा अमरूद',
     slot: 'snack',
@@ -653,6 +676,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_3',
+    image: '/food-images/fruit_3.jpg',
     name: 'Alphonso Mango Slices (Aam)',
     hindiName: 'ताजा आम',
     slot: 'snack',
@@ -674,6 +698,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_4',
+    image: '/food-images/fruit_4.jpg',
     name: 'Pomegranate (Anar) Seeds',
     hindiName: 'अनार के दाने',
     slot: 'snack',
@@ -695,6 +720,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_5',
+    image: '/food-images/fruit_5.jpg',
     name: 'Red Apple (Seb) with Cinnamon',
     hindiName: 'सेब और दालचीनी',
     slot: 'snack',
@@ -717,6 +743,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_6',
+    image: '/food-images/fruit_6.jpg',
     name: 'Sweet Lime / Mosambi Slices',
     hindiName: 'मौसमी फल',
     slot: 'snack',
@@ -738,6 +765,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_7',
+    image: '/food-images/fruit_7.jpg',
     name: 'Fresh Watermelon (Tarbooz) Cubes',
     hindiName: 'तरबूज के टुकड़े',
     slot: 'snack',
@@ -760,6 +788,7 @@ export const INDIAN_FOOD_DATABASE: FoodItem[] = [
   },
   {
     id: 'fruit_8',
+    image: '/food-images/fruit_8.jpg',
     name: 'Chiku (Sapodilla) Slices',
     hindiName: 'चीकू फल',
     slot: 'snack',

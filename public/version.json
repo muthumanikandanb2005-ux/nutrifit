@@ -1,0 +1,20 @@
+{
+  "version": "2.2.0",
+  "buildNumber": 22,
+  "releaseDate": "2026-11-22",
+  "commit": "2c6a1f9",
+  "name": "NutriFit v2.2.0: Indian Holistic Fitness Suite",
+  "mandatory": false,
+  "changelog": [
+    "7-Day Indian Thali Architecture with Mon-Sun thali planner & 1-click PDF export",
+    "Hydration & Desi Fluids Tracker with quick-logging for Chaas & Nariyal Pani",
+    "Strava-Style Steps & Distance Pedometer with GPS activity cards",
+    "Smart Fridge AI to discover recipes using kitchen ingredients at home",
+    "Evidence-Based Supplement Advisor (Whey, Creatine, Ashwagandha, D3/B12)",
+    "Interactive Weight Check-In & Macro Analytics with Recharts telemetry",
+    "1-Tap Quick Action Bar on Daily Dashboard",
+    "Smooth 60fps animations, haptic feedback, and warm Saffron-Amber botanical styling"
+  ],
+  "bundleHash": "2c6a1f9-ota-v220",
+  "githubRelease": "https://github.com/muthumanikandanb2005-ux/nutrifit/releases/tag/v2.2.0-ota"
+}

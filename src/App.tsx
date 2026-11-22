@@ -30,6 +30,8 @@ import { WeeklyPlanner } from './components/WeeklyPlanner';
 import { FridgeAI } from './components/FridgeAI';
 import { SupplementGuide } from './components/SupplementGuide';
 import { Analytics } from './components/Analytics';
+import { OTAUpdateModal } from './components/OTAUpdateModal';
+import { CURRENT_COMMIT, CURRENT_APP_VERSION } from './utils/otaUpdate';
 import { haptic } from './utils/haptics';
 import { cx } from './utils/cx';
 import confetti from 'canvas-confetti';
@@ -67,7 +69,8 @@ import {
   Footprints,
   Calendar,
   Refrigerator,
-  Pill
+  Pill,
+  CloudDownload
 } from 'lucide-react';
 
 /**
@@ -350,6 +353,7 @@ export function AppContent() {
   const [isCookModeOpen, setIsCookModeOpen] = useState(false);
   const [isPlanCompareModalOpen, setIsPlanCompareModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isOTAModalOpen, setIsOTAModalOpen] = useState(false);
 
   // Sub-feature states
   const [workouts, setWorkouts] = useState<WorkoutEntry[]>([
@@ -1388,6 +1392,18 @@ export function AppContent() {
 
       {/* Right Controls: Streak, Simulator Toggle, Theme, Clerk Auth */}
       <div className="flex items-center space-x-2.5">
+        <button
+          onClick={() => {
+            setIsOTAModalOpen(true);
+            haptic.selection();
+          }}
+          className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-800 text-[#EA580C] text-xs font-bold hover:scale-105 transition cursor-pointer"
+          title="Check Over-The-Air (OTA) Updates"
+        >
+          <CloudDownload className="w-3.5 h-3.5" />
+          <span>OTA v2.2</span>
+        </button>
+
         <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-xs font-bold">
           <Flame className="w-3.5 h-3.5 fill-[#f59e0b] text-[#f59e0b]" />
           <span>5d Streak</span>
@@ -1666,12 +1682,17 @@ export function AppContent() {
                   { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ authentic Indian fitness meals' },
                   { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom dish nutrition calculator' },
                   { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy Swiggy & Zomato choices' },
+                  { id: 'ota', title: 'OTA Updates', icon: CloudDownload, desc: 'Live cloud asset sync & v2.2.0' },
                   { id: 'account', title: 'Profile & Settings', icon: User, desc: 'Calibrate height, weight, macros' },
                 ].map(tool => (
                   <button
                     key={tool.id}
                     onClick={() => {
-                      setActiveScreen(tool.id);
+                      if (tool.id === 'ota') {
+                        setIsOTAModalOpen(true);
+                      } else {
+                        setActiveScreen(tool.id);
+                      }
                       haptic.selection();
                     }}
                     className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs active:scale-95"
@@ -2001,6 +2022,29 @@ export function AppContent() {
                       Save Changes
                     </button>
                   </div>
+
+                  {/* Over-The-Air (OTA) Updates & App Sync Card */}
+                  <div className="p-4 rounded-2xl bg-[#FFFBF5] dark:bg-[#15100E] border border-[#EEDEC1] dark:border-[#2D1F16] flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] flex items-center justify-center shrink-0">
+                        <CloudDownload className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-slate-900 dark:text-white">Over-The-Air (OTA) Updates</div>
+                        <div className="text-[11px] text-slate-500 dark:text-slate-400">NutriFit v{CURRENT_APP_VERSION} • Commit {CURRENT_COMMIT}</div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsOTAModalOpen(true);
+                        haptic.selection();
+                      }}
+                      className="px-3.5 py-1.5 rounded-xl bg-amber-100 dark:bg-amber-950/80 hover:bg-amber-200 text-[#EA580C] border border-amber-300 dark:border-amber-800 text-xs font-bold transition active:scale-95 cursor-pointer"
+                    >
+                      Check OTA
+                    </button>
+                  </div>
                 </div>
 
               </div>
@@ -2030,6 +2074,18 @@ export function AppContent() {
             </div>
 
             <div className="flex items-center space-x-2">
+              <button 
+                onClick={() => {
+                  setIsOTAModalOpen(true);
+                  haptic.selection();
+                }}
+                className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-800 text-[#EA580C] text-[10px] font-black cursor-pointer active:scale-95 transition"
+                title="Check OTA Updates"
+              >
+                <CloudDownload className="w-3 h-3" />
+                <span>v2.2</span>
+              </button>
+
               <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-[11px] font-bold">
                 <Flame className="w-3 h-3 fill-[#f59e0b] text-[#f59e0b]" />
                 <span>5d</span>
@@ -2323,12 +2379,17 @@ export function AppContent() {
                     { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ Indian meals' },
                     { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom macros' },
                     { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy orders' },
+                    { id: 'ota', title: 'OTA Updates', icon: CloudDownload, desc: 'Live cloud sync & v2.2' },
                     { id: 'account', title: 'Profile Settings', icon: User, desc: 'Height & weight' },
                   ].map(tool => (
                     <button
                       key={tool.id}
                       onClick={() => {
-                        setActiveScreen(tool.id);
+                        if (tool.id === 'ota') {
+                          setIsOTAModalOpen(true);
+                        } else {
+                          setActiveScreen(tool.id);
+                        }
                         haptic.selection();
                       }}
                       className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] text-left cursor-pointer space-y-1.5 shadow-xs active:scale-95 transition"
@@ -2496,6 +2557,29 @@ export function AppContent() {
                         Save
                       </button>
                     </div>
+
+                    {/* Over-The-Air (OTA) Updates & App Sync Card */}
+                    <div className="pt-3 border-t border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] flex items-center justify-center shrink-0">
+                          <CloudDownload className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-slate-900 dark:text-white">OTA Updates</div>
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400">NutriFit v{CURRENT_APP_VERSION} ({CURRENT_COMMIT})</div>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsOTAModalOpen(true);
+                          haptic.selection();
+                        }}
+                        className="px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] border border-amber-300 dark:border-amber-800 text-[11px] font-black cursor-pointer active:scale-95"
+                      >
+                        Check OTA
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2575,6 +2659,13 @@ export function AppContent() {
         userAvatar={userAvatar}
         onAvatarUpload={handleAvatarUpload}
         onResetAvatar={resetToProvidedAvatar}
+      />
+
+      {/* 6. Over-The-Air (OTA) Updates & Cloud Sync Modal */}
+      <OTAUpdateModal
+        isOpen={isOTAModalOpen}
+        onClose={() => setIsOTAModalOpen(false)}
+        onNotify={notify}
       />
 
     </div>

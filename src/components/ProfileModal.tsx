@@ -62,8 +62,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   const bmiNumber = parseFloat(bmi);
 
   const getBmiStatus = (val: number) => {
-    if (val < 18.5) return { label: 'Underweight', color: 'text-amber-800 dark:text-amber-300', bg: 'bg-amber-100 dark:bg-amber-950/80 border-amber-300 dark:border-amber-700' };
-    if (val < 25) return { label: 'Normal / Healthy', color: 'text-emerald-800 dark:text-emerald-300', bg: 'bg-emerald-100 dark:bg-emerald-950/80 border-emerald-300 dark:border-emerald-700' };
+    if (val < 18.5) return { label: 'Underweight', color: 'text-sky-800 dark:text-sky-300', bg: 'bg-sky-100 dark:bg-sky-950/80 border-sky-300 dark:border-sky-700' };
+    if (val < 25) return { label: 'Normal / Healthy', color: 'text-amber-800 dark:text-amber-300', bg: 'bg-amber-100 dark:bg-amber-950/80 border-amber-300 dark:border-amber-700' };
     if (val < 30) return { label: 'Overweight', color: 'text-orange-800 dark:text-orange-300', bg: 'bg-orange-100 dark:bg-orange-950/80 border-orange-300 dark:border-orange-700' };
     return { label: 'Obese', color: 'text-red-800 dark:text-red-300', bg: 'bg-red-100 dark:bg-red-950/80 border-red-300 dark:border-red-700' };
   };

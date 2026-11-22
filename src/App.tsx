@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import type { 
   UserProfile, MealSlot, FoodItem, DailyMealPlan, 
-  WorkoutEntry, FastingState, CustomRecipe 
+  WorkoutEntry, FastingState, CustomRecipe,
+  WeightEntry, StepsLogEntry
 } from './types';
 import { calculateMacroGoals } from './utils/nutritionCalculator';
 import { generateDailyMealPlan } from './utils/mealPlanGenerator';
@@ -23,6 +24,12 @@ import { WorkoutTracker } from './components/WorkoutTracker';
 import { AICoach } from './components/AICoach';
 import { SwiggyGuide } from './components/SwiggyGuide';
 import { CustomRecipeBuilder } from './components/CustomRecipeBuilder';
+import { WaterTracker } from './components/WaterTracker';
+import { StepsTracker } from './components/StepsTracker';
+import { WeeklyPlanner } from './components/WeeklyPlanner';
+import { FridgeAI } from './components/FridgeAI';
+import { SupplementGuide } from './components/SupplementGuide';
+import { Analytics } from './components/Analytics';
 import { haptic } from './utils/haptics';
 import { cx } from './utils/cx';
 import confetti from 'canvas-confetti';
@@ -56,7 +63,11 @@ import {
   Monitor,
   Columns3,
   Dumbbell,
-  Upload
+  Upload,
+  Footprints,
+  Calendar,
+  Refrigerator,
+  Pill
 } from 'lucide-react';
 
 /**
@@ -202,6 +213,63 @@ export function AppContent() {
   const targetWeight = profile.targetWeightKg || 65.0;
   const [weightUnit, setWeightUnit] = useState<'kg' | 'lb'>('kg');
   const [waterAmount, setWaterAmount] = useState<number>(2400); // 12 glasses (200ml each)
+
+  // Weight Tracker telemetry state with localStorage persistence
+  const [weightLogs, setWeightLogs] = useState<WeightEntry[]>(() => {
+    const saved = localStorage.getItem('nutrifit_weight_logs');
+    if (saved) {
+      try { return JSON.parse(saved); } catch { /* ignore */ }
+    }
+    return [
+      { date: '15 Aug', weightKg: 71.5, bmi: 23.9 },
+      { date: '18 Aug', weightKg: 70.8, bmi: 23.6 },
+      { date: '21 Aug', weightKg: 70.2, bmi: 23.4 },
+      { date: '24 Aug', weightKg: 69.8, bmi: 23.3 },
+      { date: '27 Aug', weightKg: 69.1, bmi: 23.1 },
+      { date: '30 Aug', weightKg: 68.4, bmi: 22.8 },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('nutrifit_weight_logs', JSON.stringify(weightLogs));
+  }, [weightLogs]);
+
+  const handleAddWeightLog = (entry: WeightEntry) => {
+    setWeightLogs(prev => [...prev, entry]);
+    setProfile(prev => ({ ...prev, weightKg: entry.weightKg }));
+    notify(`Logged weight check-in: ${entry.weightKg} kg!`);
+  };
+
+  // Steps / Pedometer Tracker state with localStorage persistence
+  const [stepsLogs, setStepsLogs] = useState<StepsLogEntry[]>(() => {
+    const saved = localStorage.getItem('nutrifit_steps_logs');
+    if (saved) {
+      try { return JSON.parse(saved); } catch { /* ignore */ }
+    }
+    return [
+      {
+        id: 'step_demo_1',
+        date: 'Today',
+        time: '07:15 AM',
+        title: 'Morning Strava Walk & Jog',
+        steps: 4250,
+        distanceKm: 3.1,
+        caloriesBurned: 185,
+        durationMins: 35,
+        avgPaceMinutesPerKm: 6.2,
+        activityType: 'walk',
+      }
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('nutrifit_steps_logs', JSON.stringify(stepsLogs));
+  }, [stepsLogs]);
+
+  const handleAddStepsLog = (entry: StepsLogEntry) => {
+    setStepsLogs(prev => [entry, ...prev]);
+    notify(`Saved activity: ${entry.title} (${entry.steps} steps)!`);
+  };
 
   // Calendar Week Strip State
   const [activeDateIndex, setActiveDateIndex] = useState<number>(3); // 3 = Wednesday 10th
@@ -1007,6 +1075,52 @@ export function AppContent() {
         </div>
       </div>
 
+      {/* 4.5. Quick Action Bar - Instant 1-Tap Desi Fitness Shortcuts */}
+      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3.5 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-2.5">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-[10px] font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] flex items-center space-x-1.5">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Quick Fitness Actions</span>
+          </span>
+          <button 
+            onClick={() => {
+              setActiveScreen('menu');
+              haptic.selection();
+            }}
+            className="text-[11px] font-bold text-slate-500 dark:text-slate-400 hover:text-[#EA580C] cursor-pointer"
+          >
+            All 14 Tools →
+          </button>
+        </div>
+
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          {[
+            { id: 'water', label: '+ Water', icon: Droplets, color: 'text-sky-600 bg-sky-50 dark:bg-sky-950/60 dark:text-sky-400' },
+            { id: 'steps', label: 'Log Steps', icon: Footprints, color: 'text-amber-700 bg-amber-50 dark:bg-amber-950/60 dark:text-amber-300' },
+            { id: 'fridge', label: 'Fridge AI', icon: Refrigerator, color: 'text-orange-600 bg-orange-50 dark:bg-orange-950/60 dark:text-orange-400' },
+            { id: 'weekly', label: '7-Day Plan', icon: Calendar, color: 'text-amber-800 bg-amber-100/70 dark:bg-amber-950/60 dark:text-amber-200' },
+            { id: 'fasting', label: 'Fasting', icon: Timer, color: 'text-rose-600 bg-rose-50 dark:bg-rose-950/60 dark:text-rose-400' },
+            { id: 'supplements', label: 'Supplements', icon: Pill, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400' },
+          ].map((act) => (
+            <button
+              key={act.id}
+              onClick={() => {
+                setActiveScreen(act.id);
+                haptic.selection();
+              }}
+              className="p-2 sm:p-2.5 rounded-2xl bg-[#FFFBF5] dark:bg-[#19120E] hover:bg-stone-50 dark:hover:bg-[#251912] border border-[#EEDEC1] dark:border-[#34251B] flex flex-col items-center justify-center text-center transition cursor-pointer active:scale-95 group"
+            >
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-1 ${act.color} group-hover:scale-110 transition`}>
+                <act.icon className="w-4 h-4" />
+              </div>
+              <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate w-full">
+                {act.label}
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* 5. The 5 Indian Meal Deck */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
@@ -1196,95 +1310,27 @@ export function AppContent() {
       {/* Top Header */}
       <div className="flex items-center justify-between pb-1">
         <div>
-          <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-            Macro & Energy Telemetry
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+            Macro & Body Analytics
           </h2>
-          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">7-Day Calorie Balance & Body Transformation</p>
+          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">7-Day Calorie Telemetry, Weight Check-ins & Body Transformation</p>
         </div>
         <button
-          onClick={() => setActiveScreen('dashboard')}
-          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-700 dark:text-slate-300"
+          onClick={() => {
+            setActiveScreen('dashboard');
+            haptic.selection();
+          }}
+          className="px-3.5 py-1.5 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-700 dark:text-slate-300 active:scale-95 transition cursor-pointer"
         >
           Back to Plan
         </button>
       </div>
 
-      {/* Calorie Balance Summary */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Average Daily Intake</span>
-            <div className="text-3xl font-black text-[#7C2D12] dark:text-white mt-0.5">
-              1,840 <span className="text-sm font-normal text-slate-600 dark:text-slate-300 font-bold">kcal/day</span>
-            </div>
-          </div>
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
-            -420 kcal Deficit (On Track)
-          </span>
-        </div>
-
-        {/* 7-Day Chart Bars */}
-        <div className="grid grid-cols-7 gap-2 items-end h-40 pt-4 border-b border-slate-100 dark:border-[#2D2018] pb-2">
-          {[
-            { day: 'Mon', pct: 85, kcal: 1780 },
-            { day: 'Tue', pct: 90, kcal: 1890 },
-            { day: 'Wed', pct: 98, kcal: 2050, peak: true },
-            { day: 'Thu', pct: 88, kcal: 1840 },
-            { day: 'Fri', pct: 82, kcal: 1720 },
-            { day: 'Sat', pct: 95, kcal: 1980 },
-            { day: 'Sun', pct: 78, kcal: 1640 },
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-end h-full space-y-1.5">
-              <span className="text-[9px] font-bold text-slate-400">{item.kcal}</span>
-              <div 
-                className={cx(
-                  "w-full rounded-t-xl transition-all duration-500",
-                  item.peak ? "bg-[#EA580C] shadow-xs" : "bg-[#EEDEC1] dark:bg-[#3A291E]"
-                )}
-                style={{ height: `${item.pct}%` }}
-              />
-              <span className={cx("text-xs font-semibold", item.peak ? "text-[#9A3412] dark:text-[#FED7AA] font-bold" : "text-slate-400")}>
-                {item.day}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 2-Column Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div 
-          onClick={() => setActiveScreen('workouts')}
-          className="p-4 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#EA580C] transition"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#FFF7ED] dark:bg-[#251912] text-amber-700 dark:text-amber-500 flex items-center justify-center">
-              <Activity className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Active Workouts</div>
-              <div className="text-xl font-black text-slate-900 dark:text-white">450 kcal burned</div>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-400" />
-        </div>
-
-        <div 
-          onClick={() => setActiveScreen('account')}
-          className="p-4 rounded-3xl bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between cursor-pointer hover:border-[#EA580C] transition"
-        >
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#fef6e7] dark:bg-[#2b2214] text-amber-600 dark:text-amber-400 flex items-center justify-center">
-              <Scale className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Body Weight</div>
-              <div className="text-xl font-black text-slate-900 dark:text-white">{profile.weightKg} kg (68.4 kg)</div>
-            </div>
-          </div>
-          <ChevronRight className="w-4 h-4 text-slate-400" />
-        </div>
-      </div>
+      <Analytics
+        profile={profile}
+        weightLogs={weightLogs}
+        onAddWeightLog={handleAddWeightLog}
+      />
 
     </div>
   );
@@ -1314,10 +1360,13 @@ export function AppContent() {
         {[
           { id: 'dashboard', label: 'Today Plan' },
           { id: 'statistic', label: 'Analytics' },
-          { id: 'grocery', label: 'Smart Pantry' },
+          { id: 'weekly', label: '7-Day Thali' },
+          { id: 'water', label: 'Water' },
+          { id: 'steps', label: 'Steps' },
+          { id: 'fridge', label: 'Fridge AI' },
+          { id: 'supplements', label: 'Supplements' },
           { id: 'coach', label: 'AI Coach' },
-          { id: 'fasting', label: 'Fasting' },
-          { id: 'recipes', label: 'Recipes' }
+          { id: 'menu', label: 'All Tools' }
         ].map(item => (
           <button
             key={item.id}
@@ -1600,34 +1649,117 @@ export function AppContent() {
           )}
 
           {activeScreen === 'menu' && (
-            <div className="max-w-3xl mx-auto space-y-4">
-              <h3 className="text-lg font-black text-slate-900 dark:text-white">All Indian Health Tools & AI Companions</h3>
-              <div className="grid grid-cols-3 gap-4">
+            <div className="max-w-4xl mx-auto space-y-4">
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">All Indian Health Tools & AI Companions</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
                 {[
-                  { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'AI nutrition recognition' },
-                  { id: 'grocery', title: 'Smart Grocery', icon: ShoppingBag, desc: '1-click WhatsApp list' },
-                  { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Personal nutritionist' },
-                  { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: '16:8 countdown ring' },
-                  { id: 'workouts', title: 'Workouts', icon: Activity, desc: 'Track exercise burn' },
-                  { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom dish calculator' },
-                  { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy Swiggy choices' },
-                  { id: 'account', title: 'Profile & Settings', icon: User, desc: 'Calibrate your plan' },
+                  { id: 'weekly', title: '7-Day Thali Plan', icon: Calendar, desc: 'Weekly planner with PDF export' },
+                  { id: 'water', title: 'Hydration Tracker', icon: Droplets, desc: 'Water, chaas & nariyal pani' },
+                  { id: 'steps', title: 'Steps Pedometer', icon: Footprints, desc: 'Live GPS distance & burn card' },
+                  { id: 'fridge', title: 'Smart Fridge AI', icon: Refrigerator, desc: 'Find dishes by kitchen stock' },
+                  { id: 'supplements', title: 'Supplement Advisor', icon: Pill, desc: 'Evidence guide (Whey, Creatine, D3)' },
+                  { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'AI nutrition camera recognition' },
+                  { id: 'grocery', title: 'Smart Grocery', icon: ShoppingBag, desc: '1-click WhatsApp shopping list' },
+                  { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Personal desi fitness nutritionist' },
+                  { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: '16:8 countdown ring & autophagy' },
+                  { id: 'workouts', title: 'Workouts', icon: Activity, desc: 'Track exercise & calorie burn' },
+                  { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ authentic Indian fitness meals' },
+                  { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom dish nutrition calculator' },
+                  { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy Swiggy & Zomato choices' },
+                  { id: 'account', title: 'Profile & Settings', icon: User, desc: 'Calibrate height, weight, macros' },
                 ].map(tool => (
                   <button
                     key={tool.id}
-                    onClick={() => setActiveScreen(tool.id)}
-                    className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs"
+                    onClick={() => {
+                      setActiveScreen(tool.id);
+                      haptic.selection();
+                    }}
+                    className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs active:scale-95"
                   >
-                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center group-hover:scale-110 transition">
                       <tool.icon className="w-5 h-5" />
                     </div>
                     <div>
                       <div className="font-extrabold text-sm text-slate-900 dark:text-white">{tool.title}</div>
-                      <div className="text-xs text-slate-400">{tool.desc}</div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tool.desc}</div>
                     </div>
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Additional Sub-Screens on Desktop */}
+          {activeScreen === 'weekly' && (
+            <div className="max-w-6xl mx-auto space-y-3">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+              <WeeklyPlanner profile={profile} targetCalories={macroGoals.calories} />
+            </div>
+          )}
+
+          {activeScreen === 'water' && (
+            <div className="max-w-4xl mx-auto space-y-3">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+              <WaterTracker 
+                waterLoggedMl={waterAmount}
+                setWaterLoggedMl={setWaterAmount}
+                targetMl={Math.max(2500, Math.round(profile.weightKg * 35))}
+              />
+            </div>
+          )}
+
+          {activeScreen === 'steps' && (
+            <div className="max-w-4xl mx-auto space-y-3">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+              <StepsTracker
+                profile={profile}
+                stepsLogs={stepsLogs}
+                onAddStepsLog={handleAddStepsLog}
+              />
+            </div>
+          )}
+
+          {activeScreen === 'fridge' && (
+            <div className="max-w-4xl mx-auto space-y-3">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+              <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
+            </div>
+          )}
+
+          {activeScreen === 'supplements' && (
+            <div className="max-w-4xl mx-auto space-y-3">
+              <button
+                onClick={() => setActiveScreen('dashboard')}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </button>
+              <SupplementGuide />
             </div>
           )}
 
@@ -2083,21 +2215,115 @@ export function AppContent() {
               </div>
             )}
 
+            {activeScreen === 'weekly' && (
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <button 
+                  onClick={() => {
+                    setActiveScreen('dashboard');
+                    haptic.selection();
+                  }}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                <WeeklyPlanner profile={profile} targetCalories={macroGoals.calories} />
+              </div>
+            )}
+
+            {activeScreen === 'water' && (
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <button 
+                  onClick={() => {
+                    setActiveScreen('dashboard');
+                    haptic.selection();
+                  }}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                <WaterTracker 
+                  waterLoggedMl={waterAmount}
+                  setWaterLoggedMl={setWaterAmount}
+                  targetMl={Math.max(2500, Math.round(profile.weightKg * 35))}
+                />
+              </div>
+            )}
+
+            {activeScreen === 'steps' && (
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <button 
+                  onClick={() => {
+                    setActiveScreen('dashboard');
+                    haptic.selection();
+                  }}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                <StepsTracker
+                  profile={profile}
+                  stepsLogs={stepsLogs}
+                  onAddStepsLog={handleAddStepsLog}
+                />
+              </div>
+            )}
+
+            {activeScreen === 'fridge' && (
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <button 
+                  onClick={() => {
+                    setActiveScreen('dashboard');
+                    haptic.selection();
+                  }}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
+              </div>
+            )}
+
+            {activeScreen === 'supplements' && (
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <button 
+                  onClick={() => {
+                    setActiveScreen('dashboard');
+                    haptic.selection();
+                  }}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                <SupplementGuide />
+              </div>
+            )}
+
             {activeScreen === 'menu' && (
-              <div className="space-y-3">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 px-1">
-                  AI Indian Tools & Companions
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <h3 className="text-sm font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] px-1">
+                  All 14 Indian Health Tools & AI Companions
                 </h3>
                 <div className="grid grid-cols-2 gap-2.5">
                   {[
-                    { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'Camera AI log' },
+                    { id: 'weekly', title: '7-Day Thali Plan', icon: Calendar, desc: 'Weekly PDF planner' },
+                    { id: 'water', title: 'Hydration', icon: Droplets, desc: 'Chaas, water & nariyal' },
+                    { id: 'steps', title: 'Steps Tracker', icon: Footprints, desc: 'Strava-style card' },
+                    { id: 'fridge', title: 'Smart Fridge', icon: Refrigerator, desc: 'Cook with what you have' },
+                    { id: 'supplements', title: 'Supplements', icon: Pill, desc: 'Scientific advisor' },
+                    { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'Camera AI recognition' },
                     { id: 'grocery', title: 'Smart Pantry', icon: ShoppingBag, desc: '1-click WhatsApp' },
                     { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Desi nutritionist' },
                     { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: '16:8 countdown' },
                     { id: 'workouts', title: 'Workouts', icon: Activity, desc: 'Exercise burn' },
-                    { id: 'recipes', title: 'Recipes', icon: ChefHat, desc: '50+ Indian meals' },
+                    { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ Indian meals' },
                     { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom macros' },
                     { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy orders' },
+                    { id: 'account', title: 'Profile Settings', icon: User, desc: 'Height & weight' },
                   ].map(tool => (
                     <button
                       key={tool.id}
@@ -2105,14 +2331,14 @@ export function AppContent() {
                         setActiveScreen(tool.id);
                         haptic.selection();
                       }}
-                      className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] text-left cursor-pointer space-y-1.5 shadow-xs"
+                      className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] text-left cursor-pointer space-y-1.5 shadow-xs active:scale-95 transition"
                     >
                       <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center">
                         <tool.icon className="w-4 h-4" />
                       </div>
                       <div>
                         <div className="font-bold text-xs text-slate-900 dark:text-white">{tool.title}</div>
-                        <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium">{tool.desc}</div>
+                        <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium line-clamp-1">{tool.desc}</div>
                       </div>
                     </button>
                   ))}

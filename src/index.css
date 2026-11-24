@@ -1826,65 +1826,67 @@ body.dark-mode .phone-shell {
 }
 
 .hero-lime {
-  background: linear-gradient(135deg, #e5f7ea 0%, #c5edd4 60%, #FED7AA 100%);
-  color: #7C2D12;
+  background: linear-gradient(135deg, #e4f7a6 0%, #d8f58c 100%);
+  color: #1b2b0a;
+  border: 1px solid rgba(216, 245, 140, 0.6);
 }
 
 body.dark-mode .hero-lime {
-  background: linear-gradient(135deg, #431407 0%, #9A3412 100%);
-  color: #ffffff;
+  background: linear-gradient(135deg, #233814 0%, #15240c 100%);
+  color: #e4f7a6;
+  border: 1px solid rgba(132, 204, 22, 0.3);
 }
 
 .chart-striped-bar {
   background: repeating-linear-gradient(
     -45deg,
-    #EEDEC1 0px,
-    #EEDEC1 3px,
-    #FEF3C7 3px,
-    #FEF3C7 7px
+    #e2ebd6 0px,
+    #e2ebd6 3px,
+    #f2f7ec 3px,
+    #f2f7ec 6px
   );
-  border: 1px solid rgba(192, 201, 193, 0.7);
+  border: 1px solid #d2e0c2;
   border-radius: 9999px;
 }
 
 body.dark-mode .chart-striped-bar {
   background: repeating-linear-gradient(
     -45deg,
-    #29332c 0px,
-    #29332c 3px,
-    #251C17 3px,
-    #251C17 7px
+    #212e1a 0px,
+    #212e1a 3px,
+    #172212 3px,
+    #172212 6px
   );
-  border: 1px solid rgba(113, 121, 115, 0.4);
+  border: 1px solid #2d3f24;
   border-radius: 9999px;
 }
 
 .chart-peak-bar {
-  background: #EA580C;
-  box-shadow: 0 4px 14px rgba(0, 109, 65, 0.35);
+  background: #8fd12a;
+  box-shadow: 0 4px 14px rgba(143, 209, 42, 0.45);
   border-radius: 9999px;
 }
 
 body.dark-mode .chart-peak-bar {
-  background: #F97316;
-  box-shadow: 0 4px 14px rgba(76, 175, 121, 0.4);
+  background: #8fd12a;
+  box-shadow: 0 4px 14px rgba(143, 209, 42, 0.55);
   border-radius: 9999px;
 }
 
 .floating-nav {
   position: fixed;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 24px);
-  max-width: 400px;
-  background: rgba(241, 252, 243, 0.95);
+  max-width: 390px;
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(218, 229, 220, 0.95);
+  border: 1px solid rgba(230, 235, 225, 0.95);
   border-radius: 36px;
-  box-shadow: 0 12px 36px rgba(20, 30, 24, 0.12);
-  padding: 8px 12px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1892,19 +1894,19 @@ body.dark-mode .chart-peak-bar {
 }
 
 body.dark-mode .floating-nav {
-  background: rgba(31, 41, 35, 0.95);
-  border-color: rgba(58, 71, 63, 0.8);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  background: rgba(28, 25, 23, 0.96);
+  border-color: rgba(55, 48, 43, 0.8);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 }
 
 .floating-nav-embedded {
   width: 100%;
-  background: rgba(241, 252, 243, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(218, 229, 220, 0.95);
+  border: 1px solid rgba(230, 235, 225, 0.95);
   border-radius: 36px;
-  box-shadow: 0 10px 30px rgba(20, 30, 24, 0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
   padding: 8px 14px;
   display: flex;
   align-items: center;
@@ -1914,22 +1916,22 @@ body.dark-mode .floating-nav {
 }
 
 body.dark-mode .floating-nav-embedded {
-  background: rgba(31, 41, 35, 0.95);
-  border-color: rgba(58, 71, 63, 0.8);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  background: rgba(28, 25, 23, 0.96);
+  border-color: rgba(55, 48, 43, 0.8);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 }
 
 .fab-raised {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #EA580C;
-  color: #ffffff;
+  background: #8fd12a;
+  color: #152408;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 4px solid #ffffff;
-  box-shadow: 0 8px 22px rgba(0, 109, 65, 0.4);
+  box-shadow: 0 8px 22px rgba(143, 209, 42, 0.5);
   transform: translateY(-16px);
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
   cursor: pointer;
@@ -1937,10 +1939,10 @@ body.dark-mode .floating-nav-embedded {
 }
 
 body.dark-mode .fab-raised {
-  background: #F97316;
-  color: #002110;
-  border-color: #251C17;
-  box-shadow: 0 8px 22px rgba(76, 175, 121, 0.4);
+  background: #8fd12a;
+  color: #152408;
+  border-color: #1c1917;
+  box-shadow: 0 8px 22px rgba(143, 209, 42, 0.5);
 }
 
 .fab-raised:hover {

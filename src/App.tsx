@@ -11,7 +11,7 @@ import { INDIAN_FOOD_DATABASE } from './data/indianFoodDatabase';
 import { getIndianFoodImage } from './utils/indianFoodImages';
 import { initializeAndroidSystem, setupAndroidBackButton } from './utils/androidPlatform';
 import { AppClerkProvider, useClerkAuth } from './components/ClerkAuthProvider';
-import { SafeSignedIn, SafeUserButton } from './components/SafeClerkComponents';
+import { SafeSignedIn } from './components/SafeClerkComponents';
 import { RecipeModal } from './components/RecipeModal';
 import { PlanComparisonModal } from './components/PlanComparisonModal';
 import { ProfileModal } from './components/ProfileModal';
@@ -42,35 +42,35 @@ import {
   LayoutGrid, 
   Droplets, 
   Flame, 
-  Activity, 
-  Scale, 
   ChevronRight, 
+  ChevronLeft,
+  MoreHorizontal,
+  Plus,
+  Heart,
+  Award,
+  Star,
+  FileText,
+  Bell,
+  Wifi,
   Sparkles, 
   Sun, 
   Moon, 
-  Check, 
   ArrowLeft, 
   Search, 
-  SlidersHorizontal, 
-  Utensils, 
   ShoppingBag, 
   Bot, 
-  Camera, 
   Timer, 
   User, 
-  RefreshCw, 
   ChefHat, 
-  Play, 
   Smartphone, 
   Monitor,
-  Columns3,
   Dumbbell,
   Upload,
   Footprints,
   Calendar,
   Refrigerator,
   Pill,
-  CloudDownload
+  CloudDownload,
 } from 'lucide-react';
 
 /**
@@ -93,10 +93,10 @@ export function AppContent() {
   // Active Screen / Tab
   const [activeScreen, setActiveScreen] = useState<string>('dashboard');
 
-  // Desktop Layout Mode: 'responsive' (full modern dashboard) vs 'mobile_preview' (phone simulator)
-  const [desktopMode, setDesktopMode] = useState<'responsive' | 'mobile_preview'>(() => {
+  // Desktop Layout Mode: 'dual_mockup' (side-by-side matching screenshot) | 'single_phone' | 'responsive'
+  const [desktopMode, setDesktopMode] = useState<'dual_mockup' | 'single_phone' | 'responsive'>(() => {
     const saved = localStorage.getItem('nutrifit_desktop_mode');
-    return (saved === 'mobile_preview' || saved === 'responsive') ? saved : 'responsive';
+    return (saved === 'dual_mockup' || saved === 'single_phone' || saved === 'responsive') ? saved : 'dual_mockup';
   });
 
   useEffect(() => {
@@ -274,16 +274,16 @@ export function AppContent() {
     notify(`Saved activity: ${entry.title} (${entry.steps} steps)!`);
   };
 
-  // Calendar Week Strip State
+  // Calendar Week Strip State (matches screenshot: S 07, M 08, T 09, W 10 [selected], T 11, F 12, S 13)
   const [activeDateIndex, setActiveDateIndex] = useState<number>(3); // 3 = Wednesday 10th
   const weekDays = [
-    { day: 'Mon', date: '08' },
-    { day: 'Tue', date: '09' },
-    { day: 'Wed', date: '10' },
-    { day: 'Thu', date: '11' },
-    { day: 'Fri', date: '12' },
-    { day: 'Sat', date: '13' },
-    { day: 'Sun', date: '14' },
+    { day: 'S', date: '07' },
+    { day: 'M', date: '08' },
+    { day: 'T', date: '09' },
+    { day: 'W', date: '10' },
+    { day: 'T', date: '11' },
+    { day: 'F', date: '12' },
+    { day: 'S', date: '13' },
   ];
 
   // Dynamic Indian Meal Plan
@@ -425,1002 +425,992 @@ export function AppContent() {
   };
 
   // ========================================================
-  // RENDER: Daily Indian Meal Cards
+  // RENDER: Phone Status Bar with Dynamic Island
   // ========================================================
-  const renderIndianMealCards = () => {
-    const mealSlots: { slot: MealSlot; label: string; time: string; item: FoodItem }[] = [
-      { slot: 'early_morning', label: 'Early Morning Detox', time: '06:30 AM', item: mealPlan.meals.early_morning },
-      { slot: 'breakfast', label: 'High-Protein Breakfast', time: '08:30 AM', item: mealPlan.meals.breakfast },
-      { slot: 'lunch', label: 'Lunch Thali', time: '01:30 PM', item: mealPlan.meals.lunch },
-      { slot: 'snack', label: 'Evening Fuel / Snack', time: '05:30 PM', item: mealPlan.meals.snack },
-      { slot: 'dinner', label: 'Recovery Dinner Thali', time: '08:30 PM', item: mealPlan.meals.dinner },
-    ];
-
-    return (
-      <div className="space-y-3.5">
-        {mealSlots.map((slotData) => {
-          const dish = slotData.item;
-          if (!dish) return null;
-          const dishImg = getIndianFoodImage(dish);
-          const isEaten = Boolean(eatenMeals[slotData.slot]);
-
-          return (
-            <div 
-              key={slotData.slot}
-              className={cx(
-                "p-4 rounded-3xl border transition-all shadow-xs group",
-                isEaten 
-                  ? "bg-[#f8faf8] dark:bg-[#131d16] border-[#EEDEC1] dark:border-[#312219] opacity-90"
-                  : "bg-white dark:bg-[#1C1511] border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] dark:hover:border-[#FB923C]"
-              )}
-            >
-              <div className="flex items-start sm:items-center justify-between gap-3">
-                {/* Image Thumbnail with Clickable Recipe Modal */}
-                <div 
-                  onClick={() => setSelectedRecipe(dish)}
-                  className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 cursor-pointer shadow-xs"
-                >
-                  <img 
-                    src={dishImg} 
-                    alt={dish.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
-                  />
-                  {isEaten && (
-                    <div className="absolute inset-0 bg-[#EA580C]/40 backdrop-blur-[1px] flex items-center justify-center">
-                      <div className="w-7 h-7 rounded-full bg-white text-[#EA580C] flex items-center justify-center shadow">
-                        <Check className="w-4 h-4 stroke-[3]" />
-                      </div>
-                    </div>
-                  )}
-                  <span className="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md">
-                    ⏱ {dish.prepTimeMins}m
-                  </span>
-                </div>
-
-                {/* Dish Details */}
-                <div className="flex-1 min-w-0 space-y-1">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
-                      {slotData.label}
-                    </span>
-                    <span className="text-xs text-slate-400 font-medium">• {slotData.time}</span>
-                  </div>
-
-                  <h4 
-                    onClick={() => setSelectedRecipe(dish)}
-                    className={cx(
-                      "text-sm sm:text-base font-bold truncate cursor-pointer hover:text-[#EA580C] dark:hover:text-[#FB923C] transition",
-                      isEaten ? "line-through text-slate-500 dark:text-slate-400" : "text-slate-900 dark:text-white"
-                    )}
-                    title={dish.name}
-                  >
-                    {dish.name}
-                  </h4>
-
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                    Portion: {dish.servingSize}
-                  </div>
-
-                  {/* Nutrition Badges */}
-                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                    <span className="px-2 py-0.5 rounded-full bg-[#fef6e7] dark:bg-[#2b2214] text-amber-700 dark:text-amber-300 text-[10px] font-bold flex items-center space-x-1">
-                      <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
-                      <span>{dish.calories} kcal</span>
-                    </span>
-                    <span className="px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#251912] text-amber-800 dark:text-amber-400 text-[10px] font-bold">
-                      {dish.protein}g Protein
-                    </span>
-                    <span className="hidden sm:inline-block px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#2D2018] text-slate-600 dark:text-slate-400 text-[10px] font-medium">
-                      {dish.carbs}g Carbs
-                    </span>
-                  </div>
-                </div>
-
-                {/* Mark Eaten Checkbox & Dropdown */}
-                <div className="flex flex-col items-end space-y-2 shrink-0">
-                  <button
-                    onClick={() => toggleMealEaten(slotData.slot)}
-                    className={cx(
-                      "flex items-center space-x-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer active:scale-95 shadow-2xs",
-                      isEaten 
-                        ? "bg-[#EA580C] text-white" 
-                        : "bg-white dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-700 dark:text-slate-200 hover:border-[#EA580C]"
-                    )}
-                    title={isEaten ? "Mark as not eaten" : "Mark as eaten"}
-                  >
-                    <Check className={cx("w-3.5 h-3.5 stroke-[2.5]", isEaten ? "text-white" : "text-slate-400")} />
-                    <span className="hidden sm:inline">{isEaten ? 'Eaten' : 'Mark Eaten'}</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Action Toolbar on Card */}
-              <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-[#2D2018] flex items-center justify-between gap-2">
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => {
-                      haptic.medium();
-                      setCookingFood(dish);
-                      setIsCookModeOpen(true);
-                    }}
-                    className="flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white font-bold text-xs shadow-xs active:scale-95 transition cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-white" />
-                    <span>Cook Mode</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      haptic.selection();
-                      setSwappingSlot(slotData.slot);
-                    }}
-                    className="flex items-center space-x-1 px-2.5 py-1.5 rounded-xl bg-[#f8faf8] dark:bg-[#251C17] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-700 dark:text-slate-200 font-bold text-xs hover:border-[#EA580C] active:scale-95 transition cursor-pointer"
-                  >
-                    <RefreshCw className="w-3 h-3 text-[#9A3412] dark:text-[#FED7AA]" />
-                    <span>Swap</span>
-                  </button>
-                </div>
-
-                <button
-                  onClick={() => setSelectedRecipe(dish)}
-                  className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline cursor-pointer flex items-center space-x-1"
-                >
-                  <span>Recipe Details</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-            </div>
-          );
-        })}
+  const renderPhoneStatusBar = () => (
+    <div className="pt-3 px-6 pb-2 flex items-center justify-between text-slate-900 dark:text-white select-none shrink-0 z-20">
+      <span className="text-xs font-bold tracking-tight">9:41</span>
+      <div className="w-24 h-5 bg-black rounded-full mx-auto" />
+      <div className="flex items-center space-x-1.5 text-xs">
+        <span className="text-[10px] font-bold">5G</span>
+        <Wifi className="w-3.5 h-3.5" />
+        <div className="w-5 h-2.5 border border-current rounded-xs p-0.5 flex items-center">
+          <div className="w-full h-full bg-current rounded-2xs" />
+        </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   // ========================================================
-  // RENDER: Home Screen / Daily Dashboard
+  // RENDER: Home Screen / Daily Dashboard (Exact Mockup Match)
   // ========================================================
   const renderHomeScreen = (_isDual = false) => {
-    const heightM = profile.heightCm / 100;
-    const bmiVal = heightM > 0 ? (profile.weightKg / (heightM * heightM)).toFixed(1) : '22.0';
-
     return (
-    <div className="space-y-5 animate-in fade-in duration-200">
-      
-      {/* 0. User Profile Banner & Details Bar */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3.5 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs flex items-center justify-between">
-        <div className="flex items-center space-x-3">
+      <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+        {/* 1. Top User Header Bar */}
+        <div className="flex items-center justify-between pt-1 pb-1">
           <div 
-            className="relative cursor-pointer group" 
             onClick={() => {
               setIsProfileModalOpen(true);
               haptic.selection();
             }}
-            title="Click to edit profile"
+            className="flex items-center space-x-3 cursor-pointer group"
+            title="Edit Profile & Body Metrics"
           >
             <img 
               src={userAvatar} 
-              alt={profile.name} 
-              className="w-12 h-12 rounded-2xl object-cover border-2 border-[#EA580C] shadow-2xs group-hover:scale-105 transition" 
+              alt={profile.name}
+              className="w-11 h-11 rounded-full object-cover border-2 border-white dark:border-[#1C1511] shadow-xs group-hover:scale-105 transition"
             />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-tight">
-                {profile.name}
-              </h2>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
-                BMI {bmiVal}
-              </span>
-            </div>
-            <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-              {profile.age} yrs • {profile.heightCm} cm • {profile.weightKg} kg {profile.targetWeightKg ? `• Target ${profile.targetWeightKg} kg` : ''}
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => {
-            setIsProfileModalOpen(true);
-            haptic.selection();
-          }}
-          className="px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold transition cursor-pointer flex items-center space-x-1.5 shadow-2xs active:scale-95"
-          title="Edit Profile, Height, Weight, Age"
-        >
-          <User className="w-3.5 h-3.5" />
-          <span className="hidden xs:inline">Edit Details</span>
-          <span className="xs:hidden">Edit</span>
-        </button>
-      </div>
-
-      {/* 1. Dedicated 3-Plan Switcher (Weight Loss, Maintain, Weight Gain) */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
-              3 Dedicated Indian Diet Protocols
-            </span>
-            <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white mt-1">
-              Select Your Target Fitness Plan
-            </h3>
-          </div>
-
-          <button
-            onClick={() => setIsPlanCompareModalOpen(true)}
-            className="px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-xs font-bold text-amber-900 dark:text-amber-200 hover:bg-amber-100 transition cursor-pointer flex items-center space-x-1.5 shadow-2xs"
-            title="Compare all 3 diet plans side-by-side"
-          >
-            <Columns3 className="w-3.5 h-3.5" />
-            <span className="hidden xs:inline">Compare All 3</span>
-            <span className="xs:hidden">Compare</span>
-          </button>
-        </div>
-
-        {/* 3 Dedicated Plan Cards */}
-        <div className="grid grid-cols-3 gap-2 p-1 bg-stone-100 dark:bg-[#15100E] rounded-2xl">
-          {[
-            {
-              id: 'fat_loss' as const,
-              label: 'Weight Loss',
-              subtitle: 'Calorie Deficit',
-              icon: Flame,
-              macros: weightLossMacros,
-              badge: '-20% Deficit'
-            },
-            {
-              id: 'maintenance' as const,
-              label: 'Maintain',
-              subtitle: 'Balance TDEE',
-              icon: Scale,
-              macros: maintainMacros,
-              badge: 'TDEE Fit'
-            },
-            {
-              id: 'muscle_gain' as const,
-              label: 'Weight Gain',
-              subtitle: 'Muscle Surplus',
-              icon: Dumbbell,
-              macros: weightGainMacros,
-              badge: '+15% Surplus'
-            }
-          ].map((planItem) => {
-            const isSelected = profile.goal === planItem.id;
-            return (
-              <button
-                key={planItem.id}
-                onClick={() => {
-                  setProfile(prev => ({ ...prev, goal: planItem.id }));
-                  haptic.selection();
-                  notify(`Activated ${planItem.label} Plan (${planItem.macros.calories} kcal)!`);
-                }}
-                className={cx(
-                  "p-2.5 sm:p-3 rounded-xl transition cursor-pointer active:scale-95 text-left flex flex-col justify-between group",
-                  isSelected
-                    ? "bg-[#EA580C] text-white shadow-md font-bold"
-                    : "bg-white dark:bg-[#1F1611] text-slate-800 dark:text-slate-200 hover:bg-stone-50 border border-transparent dark:border-[#2D2018]"
-                )}
-              >
-                <div className="flex items-center justify-between w-full">
-                  <div className={cx(
-                    "w-7 h-7 rounded-lg flex items-center justify-center shrink-0",
-                    isSelected ? "bg-white/20 text-white" : "bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200"
-                  )}>
-                    <planItem.icon className="w-4 h-4" />
-                  </div>
-                  <span className={cx(
-                    "text-[9px] font-black px-1.5 py-0.2 rounded-md",
-                    isSelected ? "bg-white/25 text-white" : "bg-stone-100 dark:bg-[#2A1E17] text-slate-600 dark:text-slate-300"
-                  )}>
-                    {planItem.badge}
-                  </span>
-                </div>
-
-                <div className="mt-2">
-                  <div className={cx("text-xs font-black truncate", isSelected ? "text-white" : "text-slate-900 dark:text-white")}>
-                    {planItem.label}
-                  </div>
-                  <div className={cx("text-[10px] truncate", isSelected ? "text-amber-100" : "text-slate-600 dark:text-slate-300 font-medium")}>
-                    {planItem.subtitle}
-                  </div>
-                </div>
-
-                <div className={cx("text-[11px] font-black mt-1", isSelected ? "text-white" : "text-amber-800 dark:text-amber-400")}>
-                  {planItem.macros.calories} kcal
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Dedicated Strategy & Protocol Strip for the Selected Goal */}
-        <div className="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-[#201610] border border-amber-200/80 dark:border-[#38261A] space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] flex items-center space-x-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>
-                {profile.goal === 'fat_loss' 
-                  ? 'Weight Loss Protocol • Fat Burning & High Protein' 
-                  : profile.goal === 'muscle_gain' 
-                  ? 'Weight Gain Protocol • Clean Caloric Surplus & Anabolic Shakes' 
-                  : 'Maintain Protocol • TDEE Balance & Vitality Equilibrium'}
-              </span>
-            </span>
-            <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300">
-              {profile.goal === 'fat_loss' ? '🎯 -500 kcal Deficit' : profile.goal === 'muscle_gain' ? '🎯 +400 kcal Surplus' : '🎯 Exact TDEE'}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-xs">
-            {profile.goal === 'fat_loss' ? (
-              <>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🥗 Salad First</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Eat cucumber/tomato salad before rotis for high satiety.</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🌾 Millets Over Maida</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Switch to Jowar, Bajra & Ragi rotis for slow glucose burn.</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">💧 Detox Flush</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Warm jeera-lemon water at 06:30 AM to ignite fat metabolism.</div>
-                </div>
-              </>
-            ) : profile.goal === 'muscle_gain' ? (
-              <>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🥤 Sattu Mass Gainer</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">50g Sattu + Banana + Milk + Peanut butter (480 kcal, 26g protein).</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🧈 Pure Desi Ghee</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Add 1-2 tsp pure cow ghee over warm rotis & dals for clean fuel.</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🥜 Dense Snack Timing</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Soaked almonds, walnuts & dates in afternoon; eat every 3 hours.</div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🍛 Thali Harmony</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">50% vegetables, 25% protein (dal/paneer), 25% whole grains.</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🥛 Probiotic Chaas</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">1 glass roasted jeera buttermilk post-lunch for digestive flora.</div>
-                </div>
-                <div className="p-2 rounded-xl bg-white dark:bg-[#170F0B] border border-amber-100 dark:border-[#2D1F16]">
-                  <div className="font-bold text-slate-900 dark:text-white">🚶 8k Daily Steps</div>
-                  <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium mt-0.5">Maintain active daily walking to preserve baseline insulin sensitivity.</div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-      
-      {/* 1. Daily Fuel & Macro Bento Card (Stitch Design) */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
-              Daily Energy Fuel
-            </span>
-            <div className="flex items-baseline space-x-2 mt-0.5">
-              <h2 className="text-2xl sm:text-3xl font-black text-[#7C2D12] dark:text-white tracking-tight">
-                {caloriesLogged.toLocaleString()}
-              </h2>
-              <span className="text-sm font-semibold text-slate-400">
-                / {macroGoals.calories.toLocaleString()} kcal target
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <span className="px-3 py-1.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] font-bold text-xs flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#EA580C] dark:bg-[#FB923C] animate-pulse" />
-              <span>{Math.max(0, macroGoals.calories - caloriesLogged)} kcal remaining</span>
-            </span>
-          </div>
-        </div>
-
-        {/* 3 Macro Progress Bars */}
-        <div className="grid grid-cols-3 gap-2.5">
-          {/* Protein */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
-            <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Protein</span>
-              <span className="font-black text-[#9A3412] dark:text-[#FED7AA]">
-                {Math.min(100, Math.round((proteinLogged / (macroGoals.proteinGrams || 1)) * 100))}%
-              </span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-[#FAF0DC] dark:bg-[#202d23] overflow-hidden">
-              <div 
-                className="h-full bg-[#EA580C] dark:bg-[#FB923C] rounded-full transition-all duration-500"
-                style={{ width: `${Math.min(100, Math.round((proteinLogged / (macroGoals.proteinGrams || 1)) * 100))}%` }}
-              />
-            </div>
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1.5">
-              {proteinLogged}g <span className="opacity-60">/ {macroGoals.proteinGrams}g</span>
-            </div>
-          </div>
-
-          {/* Carbs */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
-            <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Carbs</span>
-              <span className="font-black text-[#2ba5f7]">
-                {Math.min(100, Math.round((Math.round(caloriesLogged * 0.12) / (macroGoals.carbsGrams || 1)) * 100))}%
-              </span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-[#e8f6fd] dark:bg-[#1a2d39] overflow-hidden">
-              <div 
-                className="h-full bg-[#2ba5f7] rounded-full transition-all duration-500"
-                style={{ width: `${Math.min(100, Math.round((Math.round(caloriesLogged * 0.12) / (macroGoals.carbsGrams || 1)) * 100))}%` }}
-              />
-            </div>
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1.5">
-              {Math.round(caloriesLogged * 0.12)}g <span className="opacity-60">/ {macroGoals.carbsGrams}g</span>
-            </div>
-          </div>
-
-          {/* Fats */}
-          <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
-            <div className="flex justify-between items-center text-xs mb-1">
-              <span className="font-bold text-slate-800 dark:text-slate-200 font-bold">Fats</span>
-              <span className="font-black text-[#e07a5f]">
-                {Math.min(100, Math.round((Math.round(caloriesLogged * 0.035) / (macroGoals.fatsGrams || 1)) * 100))}%
-              </span>
-            </div>
-            <div className="w-full h-2 rounded-full bg-[#ffdbd2] dark:bg-[#3c0800] overflow-hidden">
-              <div 
-                className="h-full bg-[#e07a5f] rounded-full transition-all duration-500"
-                style={{ width: `${Math.min(100, Math.round((Math.round(caloriesLogged * 0.035) / (macroGoals.fatsGrams || 1)) * 100))}%` }}
-              />
-            </div>
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-1.5">
-              {Math.round(caloriesLogged * 0.035)}g <span className="opacity-60">/ {macroGoals.fatsGrams}g</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Interactive Hydration Counter Bar */}
-        <div className="p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B] flex items-center justify-between">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-full bg-[#e8f6fd] text-[#2ba5f7] flex items-center justify-center">
-              <Droplets className="w-4 h-4" />
-            </div>
             <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">Hydration</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                <strong className="text-[#2ba5f7] font-bold">{Math.round(waterAmount / 200)}</strong> of 12 glasses ({waterAmount}ml)
-              </span>
+              <div className="text-xs text-slate-400 font-medium">Good morning!</div>
+              <h1 className="text-base font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
+                {profile.name || 'Sajibur Rahman'}
+              </h1>
             </div>
           </div>
 
-          <div className="flex items-center space-x-1.5">
-            <button
+          {/* Right Action Icons: Recipe Library & Bell Notification */}
+          <div className="flex items-center space-x-2">
+            <button 
               onClick={() => {
-                setWaterAmount(prev => Math.max(0, prev - 200));
+                setActiveScreen('recipes');
+                haptic.selection();
+              }}
+              className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs hover:bg-slate-50 dark:hover:bg-[#28201b] transition active:scale-95 cursor-pointer"
+              title="Indian Recipe Library"
+            >
+              <FileText className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+            </button>
+            <button 
+              onClick={() => {
+                notify("You are on track with today's calorie budget!");
                 haptic.light();
               }}
-              className="w-8 h-8 rounded-full bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-slate-600 dark:text-slate-300 flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer"
-              title="Minus 1 glass"
+              className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs hover:bg-slate-50 dark:hover:bg-[#28201b] transition active:scale-95 relative cursor-pointer"
+              title="Notifications"
             >
-              -
-            </button>
-            <button
-              onClick={() => {
-                setWaterAmount(prev => prev + 200);
-                haptic.medium();
-                notify("Logged 1 glass of water (+200ml)!");
-              }}
-              className="w-8 h-8 rounded-full bg-[#EA580C] text-white flex items-center justify-center font-bold text-sm active:scale-95 transition cursor-pointer shadow-xs"
-              title="Add 1 glass"
-            >
-              +
+              <Bell className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+              <span className="w-2 h-2 rounded-full bg-[#ff723b] absolute top-2.5 right-2.5 ring-2 ring-white dark:ring-[#1C1511]" />
             </button>
           </div>
         </div>
-      </div>
 
-      {/* 2. AI Smart Sous-Chef Coach Tip Banner */}
-      <div className="p-4 rounded-3xl bg-[#9A3412] text-white shadow-sm flex items-center space-x-3.5 relative overflow-hidden">
-        <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0">
-          <Sparkles className="w-5 h-5 text-[#FDBA74]" />
-        </div>
-        <div className="flex-1 min-w-0 pr-2">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#FDBA74] block">
-            AI Nutrition Cue • {profile.bodyType ? profile.bodyType.toUpperCase() : 'FITNESS'}
-          </span>
-          <p className="text-xs sm:text-sm font-medium leading-snug text-white/95">
-            {profile.goal === 'fat_loss' 
-              ? "High-protein recovery dinner recommended to preserve lean muscle during today's calorie deficit."
-              : profile.goal === 'muscle_gain'
-              ? "Hit surplus fuel tonight! Add sattu or paneer bhurji to maximize overnight muscle synthesis."
-              : "Steady energy day! Keep hydration active and maintain balanced thali portions."}
-          </p>
-        </div>
-      </div>
-
-      {/* 3. Goal & Somatotype Controller */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 sm:p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3.5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <SlidersHorizontal className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-              Diet Goal & Body Type (Somatotype)
-            </h3>
+        {/* 2. Hero Card: "Your Weekly Progress" (Exact Lime Style) */}
+        <section className="hero-lime rounded-[28px] p-5 shadow-xs relative overflow-hidden flex items-center justify-between">
+          <div className="space-y-2.5 z-10">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/60 dark:bg-black/30 text-[#1b2b0a] dark:text-[#d8f58c] text-[11px] font-semibold backdrop-blur-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#1b2b0a] dark:text-[#d8f58c]" />
+              <span>Daily intake</span>
+            </div>
+            <h2 className="text-[22px] font-black text-[#1b2b0a] dark:text-white leading-tight max-w-[150px]">
+              Your Weekly<br />Progress
+            </h2>
           </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
-            100% Indian Diet
-          </span>
+
+          {/* Circular Progress Ring: 6 days */}
+          <div className="relative w-20 h-20 flex items-center justify-center shrink-0 z-10">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 76 76">
+              {/* Inner white circle disk */}
+              <circle cx="38" cy="38" r="30" fill="#ffffff" />
+              {/* Background Track */}
+              <circle
+                cx="38"
+                cy="38"
+                r="26"
+                fill="transparent"
+                stroke="#e2f79f"
+                strokeWidth="6"
+              />
+              {/* Active Lime Progress Arc */}
+              <circle
+                cx="38"
+                cy="38"
+                r="26"
+                fill="transparent"
+                stroke="#8fd12a"
+                strokeWidth="6"
+                strokeDasharray={2 * Math.PI * 26}
+                strokeDashoffset={2 * Math.PI * 26 * (1 - 6/7)}
+                strokeLinecap="round"
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-[#1b2b0a] pointer-events-none">
+              <span className="text-2xl font-black leading-none">6</span>
+              <span className="text-[10px] font-bold text-[#1b2b0a]/75 mt-0.5">days</span>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. 2-Column Quick Metric Cards: Steps & Water */}
+        <div className="grid grid-cols-2 gap-3.5">
+          {/* Step to walk Card */}
+          <div 
+            onClick={() => {
+              setActiveScreen('steps');
+              haptic.selection();
+            }}
+            className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          >
+            <div className="flex items-start justify-between">
+              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 leading-snug">
+                Step to<br />walk
+              </span>
+              <div className="w-8 h-8 rounded-full bg-[#fff0eb] text-[#ff6838] flex items-center justify-center shrink-0">
+                <Footprints className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3 flex items-baseline">
+              <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                5,500
+              </span>
+              <span className="text-xs text-slate-400 ml-1.5 font-medium">steps</span>
+            </div>
+          </div>
+
+          {/* Drink Water Card */}
+          <div 
+            onClick={() => {
+              setWaterAmount(prev => prev + 200);
+              haptic.medium();
+              notify("Logged 1 glass of water (+200ml)!");
+            }}
+            className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+          >
+            <div className="flex items-start justify-between">
+              <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 leading-snug">
+                Drink<br />Water
+              </span>
+              <div className="w-8 h-8 rounded-full bg-[#e8f6fd] text-[#0ea5e9] flex items-center justify-center shrink-0">
+                <Droplets className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="mt-3 flex items-baseline">
+              <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                12
+              </span>
+              <span className="text-xs text-slate-400 ml-1.5 font-medium">glass</span>
+            </div>
+          </div>
         </div>
 
-        {/* 3 Goal Selection Buttons */}
-        <div className="grid grid-cols-3 gap-2 p-1 bg-[#FEF3C7] dark:bg-[#141d16] rounded-2xl">
-          {[
-            { id: 'fat_loss' as const, label: 'Weight Loss', desc: '-20% Deficit' },
-            { id: 'maintenance' as const, label: 'Maintain', desc: 'TDEE Balance' },
-            { id: 'muscle_gain' as const, label: 'Weight Gain', desc: '+15% Surplus' }
-          ].map(g => {
-            const isSelected = profile.goal === g.id;
-            return (
-              <button
-                key={g.id}
-                onClick={() => {
-                  setProfile(prev => ({ ...prev, goal: g.id }));
-                  haptic.selection();
-                  notify(`Switched to ${g.label} mode!`);
-                }}
-                className={cx(
-                  "py-2 px-1 rounded-xl text-center transition cursor-pointer active:scale-95 flex flex-col items-center justify-center",
-                  isSelected
-                    ? "bg-[#EA580C] text-white shadow-xs font-bold"
-                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium text-xs"
-                )}
-              >
-                <span className="text-xs">{g.label}</span>
-                <span className={cx("text-[9px] mt-0.5", isSelected ? "text-[#FED7AA]" : "opacity-60")}>
-                  {g.desc}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 3 Somatotype Buttons */}
-        <div className="space-y-1.5 pt-0.5">
-          <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-            <span>Body Type (Metabolic Calibration):</span>
-            <span className="font-bold text-slate-800 dark:text-slate-200 capitalize">
-              {profile.bodyType || 'mesomorph'}
+        {/* 4. Horizontal 7-Day Date Selector Strip */}
+        <section className="bg-white dark:bg-[#1C1511] rounded-[26px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs">
+          <div className="flex items-center justify-between mb-3 px-1">
+            <span className="text-sm font-bold text-slate-900 dark:text-white">
+              August 2025
             </span>
+            <div className="flex items-center space-x-1.5">
+              <button 
+                onClick={() => {
+                  setActiveDateIndex(prev => (prev > 0 ? prev - 1 : 6));
+                  haptic.selection();
+                }}
+                className="w-7 h-7 rounded-full bg-[#f1f3ec] dark:bg-[#28201b] hover:bg-[#e4e7dd] text-slate-700 dark:text-slate-300 flex items-center justify-center transition cursor-pointer"
+                aria-label="Previous day"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => {
+                  setActiveDateIndex(prev => (prev < 6 ? prev + 1 : 0));
+                  haptic.selection();
+                }}
+                className="w-7 h-7 rounded-full bg-[#f1f3ec] dark:bg-[#28201b] hover:bg-[#e4e7dd] text-slate-700 dark:text-slate-300 flex items-center justify-center transition cursor-pointer"
+                aria-label="Next day"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { id: 'ectomorph' as const, label: 'Ectomorph', desc: 'Lean / Fast Burn' },
-              { id: 'mesomorph' as const, label: 'Mesomorph', desc: 'Athletic / Balanced' },
-              { id: 'endomorph' as const, label: 'Endomorph', desc: 'Broad / Carb-Sens' }
-            ].map(bt => {
-              const isSelected = (profile.bodyType || 'mesomorph') === bt.id;
+
+          <div className="grid grid-cols-7 gap-1 text-center">
+            {weekDays.map((item, idx) => {
+              const isSelected = idx === activeDateIndex;
               return (
                 <button
-                  key={bt.id}
+                  key={idx}
                   onClick={() => {
-                    setProfile(prev => ({ ...prev, bodyType: bt.id }));
+                    setActiveDateIndex(idx);
                     haptic.selection();
-                    notify(`Updated to ${bt.label} metabolism`);
                   }}
                   className={cx(
-                    "p-2 rounded-xl text-left border transition cursor-pointer active:scale-95",
-                    isSelected
-                      ? "border-[#EA580C] bg-[#FFFBF5] dark:bg-[#231811] text-[#9A3412] dark:text-[#FED7AA] font-bold"
-                      : "border-[#EEDEC1] dark:border-[#3A291E] text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#231811]"
+                    "py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer active:scale-95",
+                    isSelected 
+                      ? "bg-[#d8f572] text-[#1b2b0a] font-bold shadow-xs" 
+                      : "bg-transparent text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#28201b]"
                   )}
                 >
-                  <div className="text-[11px] font-bold leading-tight">{bt.label}</div>
-                  <div className="text-[9px] opacity-75">{bt.desc}</div>
+                  <span className={cx("text-xs font-semibold", isSelected ? "text-[#1b2b0a]" : "text-slate-400")}>
+                    {item.day}
+                  </span>
+                  <span className={cx("text-sm font-bold mt-1", isSelected ? "text-[#1b2b0a]" : "text-slate-900 dark:text-white")}>
+                    {item.date}
+                  </span>
                 </button>
               );
             })}
           </div>
-        </div>
-      </div>
+        </section>
 
-      {/* 4. Horizontal 7-Day Date Selector Strip */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs">
-        <div className="flex items-center justify-between mb-2 px-1">
-          <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-            August 2025 • Daily Kitchen Schedule
-          </span>
-          <button
-            onClick={() => {
-              haptic.light();
-              setMealPlan(generateDailyMealPlan(profile, macroGoals.calories, activeDateIndex + Math.floor(Math.random() * 5 + 1)));
-              notify("Shuffled with fresh regional recipes!");
-            }}
-            className="flex items-center space-x-1 text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline cursor-pointer"
-          >
-            <RefreshCw className="w-3 h-3" />
-            <span>Shuffle Dishes</span>
-          </button>
-        </div>
+        {/* 5. Meal Cards List (Breakfast, Lunch time, Snacks, Dinner) */}
+        <section className="space-y-3 pt-1">
+          {[
+            { slot: 'breakfast' as const, label: 'Breakfast', calRange: '456 - 512 kcal', item: mealPlan.meals.breakfast },
+            { slot: 'lunch' as const, label: 'Lunch time', calRange: '456 - 512 kcal', item: mealPlan.meals.lunch },
+            { slot: 'snack' as const, label: 'Snack time', calRange: '210 - 280 kcal', item: mealPlan.meals.snack },
+            { slot: 'dinner' as const, label: 'Dinner', calRange: '420 - 480 kcal', item: mealPlan.meals.dinner }
+          ].map((mealRow) => {
+            const dish = mealRow.item;
+            const secondaryDish = INDIAN_FOOD_DATABASE.find(f => f.slot === mealRow.slot && f.id !== dish?.id) || dish;
+            const isEaten = eatenMeals[mealRow.slot];
 
-        <div className="grid grid-cols-7 gap-1.5 text-center">
-          {weekDays.map((item, idx) => {
-            const isSelected = idx === activeDateIndex;
             return (
-              <button
-                key={idx}
-                onClick={() => {
-                  setActiveDateIndex(idx);
-                  haptic.selection();
-                }}
-                className={cx(
-                  "py-2 px-1 rounded-2xl flex flex-col items-center justify-center transition cursor-pointer active:scale-95",
-                  isSelected 
-                    ? "bg-[#EA580C] text-white font-bold shadow-xs" 
-                    : "bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 hover:bg-[#FEF3C7] dark:hover:bg-[#261B14]"
-                )}
+              <div 
+                key={mealRow.slot}
+                className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex items-center justify-between"
               >
-                <span className={cx("text-[10px] font-medium", isSelected ? "text-[#FED7AA]" : "text-slate-400")}>
-                  {item.day}
-                </span>
-                <span className={cx("text-sm font-bold mt-0.5", isSelected ? "text-white" : "text-slate-800 dark:text-slate-200")}>
-                  {item.date}
-                </span>
-                <span className={cx("w-1.5 h-1.5 rounded-full mt-1", isSelected ? "bg-[#FED7AA]" : "bg-transparent")} />
-              </button>
+                <div 
+                  onClick={() => {
+                    if (dish) {
+                      setSelectedRecipe(dish);
+                      haptic.selection();
+                    }
+                  }}
+                  className="cursor-pointer group flex-1 pr-2"
+                >
+                  <div className="flex items-center space-x-1.5">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition">
+                      {mealRow.label}
+                    </h4>
+                    {isEaten && (
+                      <span className="w-2 h-2 rounded-full bg-[#8fd12a]" title="Logged as eaten" />
+                    )}
+                  </div>
+                  <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#fef6e7] dark:bg-[#2b2214] text-slate-600 dark:text-slate-300 text-[11px] font-semibold mt-1">
+                    <Flame className="w-3 h-3 text-[#f59e0b] fill-[#f59e0b]" />
+                    <span>{mealRow.calRange}</span>
+                  </div>
+                  {dish && (
+                    <div className="text-[11px] text-slate-400 font-medium mt-1 truncate">
+                      {dish.name}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex items-center space-x-2 shrink-0">
+                  {dish && (
+                    <div 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMealEaten(mealRow.slot);
+                      }}
+                      className="flex items-center -space-x-3 cursor-pointer"
+                      title={isEaten ? `${dish.name} (Eaten - click to unmark)` : `${dish.name} (Click to mark eaten)`}
+                    >
+                      <img 
+                        src={getIndianFoodImage(dish)} 
+                        alt={dish.name} 
+                        className={cx(
+                          "w-10 h-10 rounded-full object-cover border-2 shadow-xs transition",
+                          isEaten ? "border-[#8fd12a] ring-2 ring-[#8fd12a]/40" : "border-white dark:border-[#1C1511]"
+                        )}
+                      />
+                      {secondaryDish && (
+                        <img 
+                          src={getIndianFoodImage(secondaryDish)} 
+                          alt={secondaryDish.name} 
+                          className="w-10 h-10 rounded-full object-cover border-2 border-white dark:border-[#1C1511] shadow-xs" 
+                        />
+                      )}
+                    </div>
+                  )}
+
+                  <button 
+                    onClick={() => {
+                      haptic.selection();
+                      setSwappingSlot(mealRow.slot);
+                    }}
+                    className="w-8 h-8 rounded-full bg-[#f1f3ec] dark:bg-[#28201b] hover:bg-[#e4e7dd] dark:hover:bg-[#342a24] text-slate-700 dark:text-slate-200 flex items-center justify-center transition active:scale-95 cursor-pointer"
+                    title={`Swap or customize ${mealRow.label}`}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             );
           })}
-        </div>
-      </div>
+        </section>
 
-      {/* 4.5. Quick Action Bar - Instant 1-Tap Desi Fitness Shortcuts */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-3.5 sm:p-4 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-2.5">
-        <div className="flex items-center justify-between px-1">
-          <span className="text-[10px] font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] flex items-center space-x-1.5">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Quick Fitness Actions</span>
-          </span>
-          <button 
-            onClick={() => {
-              setActiveScreen('menu');
-              haptic.selection();
-            }}
-            className="text-[11px] font-bold text-slate-500 dark:text-slate-400 hover:text-[#EA580C] cursor-pointer"
-          >
-            All 14 Tools →
-          </button>
-        </div>
-
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-          {[
-            { id: 'water', label: '+ Water', icon: Droplets, color: 'text-sky-600 bg-sky-50 dark:bg-sky-950/60 dark:text-sky-400' },
-            { id: 'steps', label: 'Log Steps', icon: Footprints, color: 'text-amber-700 bg-amber-50 dark:bg-amber-950/60 dark:text-amber-300' },
-            { id: 'fridge', label: 'Fridge AI', icon: Refrigerator, color: 'text-orange-600 bg-orange-50 dark:bg-orange-950/60 dark:text-orange-400' },
-            { id: 'weekly', label: '7-Day Plan', icon: Calendar, color: 'text-amber-800 bg-amber-100/70 dark:bg-amber-950/60 dark:text-amber-200' },
-            { id: 'fasting', label: 'Fasting', icon: Timer, color: 'text-rose-600 bg-rose-50 dark:bg-rose-950/60 dark:text-rose-400' },
-            { id: 'supplements', label: 'Supplements', icon: Pill, color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400' },
-          ].map((act) => (
+        {/* 6. Dedicated 3-Diet Protocols (Weight Loss, Maintain, Weight Gain) */}
+        <section className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+              Target Diet Protocol
+            </span>
             <button
-              key={act.id}
-              onClick={() => {
-                setActiveScreen(act.id);
-                haptic.selection();
-              }}
-              className="p-2 sm:p-2.5 rounded-2xl bg-[#FFFBF5] dark:bg-[#19120E] hover:bg-stone-50 dark:hover:bg-[#251912] border border-[#EEDEC1] dark:border-[#34251B] flex flex-col items-center justify-center text-center transition cursor-pointer active:scale-95 group"
+              onClick={() => setIsPlanCompareModalOpen(true)}
+              className="text-[11px] font-bold text-[#EA580C] hover:underline cursor-pointer"
             >
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center mb-1 ${act.color} group-hover:scale-110 transition`}>
-                <act.icon className="w-4 h-4" />
-              </div>
-              <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate w-full">
-                {act.label}
-              </span>
+              Compare All 3 →
             </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 5. The 5 Indian Meal Deck */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <div>
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center space-x-2">
-              <Utensils className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
-              <span>Today's Indian Fitness Meal Plan</span>
-            </h3>
-            <p className="text-xs text-slate-400">
-              5 authentic Indian nutrition slots • {mealPlan.totalCalories} kcal planned
-            </p>
           </div>
-          <span className="text-xs font-bold text-slate-700 dark:text-slate-200">
-            {Object.values(eatenMeals).filter(Boolean).length} of 5 completed
-          </span>
-        </div>
 
-        {renderIndianMealCards()}
-      </div>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'fat_loss' as const, label: 'Weight Loss', desc: `${weightLossMacros.calories} kcal (-20%)` },
+              { id: 'maintenance' as const, label: 'Maintain', desc: `${maintainMacros.calories} kcal (TDEE)` },
+              { id: 'muscle_gain' as const, label: 'Weight Gain', desc: `${weightGainMacros.calories} kcal (+15%)` }
+            ].map((p) => {
+              const isSelected = profile.goal === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    setProfile(prev => ({ ...prev, goal: p.id }));
+                    haptic.selection();
+                    notify(`Switched to ${p.label}!`);
+                  }}
+                  className={cx(
+                    "p-2 rounded-xl text-center transition cursor-pointer active:scale-95 border",
+                    isSelected
+                      ? "bg-[#EA580C] border-[#EA580C] text-white font-bold shadow-xs"
+                      : "bg-[#f8faf8] dark:bg-[#19120E] border-[#edf0e8] dark:border-[#33251c] text-slate-700 dark:text-slate-300 hover:border-slate-300"
+                  )}
+                >
+                  <div className="text-xs">{p.label}</div>
+                  <div className={cx("text-[9px]", isSelected ? "text-[#FED7AA]" : "opacity-60")}>{p.desc}</div>
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
-    </div>
+        {/* 7. Quick Tool Launchpad */}
+        <section className="bg-white dark:bg-[#1C1511] rounded-[24px] p-3.5 border border-[#edf0e8] dark:border-[#33251c] shadow-xs">
+          <div className="grid grid-cols-4 gap-2 text-center">
+            {[
+              { id: 'fridge', label: 'Fridge AI', icon: Refrigerator },
+              { id: 'weekly', label: '7-Day Plan', icon: Calendar },
+              { id: 'fasting', label: 'Fasting', icon: Timer },
+              { id: 'supplements', label: 'Supplements', icon: Pill },
+            ].map(tool => (
+              <button
+                key={tool.id}
+                onClick={() => {
+                  setActiveScreen(tool.id);
+                  haptic.selection();
+                }}
+                className="p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#edf0e8] dark:border-[#33251c] hover:border-slate-300 flex flex-col items-center justify-center transition active:scale-95 cursor-pointer"
+              >
+                <tool.icon className="w-4 h-4 text-[#EA580C] mb-1" />
+                <span className="text-[10px] font-bold text-slate-700 dark:text-slate-300 truncate w-full">{tool.label}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      </main>
     );
   };
 
   // ========================================================
-  // RENDER: Desktop Companion Sidebar
-  // ========================================================
-  const renderDesktopCompanionSidebar = () => (
-    <div className="space-y-5">
-      
-      {/* 1. Fasting Tracker Live Ring Widget */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Timer className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-              Intermittent Fasting
-            </h3>
-          </div>
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA]">
-            16:8 Protocol
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between p-3 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B]">
-          <div>
-            <div className="text-[10px] text-slate-700 dark:text-slate-300 font-bold uppercase">Status</div>
-            <div className="text-lg font-black text-slate-900 dark:text-white font-mono">
-              14h 22m fasted
-            </div>
-            <div className="text-[11px] text-amber-700 dark:text-amber-500 font-semibold mt-0.5">
-              🔥 Ketosis & Autophagy Zone
-            </div>
-          </div>
-          <button
-            onClick={() => setActiveScreen('fasting')}
-            className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold shadow-xs active:scale-95 transition cursor-pointer"
-          >
-            Fasting Hub
-          </button>
-        </div>
-      </div>
-
-      {/* 2. Weight & Somatotype Telemetry */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Scale className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-              Body Telemetry
-            </h3>
-          </div>
-          <div className="flex items-center space-x-1.5">
-            <span className="text-xs font-bold text-slate-400">
-              Target: {shownWeight(targetWeight)} {weightUnit}
-            </span>
-            <button 
-              onClick={() => {
-                setWeightUnit(prev => prev === 'kg' ? 'lb' : 'kg');
-                haptic.selection();
-              }}
-              className="px-1.5 py-0.5 rounded-md bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-[10px] font-bold cursor-pointer"
-              title="Toggle kg/lb unit"
-            >
-              {weightUnit.toUpperCase()}
-            </button>
-          </div>
-        </div>
-
-        <div className="flex items-baseline justify-between">
-          <div>
-            <span className="text-3xl font-black text-slate-900 dark:text-white">
-              {shownWeight(profile.weightKg)}
-            </span>
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 ml-1.5">{weightUnit}</span>
-          </div>
-          <div className="text-right">
-            <span className="text-xs font-bold text-amber-700 dark:text-amber-500">
-              -3.4 kg past 30 days
-            </span>
-            <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium">BMI: 22.6 (Healthy)</div>
-          </div>
-        </div>
-
-        {/* Quick Weight Slider */}
-        <div className="space-y-1 pt-1">
-          <input 
-            type="range"
-            min={50}
-            max={100}
-            step={0.1}
-            value={profile.weightKg}
-            onChange={(e) => setProfile(prev => ({ ...prev, weightKg: parseFloat(e.target.value) }))}
-            className="w-full accent-[#EA580C] cursor-pointer"
-          />
-          <div className="flex justify-between text-[10px] text-slate-400">
-            <span>50 kg</span>
-            <span>Current: {profile.weightKg} kg</span>
-            <span>100 kg</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. Quick AI Personal Nutritionist Assistant Widget */}
-      <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Bot className="w-4 h-4 text-[#9A3412] dark:text-[#FED7AA]" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-              AI Desi Nutritionist
-            </h3>
-          </div>
-          <button 
-            onClick={() => setActiveScreen('coach')}
-            className="text-xs font-bold text-[#9A3412] dark:text-[#FED7AA] hover:underline"
-          >
-            Open Full Chat
-          </button>
-        </div>
-
-        <div className="space-y-2">
-          {[
-            'How to hit 120g protein on pure veg diet?',
-            'Roti vs Rice for weight loss?',
-            'Is Sattu better than Whey protein?'
-          ].map((prompt, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveScreen('coach')}
-              className="w-full text-left p-2.5 rounded-2xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#34251B] hover:border-[#EA580C] text-xs font-semibold text-slate-700 dark:text-slate-300 transition cursor-pointer flex items-center justify-between group"
-            >
-              <span>{prompt}</span>
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#EA580C]" />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 4. Quick Smart Grocery Hub Trigger */}
-      <div className="p-4 rounded-3xl bg-[#FEF3C7] dark:bg-[#241811] border border-[#FED7AA] dark:border-[#3A281E] flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-2xl bg-[#EA580C] text-white flex items-center justify-center shadow-xs">
-            <ShoppingBag className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white">Smart Grocery List</div>
-            <div className="text-[11px] text-slate-700 dark:text-slate-300 font-medium">1-Click WhatsApp & Blinkit Export</div>
-          </div>
-        </div>
-        <button
-          onClick={() => setActiveScreen('grocery')}
-          className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#2D2018] border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-800 dark:text-slate-200 shadow-xs hover:border-[#EA580C] transition cursor-pointer"
-        >
-          View List
-        </button>
-      </div>
-
-    </div>
-  );
-
-  // ========================================================
-  // RENDER: Statistics / Analytics Screen
+  // RENDER: Statistics Screen (Exact Mockup Match)
   // ========================================================
   const renderStatisticScreen = (_isDual = false) => (
-    <div className="space-y-4 animate-in fade-in duration-200">
-      
-      {/* Top Header */}
-      <div className="flex items-center justify-between pb-1">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            Macro & Body Analytics
-          </h2>
-          <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">7-Day Calorie Telemetry, Weight Check-ins & Body Transformation</p>
-        </div>
-        <button
+    <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+      {/* Top Bar with Back and Options */}
+      <div className="flex items-center justify-between pt-1 pb-1">
+        <button 
           onClick={() => {
             setActiveScreen('dashboard');
             haptic.selection();
           }}
-          className="px-3.5 py-1.5 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-700 dark:text-slate-300 active:scale-95 transition cursor-pointer"
+          className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs hover:bg-slate-50 transition active:scale-95 cursor-pointer"
+          aria-label="Back to Home"
         >
-          Back to Plan
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-base font-bold text-slate-900 dark:text-white">Statistic</h2>
+        <button 
+          onClick={() => {
+            haptic.light();
+            notify("Telemetry calibrated via Mifflin-St Jeor equation.");
+          }}
+          className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs hover:bg-slate-50 transition active:scale-95 cursor-pointer"
+          aria-label="Options"
+        >
+          <MoreHorizontal className="w-5 h-5" />
         </button>
       </div>
 
-      <Analytics
-        profile={profile}
-        weightLogs={weightLogs}
-        onAddWeightLog={handleAddWeightLog}
-      />
+      {/* Calories Summary Metric */}
+      <div className="space-y-1 pt-1">
+        <span className="text-xs font-semibold text-slate-400">Calories</span>
+        <div className="flex items-baseline justify-between">
+          <div>
+            <span className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+              {caloriesLogged || 1250}
+            </span>
+            <span className="text-sm font-semibold text-slate-400 ml-1.5">Kcal</span>
+          </div>
+          <div className="text-xs font-semibold text-slate-500">
+            Target: <span className="text-slate-800 dark:text-white font-bold">{macroGoals.calories || 1920} Kcal</span>
+          </div>
+        </div>
+      </div>
 
-    </div>
+      {/* 7-Day Calorie Bar Chart */}
+      <div className="bg-white dark:bg-[#1C1511] rounded-[26px] p-5 border border-[#edf0e8] dark:border-[#33251c] shadow-xs">
+        <div className="grid grid-cols-7 gap-2.5 items-end h-44 pb-2 border-b border-slate-100 dark:border-slate-800">
+          {/* Mon: 44% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">44%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '44%' }} />
+          </div>
+
+          {/* Tue: 34% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">34%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '34%' }} />
+          </div>
+
+          {/* Wed: 110% (Peak active day highlighted in solid lime) */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1">
+            <span className="text-[10px] font-bold text-[#1b2b0a] bg-[#d8f572] px-2 py-0.5 rounded-full shadow-xs">
+              110%
+            </span>
+            <div className="w-5 sm:w-6 chart-peak-bar" style={{ height: '90%' }} />
+          </div>
+
+          {/* Thu: 47% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">47%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '47%' }} />
+          </div>
+
+          {/* Fri: 32% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">32%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '32%' }} />
+          </div>
+
+          {/* Sat: 79% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">79%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '79%' }} />
+          </div>
+
+          {/* Sun: 24% */}
+          <div className="flex flex-col items-center justify-end h-full space-y-1.5">
+            <span className="text-[10px] font-semibold text-slate-400">24%</span>
+            <div className="w-5 sm:w-6 chart-striped-bar" style={{ height: '24%' }} />
+          </div>
+        </div>
+
+        {/* Day labels */}
+        <div className="grid grid-cols-7 gap-2.5 pt-2 text-center text-xs text-slate-400 font-medium">
+          <span>Mon</span>
+          <span>Tue</span>
+          <span className="text-slate-900 dark:text-white font-bold">Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+          <span>Sun</span>
+        </div>
+      </div>
+
+      {/* 2x2 Activity & Health Metric Grid */}
+      <div className="grid grid-cols-2 gap-3.5">
+        {/* Exercise Card */}
+        <div 
+          onClick={() => {
+            setActiveScreen('workouts');
+            haptic.selection();
+          }}
+          className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+        >
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-7 rounded-full bg-[#eef9ee] text-[#22c55e] flex items-center justify-center shrink-0">
+              <svg className="w-3.5 h-3.5 text-[#22c55e]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 3 21 3 21 9" />
+                <polyline points="9 21 3 21 3 15" />
+                <line x1="21" y1="3" x2="14" y2="10" />
+                <line x1="3" y1="21" x2="10" y2="14" />
+              </svg>
+            </div>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Exercise</span>
+          </div>
+
+          {/* Mini Wave Bar Visual */}
+          <div className="flex items-end space-x-1.5 h-6 my-2">
+            <div className="w-1.5 bg-[#22c55e]/50 rounded-full h-2.5" />
+            <div className="w-1.5 bg-[#22c55e]/70 rounded-full h-4" />
+            <div className="w-1.5 bg-[#22c55e] rounded-full h-5.5" />
+            <div className="w-1.5 bg-[#22c55e]/80 rounded-full h-3.5" />
+            <div className="w-1.5 bg-[#22c55e] rounded-full h-6" />
+          </div>
+
+          <div className="flex items-baseline justify-between">
+            <div>
+              <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">2.0</span>
+              <span className="text-xs text-slate-400 ml-1 font-medium">hours</span>
+            </div>
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded-full">
+              {proteinLogged}g protein
+            </span>
+          </div>
+        </div>
+
+        {/* BPM Card */}
+        <div className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-7 rounded-full bg-[#feecee] text-[#f43f5e] flex items-center justify-center shrink-0">
+              <Heart className="w-3.5 h-3.5 fill-[#f43f5e]" />
+            </div>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">BPM</span>
+          </div>
+
+          {/* Heartbeat ECG Line Visual */}
+          <div className="my-2 h-6 flex items-center">
+            <svg viewBox="0 0 100 24" className="w-full h-5 stroke-[#f43f5e] fill-none stroke-[2.2] stroke-linecap-round stroke-linejoin-round">
+              <path d="M0 12 H22 L26 5 L32 20 L37 8 L42 15 L45 12 H62 L66 6 L71 18 L75 12 H100" />
+            </svg>
+          </div>
+
+          <div>
+            <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">86</span>
+            <span className="text-xs text-slate-400 ml-1 font-medium">bpm</span>
+          </div>
+        </div>
+
+        {/* Weight Card */}
+        <div 
+          onClick={() => {
+            setIsProfileModalOpen(true);
+            haptic.selection();
+          }}
+          className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+        >
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-7 rounded-full bg-[#fff0eb] text-[#ff6838] flex items-center justify-center shrink-0">
+              <svg className="w-3.5 h-3.5 text-[#ff6838]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.69 2 6 4.69 6 8v1H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-2V8c0-3.31-2.69-6-6-6zm0 2c2.21 0 4 1.79 4 4v1H8V8c0-2.21 1.79-4 4-4z"/>
+              </svg>
+            </div>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Weight</span>
+          </div>
+
+          <div className="my-2 h-6 flex items-center">
+            <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+              <div className="h-full bg-[#EA580C] rounded-full w-3/4" />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                {shownWeight(profile.weightKg)}
+              </span>
+              <div className="flex items-center space-x-1">
+                <span className="text-xs text-slate-400 font-medium">{weightUnit}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setWeightUnit(prev => prev === 'kg' ? 'lb' : 'kg');
+                    haptic.selection();
+                  }}
+                  className="text-[9px] font-bold px-1.5 py-0.5 rounded-sm bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                >
+                  {weightUnit.toUpperCase()}
+                </button>
+              </div>
+            </div>
+            <div className="text-[10px] text-slate-400 mt-0.5">Target: {shownWeight(targetWeight)} {weightUnit}</div>
+          </div>
+        </div>
+
+        {/* Water Card */}
+        <div 
+          onClick={() => {
+            setActiveScreen('water');
+            haptic.selection();
+          }}
+          className="bg-white dark:bg-[#1C1511] rounded-[24px] p-4 border border-[#edf0e8] dark:border-[#33251c] shadow-xs flex flex-col justify-between hover:border-slate-300 transition cursor-pointer"
+        >
+          <div className="flex items-center space-x-2">
+            <div className="w-7 h-7 rounded-full bg-[#e8f6fd] text-[#0ea5e9] flex items-center justify-center shrink-0">
+              <Droplets className="w-3.5 h-3.5" />
+            </div>
+            <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Water</span>
+          </div>
+
+          {/* Water Droplets Row */}
+          <div className="my-2 h-6 flex items-center space-x-1.5 text-[#0ea5e9]">
+            {[1,2,3,4,5,6].map(i => (
+              <Droplets key={i} className="w-3.5 h-3.5 fill-[#0ea5e9]" />
+            ))}
+          </div>
+
+          <div>
+            <span className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">12</span>
+            <span className="text-xs text-slate-400 ml-1 font-medium">glasses</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Telemetry & Weight check-in section */}
+      <div className="pt-2">
+        <Analytics
+          profile={profile}
+          weightLogs={weightLogs}
+          onAddWeightLog={handleAddWeightLog}
+        />
+      </div>
+    </main>
   );
+
+  // ========================================================
+  // RENDER: Rewards & Streaks Screen
+  // ========================================================
+  const renderRewardsScreen = () => (
+    <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+      <div className="flex items-center justify-between pt-1 pb-1">
+        <button 
+          onClick={() => {
+            setActiveScreen('dashboard');
+            haptic.selection();
+          }}
+          className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-base font-bold text-slate-900 dark:text-white">Rewards & Streaks</h2>
+        <div className="w-10" />
+      </div>
+
+      <div className="hero-lime rounded-3xl p-6 text-center space-y-2">
+        <Award className="w-12 h-12 text-[#1b2b0a] mx-auto" />
+        <h3 className="text-2xl font-black text-[#1b2b0a]">6-Day Fitness Streak!</h3>
+        <p className="text-xs text-[#1b2b0a]/80 max-w-xs mx-auto">
+          You have logged meals consistently for 6 days this week. 1 more day to unlock the Golden Thali badge!
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 pt-2">
+        <div className="bg-white dark:bg-[#1C1511] p-4 rounded-2xl border border-[#edf0e8] dark:border-[#33251c] space-y-1 text-center">
+          <div className="w-10 h-10 rounded-full bg-[#fff0eb] text-[#ff6838] flex items-center justify-center mx-auto mb-2">
+            <Footprints className="w-5 h-5" />
+          </div>
+          <div className="text-xs font-bold text-slate-900 dark:text-white">Pedometer Pro</div>
+          <div className="text-[10px] text-slate-400">5,500 / 10,000 steps</div>
+        </div>
+
+        <div className="bg-white dark:bg-[#1C1511] p-4 rounded-2xl border border-[#edf0e8] dark:border-[#33251c] space-y-1 text-center">
+          <div className="w-10 h-10 rounded-full bg-[#e8f6fd] text-[#0ea5e9] flex items-center justify-center mx-auto mb-2">
+            <Droplets className="w-5 h-5" />
+          </div>
+          <div className="text-xs font-bold text-slate-900 dark:text-white">Hydration Master</div>
+          <div className="text-[10px] text-slate-400">12 / 12 glasses reached</div>
+        </div>
+      </div>
+    </main>
+  );
+
+  // ========================================================
+  // RENDER: Menu / All Tools Screen
+  // ========================================================
+  const renderMenuScreen = () => (
+    <main className="px-5 py-2 space-y-4 flex-1 animate-in fade-in duration-200">
+      <div className="flex items-center justify-between pt-1 pb-1">
+        <button 
+          onClick={() => {
+            setActiveScreen('dashboard');
+            haptic.selection();
+          }}
+          className="w-10 h-10 rounded-2xl bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-300 shadow-xs"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-base font-bold text-slate-900 dark:text-white">All Fitness Tools</h2>
+        <div className="w-10" />
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        {[
+          { id: 'weekly', title: '7-Day Thali', icon: Calendar, desc: 'Weekly meal schedule' },
+          { id: 'water', title: 'Hydration', icon: Droplets, desc: 'Water & buttermilk' },
+          { id: 'steps', title: 'Strava Steps', icon: Footprints, desc: 'Distance & burn' },
+          { id: 'fridge', title: 'Fridge AI', icon: Refrigerator, desc: 'Pantry dish finder' },
+          { id: 'supplements', title: 'Supplements', icon: Pill, desc: 'Evidence guide' },
+          { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Desi nutritionist' },
+          { id: 'grocery', title: 'Grocery List', icon: ShoppingBag, desc: 'WhatsApp export' },
+          { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: 'Intermittent clock' },
+          { id: 'workouts', title: 'Workouts', icon: Dumbbell, desc: 'Desi cardio & gym' },
+          { id: 'recipes', title: 'Recipes', icon: ChefHat, desc: '50+ Indian meals' },
+          { id: 'account', title: 'Profile Settings', icon: User, desc: 'Height, weight, age' },
+        ].map((t) => (
+          <button
+            key={t.id}
+            onClick={() => {
+              setActiveScreen(t.id);
+              haptic.selection();
+            }}
+            className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#edf0e8] dark:border-[#33251c] text-left hover:border-slate-300 transition cursor-pointer active:scale-95"
+          >
+            <div className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 flex items-center justify-center mb-2">
+              <t.icon className="w-4 h-4" />
+            </div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">{t.title}</div>
+            <div className="text-[10px] text-slate-400 mt-0.5">{t.desc}</div>
+          </button>
+        ))}
+      </div>
+    </main>
+  );
+
+  // ========================================================
+  // RENDER: Sub-Screen Content Handler
+  // ========================================================
+  const renderSubScreenContent = (screen: string) => {
+    switch (screen) {
+      case 'scanner':
+        return (
+          <FoodScanner onAddScannedFoodToPlan={(scanned, slot) => {
+            notify(`Added ${scanned.foodName} to ${slot}!`);
+            setActiveScreen('dashboard');
+          }} />
+        );
+      case 'weekly':
+        return (
+          <WeeklyPlanner profile={profile} targetCalories={macroGoals.calories} />
+        );
+      case 'water':
+        return (
+          <WaterTracker 
+            waterLoggedMl={waterAmount}
+            setWaterLoggedMl={setWaterAmount}
+            targetMl={Math.max(2500, Math.round(profile.weightKg * 35))}
+          />
+        );
+      case 'steps':
+        return (
+          <StepsTracker
+            profile={profile}
+            stepsLogs={stepsLogs}
+            onAddStepsLog={handleAddStepsLog}
+          />
+        );
+      case 'fridge':
+        return (
+          <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
+        );
+      case 'supplements':
+        return (
+          <SupplementGuide />
+        );
+      case 'coach':
+        return (
+          <AICoach profile={profile} macroGoals={macroGoals} />
+        );
+      case 'grocery':
+        return (
+          <GroceryList mealPlan={mealPlan} onNotify={notify} />
+        );
+      case 'fasting':
+        return (
+          <FastingTimer fastingState={fastingState} setFastingState={setFastingState} />
+        );
+      case 'workouts':
+        return (
+          <WorkoutTracker 
+            profile={profile}
+            workouts={workouts} 
+            onAddWorkout={(w) => setWorkouts([...workouts, w])} 
+            onRemoveWorkout={(id: string) => setWorkouts(workouts.filter(w => w.id !== id))} 
+          />
+        );
+      case 'custom_recipes':
+        return (
+          <CustomRecipeBuilder 
+            savedRecipes={savedCustomRecipes} 
+            onSaveCustomRecipe={(r) => {
+              setSavedCustomRecipes([...savedCustomRecipes, r]);
+              notify(`Saved custom dish ${r.name}!`);
+            }} 
+          />
+        );
+      case 'swiggy':
+        return (
+          <SwiggyGuide />
+        );
+      case 'recipes':
+        return (
+          <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 border border-[#edf0e8] dark:border-[#33251c] space-y-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">Indian Recipe Library</h3>
+            <div className="relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input 
+                type="text"
+                placeholder="Search paneer, dal, oats, chilla..."
+                value={recipeSearch}
+                onChange={(e) => setRecipeSearch(e.target.value)}
+                className="w-full bg-[#f8faf8] dark:bg-[#19120E] border border-[#edf0e8] dark:border-[#33251c] rounded-xl pl-9 pr-3 py-2 text-xs font-medium focus:outline-none"
+              />
+            </div>
+            <div className="flex items-center space-x-2 overflow-x-auto pb-1">
+              {[
+                { id: 'all', label: 'All Recipes' },
+                { id: 'high-protein', label: 'High Protein' },
+                { id: 'quick', label: 'Under 10 mins' },
+                { id: 'north', label: 'North Indian' },
+                { id: 'south', label: 'South Indian' }
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setRecipeFilter(cat.id)}
+                  className={cx(
+                    "px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer shrink-0",
+                    recipeFilter === cat.id
+                      ? "bg-[#8fd12a] text-[#1b2b0a] shadow-xs"
+                      : "bg-[#f8faf8] dark:bg-[#19120E] text-slate-600 dark:text-slate-400 border border-[#edf0e8] dark:border-[#33251c]"
+                  )}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            <div className="space-y-2 max-h-[460px] overflow-y-auto">
+              {filteredRecipes.map((food) => (
+                <div 
+                  key={food.id}
+                  onClick={() => setSelectedRecipe(food)}
+                  className="p-2.5 bg-[#f8faf8] dark:bg-[#19120E] rounded-2xl border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-between cursor-pointer hover:border-slate-300 transition"
+                >
+                  <div className="flex items-center space-x-2.5">
+                    <img src={getIndianFoodImage(food)} alt={food.name} className="w-10 h-10 rounded-xl object-cover" />
+                    <div>
+                      <div className="font-bold text-xs text-slate-900 dark:text-white">{food.name}</div>
+                      <div className="text-[10px] text-slate-400">{food.calories} kcal • {food.protein}g Protein</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      case 'account':
+        return (
+          <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#edf0e8] dark:border-[#33251c] shadow-xs space-y-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center space-x-3.5">
+                <img src={userAvatar} alt="Profile" className="w-16 h-16 rounded-2xl object-cover border-2 border-[#8fd12a] shadow-md" />
+                <div>
+                  <h3 className="font-black text-xl text-slate-900 dark:text-white leading-tight">{profile.name}</h3>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                    {profile.gender === 'female' ? 'Female' : 'Male'} • {profile.age} yrs • {profile.heightCm} cm • {profile.weightKg} kg
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <label className="px-3 py-1.5 rounded-xl bg-[#8fd12a] text-[#1b2b0a] text-xs font-bold cursor-pointer hover:bg-[#7bc01d] transition shadow-xs flex items-center space-x-1">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Upload</span>
+                  <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
+                </label>
+                <button 
+                  onClick={() => setIsProfileModalOpen(true)}
+                  className="px-3 py-1.5 rounded-xl border border-[#8fd12a] text-slate-800 dark:text-white text-xs font-bold transition cursor-pointer flex items-center space-x-1"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span>Full Editor</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-[#edf0e8] dark:border-[#33251c] flex items-center justify-between">
+              <div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Over-The-Air (OTA) Updates</div>
+                <div className="text-[10px] text-slate-400">NutriFit v{CURRENT_APP_VERSION} ({CURRENT_COMMIT})</div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsOTAModalOpen(true);
+                  haptic.selection();
+                }}
+                className="px-3 py-1.5 rounded-xl bg-lime-100 dark:bg-lime-950/80 text-[#1b2b0a] dark:text-[#d8f58c] border border-lime-300 dark:border-lime-700 text-xs font-bold cursor-pointer"
+              >
+                Check OTA
+              </button>
+            </div>
+          </div>
+        );
+      default:
+        return renderHomeScreen(false);
+    }
+  };
 
   // ========================================================
   // RENDER: Desktop Top Navigation Bar
   // ========================================================
   const renderDesktopTopNav = () => (
-    <header className="bg-white/90 dark:bg-[#1C1511]/90 backdrop-blur-xl border border-[#EEDEC1] dark:border-[#3A291E] rounded-3xl px-6 py-3 flex items-center justify-between shadow-xs select-none">
+    <header className="bg-white/95 dark:bg-[#1C1511]/95 backdrop-blur-xl border border-[#edf0e8] dark:border-[#33251c] rounded-3xl px-6 py-3 flex items-center justify-between shadow-xs select-none">
       {/* Brand Logo */}
       <div className="flex items-center space-x-3">
         <img 
           src="/app-icon.png" 
           alt="NutriFit Logo" 
-          className="w-9 h-9 rounded-2xl object-cover border border-[#EEDEC1] dark:border-[#2f4034] shadow-xs" 
+          className="w-9 h-9 rounded-2xl object-cover border border-[#edf0e8] dark:border-[#33251c] shadow-xs" 
         />
         <div>
           <span className="font-extrabold text-base text-slate-900 dark:text-white tracking-tight">NutriFit</span>
-          <span className="text-slate-600 dark:text-slate-300 font-semibold text-xs ml-2 hidden sm:inline">
-            Botanical Culinary • AI Indian Meal Planner
+          <span className="text-slate-500 dark:text-slate-400 font-semibold text-xs ml-2 hidden sm:inline">
+            Smart Indian Fitness & Meal Planner
           </span>
         </div>
       </div>
 
-      {/* Center Navigation Links */}
-      <nav className="hidden md:flex items-center space-x-1 bg-[#f8faf8] dark:bg-[#19120E] p-1 rounded-2xl border border-[#EEDEC1] dark:border-[#34251B]">
+      {/* Center Layout Mode Switcher */}
+      <div className="hidden lg:flex items-center space-x-1 bg-[#f1f3ec] dark:bg-[#19120E] p-1 rounded-2xl border border-[#edf0e8] dark:border-[#33251c]">
         {[
-          { id: 'dashboard', label: 'Today Plan' },
-          { id: 'statistic', label: 'Analytics' },
-          { id: 'weekly', label: '7-Day Thali' },
-          { id: 'water', label: 'Water' },
-          { id: 'steps', label: 'Steps' },
-          { id: 'fridge', label: 'Fridge AI' },
-          { id: 'supplements', label: 'Supplements' },
-          { id: 'coach', label: 'AI Coach' },
-          { id: 'menu', label: 'All Tools' }
+          { id: 'dual_mockup' as const, label: 'Dual Mockup (Screenshot)', icon: Smartphone },
+          { id: 'single_phone' as const, label: 'Single Phone', icon: Smartphone },
+          { id: 'responsive' as const, label: 'Full Web Dashboard', icon: Monitor },
         ].map(item => (
           <button
             key={item.id}
             onClick={() => {
-              setActiveScreen(item.id);
+              setDesktopMode(item.id);
               haptic.selection();
+              notify(`Switched to ${item.label}`);
             }}
             className={cx(
-              "px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer",
-              activeScreen === item.id 
-                ? "bg-[#EA580C] text-white shadow-xs" 
+              "flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer",
+              desktopMode === item.id 
+                ? "bg-[#8fd12a] text-[#1b2b0a] shadow-xs" 
                 : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
             )}
           >
-            {item.label}
+            <item.icon className="w-3.5 h-3.5" />
+            <span>{item.label}</span>
           </button>
         ))}
-      </nav>
+      </div>
 
-      {/* Right Controls: Streak, Simulator Toggle, Theme, Clerk Auth */}
+      {/* Right Controls: OTA, Theme, Profile */}
       <div className="flex items-center space-x-2.5">
         <button
           onClick={() => {
             setIsOTAModalOpen(true);
             haptic.selection();
           }}
-          className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-800 text-[#EA580C] text-xs font-bold hover:scale-105 transition cursor-pointer"
+          className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-lime-100 dark:bg-lime-950/80 border border-lime-300 dark:border-lime-800 text-[#1b2b0a] dark:text-[#d8f58c] text-xs font-bold hover:scale-105 transition cursor-pointer"
           title="Check Over-The-Air (OTA) Updates"
         >
-          <CloudDownload className="w-3.5 h-3.5" />
+          <CloudDownload className="w-3.5 h-3.5 text-[#8fd12a]" />
           <span>OTA v2.2</span>
-        </button>
-
-        <div className="hidden sm:flex items-center space-x-1 px-3 py-1 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-xs font-bold">
-          <Flame className="w-3.5 h-3.5 fill-[#f59e0b] text-[#f59e0b]" />
-          <span>5d Streak</span>
-        </div>
-
-        {/* View Mode Toggle: Responsive Dashboard vs Phone Simulator */}
-        <button
-          onClick={() => {
-            const next = desktopMode === 'responsive' ? 'mobile_preview' : 'responsive';
-            setDesktopMode(next);
-            notify(`Switched to ${next === 'responsive' ? 'Responsive Web' : 'Phone Simulator'} mode`);
-          }}
-          className="hidden lg:flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A2A1F] text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#251C17] transition cursor-pointer"
-          title="Toggle view mode"
-        >
-          {desktopMode === 'responsive' ? <Smartphone className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
-          <span>{desktopMode === 'responsive' ? 'Phone Preview' : 'Full Web'}</span>
         </button>
 
         {/* Theme Toggle */}
@@ -1431,7 +1421,7 @@ export function AppContent() {
             haptic.selection();
             notify(`Switched to ${next} theme.`);
           }}
-          className="w-9 h-9 rounded-xl bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-xs hover:bg-slate-50 transition cursor-pointer"
+          className="w-9 h-9 rounded-xl bg-white dark:bg-[#231811] border border-[#edf0e8] dark:border-[#33251c] flex items-center justify-center text-slate-700 dark:text-slate-200 shadow-xs hover:bg-slate-50 transition cursor-pointer"
           title="Toggle Dark Mode"
         >
           {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-slate-700" />}
@@ -1443,105 +1433,109 @@ export function AppContent() {
             setIsProfileModalOpen(true);
             haptic.selection();
           }}
-          className="flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-[#EEDEC1] dark:border-[#3A291E] bg-white dark:bg-[#231811] text-xs font-bold text-slate-800 dark:text-white hover:border-[#EA580C] transition cursor-pointer shadow-2xs"
+          className="flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-[#edf0e8] dark:border-[#33251c] bg-white dark:bg-[#231811] text-xs font-bold text-slate-800 dark:text-white hover:border-[#8fd12a] transition cursor-pointer shadow-2xs"
           title="Edit Profile & Body Metrics"
         >
-          <img src={userAvatar} alt="Profile" className="w-5 h-5 rounded-full object-cover border border-[#EA580C]" />
-          <span className="hidden xl:inline">{profile.name}</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200">
-            {profile.weightKg}kg • {profile.heightCm}cm
-          </span>
+          <img 
+            src={userAvatar} 
+            alt="User Profile" 
+            className="w-5 h-5 rounded-full object-cover border border-[#8fd12a]" 
+          />
+          <span className="hidden sm:inline">{profile.name.split(' ')[0]}</span>
         </button>
-
-        <SafeUserButton userAvatar={userAvatar} userName={profile.name} />
       </div>
     </header>
   );
 
   // ========================================================
-  // RENDER: Mobile Floating Navigation Bar
+  // RENDER: Floating Bottom Navigation Bar (Matches Screenshot 1:1)
   // ========================================================
-  const renderMobileBottomNav = () => (
-    <nav 
-      className="floating-nav flex items-center justify-around fixed bottom-3 inset-x-3 max-w-[420px] mx-auto z-40 bg-white/95 dark:bg-[#1C1511]/95 backdrop-blur-xl border border-[#EEDEC1] dark:border-[#3A291E] rounded-3xl py-2 px-3 shadow-xl"
-      aria-label="Bottom Navigation"
-    >
-      <button 
-        onClick={() => {
-          haptic.selection();
-          setActiveScreen('dashboard');
-        }}
+  const renderFloatingNav = (isEmbedded = false) => {
+    return (
+      <nav 
         className={cx(
-          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'dashboard' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
-        )}
+          isEmbedded ? "floating-nav-embedded" : "floating-nav",
+          "select-none"
+        )} 
+        aria-label="Bottom Navigation"
       >
-        <Home className="w-5 h-5 stroke-[2.2]" />
-        <span className="text-[10px]">Today</span>
-      </button>
+        <button 
+          onClick={() => {
+            haptic.selection();
+            setActiveScreen('dashboard');
+          }}
+          className={cx(
+            "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
+            activeScreen === 'dashboard' ? 'text-slate-900 dark:text-white font-extrabold' : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
+          )}
+        >
+          <Home className={cx("w-5 h-5", activeScreen === 'dashboard' ? "stroke-[2.5]" : "stroke-[2]")} />
+          <span className="text-[10px]">Home</span>
+        </button>
 
-      <button 
-        onClick={() => {
-          haptic.selection();
-          setActiveScreen('statistic');
-        }}
-        className={cx(
-          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'statistic' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
-        )}
-      >
-        <BarChart3 className="w-5 h-5 stroke-[2.2]" />
-        <span className="text-[10px]">Analytics</span>
-      </button>
+        <button 
+          onClick={() => {
+            haptic.selection();
+            setActiveScreen('statistic');
+          }}
+          className={cx(
+            "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
+            activeScreen === 'statistic' ? 'text-slate-900 dark:text-white font-extrabold' : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
+          )}
+        >
+          <BarChart3 className={cx("w-5 h-5", activeScreen === 'statistic' ? "stroke-[2.5]" : "stroke-[2]")} />
+          <span className="text-[10px]">Progress</span>
+        </button>
 
-      <button 
-        onClick={() => {
-          haptic.selection();
-          setActiveScreen('scanner');
-        }}
-        className="w-11 h-11 rounded-full bg-[#EA580C] text-white flex items-center justify-center shadow-md active:scale-95 transition -mt-5 cursor-pointer"
-        aria-label="Scan food"
-      >
-        <Scan className="w-5 h-5 stroke-[2.5]" />
-      </button>
+        <button 
+          onClick={() => {
+            haptic.selection();
+            setActiveScreen('scanner');
+          }}
+          className="fab-raised"
+          aria-label="Scan food with camera"
+        >
+          <Scan className="w-5 h-5 stroke-[2.5]" />
+        </button>
 
-      <button 
-        onClick={() => {
-          haptic.selection();
-          setActiveScreen('coach');
-        }}
-        className={cx(
-          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'coach' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
-        )}
-      >
-        <Bot className="w-5 h-5 stroke-[2.2]" />
-        <span className="text-[10px]">AI Coach</span>
-      </button>
+        <button 
+          onClick={() => {
+            haptic.selection();
+            setActiveScreen('rewards');
+          }}
+          className={cx(
+            "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
+            activeScreen === 'rewards' ? 'text-slate-900 dark:text-white font-extrabold' : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
+          )}
+        >
+          <Star className={cx("w-5 h-5", activeScreen === 'rewards' ? "stroke-[2.5]" : "stroke-[2]")} />
+          <span className="text-[10px]">Rewards</span>
+        </button>
 
-      <button 
-        onClick={() => {
-          haptic.selection();
-          setActiveScreen('menu');
-        }}
-        className={cx(
-          "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
-          activeScreen === 'menu' ? 'text-[#9A3412] dark:text-[#FED7AA] font-black' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium'
-        )}
-      >
-        <LayoutGrid className="w-5 h-5 stroke-[2.2]" />
-        <span className="text-[10px]">Tools</span>
-      </button>
-    </nav>
-  );
+        <button 
+          onClick={() => {
+            haptic.selection();
+            setActiveScreen('menu');
+          }}
+          className={cx(
+            "flex flex-col items-center justify-center space-y-0.5 px-3 py-1 transition cursor-pointer rounded-xl",
+            activeScreen === 'menu' ? 'text-slate-900 dark:text-white font-extrabold' : 'text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
+          )}
+        >
+          <LayoutGrid className={cx("w-5 h-5", activeScreen === 'menu' ? "stroke-[2.5]" : "stroke-[2]")} />
+          <span className="text-[10px]">Menu</span>
+        </button>
+      </nav>
+    );
+  };
 
   return (
-    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#FFFBF5] dark:bg-[#130E0C] text-slate-900 dark:text-white pb-20">
+    <div id="morrow-app" data-theme={theme} className="min-h-screen bg-[#edf0f2] dark:bg-[#12161a] text-slate-900 dark:text-white pb-16">
       
       {/* Toast Notification Banner */}
       {notification && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#EA580C] text-white px-5 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center space-x-2 animate-in fade-in slide-in-from-top-4 duration-200">
-          <Sparkles className="w-4 h-4 text-[#FED7AA]" />
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#8fd12a] text-[#1b2b0a] px-5 py-2.5 rounded-2xl shadow-xl text-xs font-bold flex items-center space-x-2 animate-in fade-in slide-in-from-top-4 duration-200">
+          <Sparkles className="w-4 h-4 text-[#1b2b0a]" />
           <span>{notification}</span>
         </div>
       )}
@@ -1563,7 +1557,56 @@ export function AppContent() {
       )}
 
       {/* ========================================================
-          DESKTOP RESPONSIVE LAYOUT (Default on Large Screens)
+          DESKTOP DUAL MOCKUP VIEW (Exact Match to Screenshot)
+          ======================================================== */}
+      {desktopMode === 'dual_mockup' && (
+        <div className="hidden lg:block max-w-7xl mx-auto px-6 py-6 space-y-6">
+          {renderDesktopTopNav()}
+
+          <div className="flex items-start justify-center gap-10 py-6">
+            {/* Phone 1 (Left): Home Screen UI */}
+            <div className="w-[390px] h-[820px] rounded-[48px] border-[9px] border-[#15100e] relative flex flex-col bg-[#f6f8f4] dark:bg-[#15100E] overflow-hidden shrink-0 shadow-2xl">
+              {renderPhoneStatusBar()}
+              <div className="flex-1 overflow-y-auto no-scrollbar pb-2">
+                {renderHomeScreen(true)}
+              </div>
+              <div className="px-4 pb-2">
+                {renderFloatingNav(true)}
+              </div>
+              <div className="w-32 h-1 bg-slate-900/80 dark:bg-white/80 rounded-full mx-auto mb-2 shrink-0 select-none" />
+            </div>
+
+            {/* Phone 2 (Right): Statistic Screen UI or Active Tab */}
+            <div className="w-[390px] h-[820px] rounded-[48px] border-[9px] border-[#15100e] relative flex flex-col bg-[#f6f8f4] dark:bg-[#15100E] overflow-hidden shrink-0 shadow-2xl">
+              {renderPhoneStatusBar()}
+              <div className="flex-1 overflow-y-auto no-scrollbar pb-3">
+                {activeScreen === 'statistic' || activeScreen === 'dashboard' ? (
+                  renderStatisticScreen(true)
+                ) : activeScreen === 'rewards' ? (
+                  renderRewardsScreen()
+                ) : activeScreen === 'menu' ? (
+                  renderMenuScreen()
+                ) : (
+                  <div className="p-4 space-y-3 flex-1 overflow-y-auto">
+                    <button 
+                      onClick={() => setActiveScreen('statistic')}
+                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] px-3 py-1.5 rounded-xl shadow-xs cursor-pointer"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      <span>Back to Statistic</span>
+                    </button>
+                    {renderSubScreenContent(activeScreen)}
+                  </div>
+                )}
+              </div>
+              <div className="w-32 h-1 bg-slate-900/80 dark:bg-white/80 rounded-full mx-auto my-3 shrink-0 select-none" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          DESKTOP RESPONSIVE LAYOUT
           ======================================================== */}
       {desktopMode === 'responsive' && (
         <div className="hidden lg:block max-w-7xl mx-auto px-6 py-6 space-y-6">
@@ -1571,11 +1614,11 @@ export function AppContent() {
 
           {activeScreen === 'dashboard' && (
             <div className="grid grid-cols-12 gap-6">
-              <div className="col-span-8 space-y-6">
+              <div className="col-span-7 space-y-6">
                 {renderHomeScreen(false)}
               </div>
-              <div className="col-span-4 space-y-6">
-                {renderDesktopCompanionSidebar()}
+              <div className="col-span-5 space-y-6">
+                {renderStatisticScreen(false)}
               </div>
             </div>
           )}
@@ -1586,1010 +1629,95 @@ export function AppContent() {
             </div>
           )}
 
-          {activeScreen === 'grocery' && (
-            <div className="max-w-4xl mx-auto">
-              <GroceryList mealPlan={mealPlan} onNotify={notify} />
-            </div>
-          )}
-
-          {activeScreen === 'coach' && (
-            <div className="max-w-3xl mx-auto">
-              <AICoach profile={profile} macroGoals={macroGoals} />
-            </div>
-          )}
-
-          {activeScreen === 'fasting' && (
-            <div className="max-w-3xl mx-auto">
-              <FastingTimer fastingState={fastingState} setFastingState={setFastingState} />
-            </div>
-          )}
-
-          {activeScreen === 'recipes' && (
-            <div className="max-w-4xl mx-auto">
-              {/* Recipe browser */}
-              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-black text-xl text-slate-900 dark:text-white">50+ Authentic Indian Fitness Recipes</h3>
-                  <span className="text-xs text-slate-400">Curated with macros</span>
-                </div>
-                <div className="relative">
-                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-                  <input 
-                    type="text"
-                    placeholder="Search dal, paneer, oats, chilla, khichdi, sattu..."
-                    value={recipeSearch}
-                    onChange={(e) => setRecipeSearch(e.target.value)}
-                    className="w-full bg-white dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-2xl pl-10 pr-4 py-3 text-xs font-semibold text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:border-[#EA580C]"
-                  />
-                </div>
-                {/* Category Filter Pills */}
-                <div className="flex items-center space-x-2 overflow-x-auto pb-1">
-                  {[
-                    { id: 'all', label: 'All Recipes' },
-                    { id: 'high-protein', label: 'High Protein (15g+)' },
-                    { id: 'quick', label: 'Under 10 mins' },
-                    { id: 'north', label: 'North Indian' },
-                    { id: 'south', label: 'South Indian' }
-                  ].map(cat => (
-                    <button
-                      key={cat.id}
-                      onClick={() => setRecipeFilter(cat.id)}
-                      className={cx(
-                        "px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer shrink-0",
-                        recipeFilter === cat.id
-                          ? "bg-[#EA580C] text-white shadow-xs"
-                          : "bg-[#f8faf8] dark:bg-[#19120E] text-slate-600 dark:text-slate-400 border border-[#EEDEC1] dark:border-[#34251B] hover:border-[#EA580C]"
-                      )}
-                    >
-                      {cat.label}
-                    </button>
-                  ))}
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {filteredRecipes.map((food) => (
-                    <div 
-                      key={food.id}
-                      onClick={() => setSelectedRecipe(food)}
-                      className="p-3 bg-[#f8faf8] dark:bg-[#19120E] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition cursor-pointer flex items-center space-x-3"
-                    >
-                      <img src={getIndianFoodImage(food)} alt={food.name} className="w-14 h-14 rounded-xl object-cover shrink-0" />
-                      <div className="min-w-0">
-                        <div className="font-bold text-xs text-slate-900 dark:text-white truncate">{food.name}</div>
-                        <div className="text-[11px] text-slate-400 mt-0.5">{food.calories} kcal • {food.protein}g Protein</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {activeScreen === 'rewards' && (
+            <div className="max-w-2xl mx-auto">
+              {renderRewardsScreen()}
             </div>
           )}
 
           {activeScreen === 'menu' && (
+            <div className="max-w-3xl mx-auto">
+              {renderMenuScreen()}
+            </div>
+          )}
+
+          {activeScreen !== 'dashboard' && activeScreen !== 'statistic' && activeScreen !== 'rewards' && activeScreen !== 'menu' && (
             <div className="max-w-4xl mx-auto space-y-4">
-              <h3 className="text-xl font-black text-slate-900 dark:text-white">All Indian Health Tools & AI Companions</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
-                {[
-                  { id: 'weekly', title: '7-Day Thali Plan', icon: Calendar, desc: 'Weekly planner with PDF export' },
-                  { id: 'water', title: 'Hydration Tracker', icon: Droplets, desc: 'Water, chaas & nariyal pani' },
-                  { id: 'steps', title: 'Steps Pedometer', icon: Footprints, desc: 'Live GPS distance & burn card' },
-                  { id: 'fridge', title: 'Smart Fridge AI', icon: Refrigerator, desc: 'Find dishes by kitchen stock' },
-                  { id: 'supplements', title: 'Supplement Advisor', icon: Pill, desc: 'Evidence guide (Whey, Creatine, D3)' },
-                  { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'AI nutrition camera recognition' },
-                  { id: 'grocery', title: 'Smart Grocery', icon: ShoppingBag, desc: '1-click WhatsApp shopping list' },
-                  { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Personal desi fitness nutritionist' },
-                  { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: '16:8 countdown ring & autophagy' },
-                  { id: 'workouts', title: 'Workouts', icon: Activity, desc: 'Track exercise & calorie burn' },
-                  { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ authentic Indian fitness meals' },
-                  { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom dish nutrition calculator' },
-                  { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy Swiggy & Zomato choices' },
-                  { id: 'ota', title: 'OTA Updates', icon: CloudDownload, desc: 'Live cloud asset sync & v2.2.0' },
-                  { id: 'account', title: 'Profile & Settings', icon: User, desc: 'Calibrate height, weight, macros' },
-                ].map(tool => (
-                  <button
-                    key={tool.id}
-                    onClick={() => {
-                      if (tool.id === 'ota') {
-                        setIsOTAModalOpen(true);
-                      } else {
-                        setActiveScreen(tool.id);
-                      }
-                      haptic.selection();
-                    }}
-                    className="p-4 bg-white dark:bg-[#1C1511] rounded-3xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] transition text-left cursor-pointer space-y-2 group shadow-xs active:scale-95"
-                  >
-                    <div className="w-10 h-10 rounded-2xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center group-hover:scale-110 transition">
-                      <tool.icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <div className="font-extrabold text-sm text-slate-900 dark:text-white">{tool.title}</div>
-                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{tool.desc}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Additional Sub-Screens on Desktop */}
-          {activeScreen === 'weekly' && (
-            <div className="max-w-6xl mx-auto space-y-3">
-              <button
+              <button 
                 onClick={() => setActiveScreen('dashboard')}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] px-3.5 py-1.5 rounded-xl shadow-xs"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back to Home</span>
               </button>
-              <WeeklyPlanner profile={profile} targetCalories={macroGoals.calories} />
-            </div>
-          )}
-
-          {activeScreen === 'water' && (
-            <div className="max-w-4xl mx-auto space-y-3">
-              <button
-                onClick={() => setActiveScreen('dashboard')}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </button>
-              <WaterTracker 
-                waterLoggedMl={waterAmount}
-                setWaterLoggedMl={setWaterAmount}
-                targetMl={Math.max(2500, Math.round(profile.weightKg * 35))}
-              />
-            </div>
-          )}
-
-          {activeScreen === 'steps' && (
-            <div className="max-w-4xl mx-auto space-y-3">
-              <button
-                onClick={() => setActiveScreen('dashboard')}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </button>
-              <StepsTracker
-                profile={profile}
-                stepsLogs={stepsLogs}
-                onAddStepsLog={handleAddStepsLog}
-              />
-            </div>
-          )}
-
-          {activeScreen === 'fridge' && (
-            <div className="max-w-4xl mx-auto space-y-3">
-              <button
-                onClick={() => setActiveScreen('dashboard')}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </button>
-              <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
-            </div>
-          )}
-
-          {activeScreen === 'supplements' && (
-            <div className="max-w-4xl mx-auto space-y-3">
-              <button
-                onClick={() => setActiveScreen('dashboard')}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer active:scale-95 transition"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </button>
-              <SupplementGuide />
-            </div>
-          )}
-
-          {/* Sub screens on desktop */}
-          {activeScreen === 'scanner' && (
-            <div className="max-w-3xl mx-auto">
-              <FoodScanner onAddScannedFoodToPlan={(scanned, slot) => {
-                notify(`Added ${scanned.foodName} to ${slot}!`);
-                setActiveScreen('dashboard');
-              }} />
-            </div>
-          )}
-
-          {activeScreen === 'workouts' && (
-            <div className="max-w-3xl mx-auto">
-              <WorkoutTracker 
-                profile={profile}
-                workouts={workouts} 
-                onAddWorkout={(w) => setWorkouts([...workouts, w])} 
-                onRemoveWorkout={(id: string) => setWorkouts(workouts.filter(w => w.id !== id))} 
-              />
-            </div>
-          )}
-
-          {activeScreen === 'custom_recipes' && (
-            <div className="max-w-3xl mx-auto">
-              <CustomRecipeBuilder 
-                savedRecipes={savedCustomRecipes} 
-                onSaveCustomRecipe={(r) => {
-                  setSavedCustomRecipes([...savedCustomRecipes, r]);
-                  notify(`Saved custom dish ${r.name}!`);
-                }} 
-              />
-            </div>
-          )}
-
-          {activeScreen === 'swiggy' && (
-            <div className="max-w-3xl mx-auto">
-              <SwiggyGuide />
-            </div>
-          )}
-
-          {activeScreen === 'account' && (
-            <div className="max-w-2xl mx-auto space-y-4">
-              <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-6 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-6">
-                
-                {/* Header & Avatar */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center space-x-3.5">
-                    <img src={userAvatar} alt="Profile" className="w-16 h-16 rounded-2xl object-cover border-2 border-[#EA580C] shadow-md" />
-                    <div>
-                      <h3 className="font-black text-xl text-slate-900 dark:text-white leading-tight">{profile.name}</h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-                        {profile.gender === 'female' ? 'Female' : 'Male'} • {profile.age} yrs • {profile.heightCm} cm • {profile.weightKg} kg
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <label className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold cursor-pointer hover:bg-[#C2410C] transition shadow-xs flex items-center space-x-1">
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>Upload</span>
-                      <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
-                    </label>
-                    <button 
-                      onClick={() => setIsProfileModalOpen(true)}
-                      className="px-3 py-1.5 rounded-xl border border-[#EA580C] text-[#EA580C] hover:bg-[#EA580C]/10 text-xs font-bold transition cursor-pointer flex items-center space-x-1"
-                    >
-                      <User className="w-3.5 h-3.5" />
-                      <span>Full Editor</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Direct Details Editor Grid */}
-                <div className="pt-4 border-t border-[#EEDEC1]/60 dark:border-[#3A291E] space-y-4">
-                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    Personal & Physical Details
-                  </h4>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Full Name</label>
-                      <input
-                        type="text"
-                        value={profile.name}
-                        onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Biological Gender</label>
-                      <div className="grid grid-cols-2 gap-2">
-                        <button
-                          type="button"
-                          onClick={() => setProfile(prev => ({ ...prev, gender: 'male' }))}
-                          className={`py-2 px-3 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                            profile.gender === 'male'
-                              ? 'bg-[#EA580C] text-white border-[#EA580C]'
-                              : 'bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 border-[#EEDEC1] dark:border-[#3A291E]'
-                          }`}
-                        >
-                          👨 Male
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setProfile(prev => ({ ...prev, gender: 'female' }))}
-                          className={`py-2 px-3 rounded-xl text-xs font-bold border transition cursor-pointer ${
-                            profile.gender === 'female'
-                              ? 'bg-[#EA580C] text-white border-[#EA580C]'
-                              : 'bg-[#f8faf8] dark:bg-[#19120E] text-slate-700 dark:text-slate-300 border-[#EEDEC1] dark:border-[#3A291E]'
-                          }`}
-                        >
-                          👩 Female
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Age (yrs)</label>
-                      <input
-                        type="number"
-                        min="12"
-                        max="100"
-                        value={profile.age}
-                        onChange={(e) => setProfile(prev => ({ ...prev, age: Number(e.target.value) }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Height (cm)</label>
-                      <input
-                        type="number"
-                        min="100"
-                        max="240"
-                        value={profile.heightCm}
-                        onChange={(e) => setProfile(prev => ({ ...prev, heightCm: Number(e.target.value) }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Weight (kg)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="30"
-                        max="220"
-                        value={profile.weightKg}
-                        onChange={(e) => setProfile(prev => ({ ...prev, weightKg: Number(e.target.value) }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Target (kg)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="30"
-                        max="220"
-                        value={profile.targetWeightKg || ''}
-                        placeholder="e.g. 65"
-                        onChange={(e) => setProfile(prev => ({ ...prev, targetWeightKg: Number(e.target.value) }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#EA580C]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Fitness Goal</label>
-                      <select
-                        value={profile.goal}
-                        onChange={(e) => setProfile(prev => ({ ...prev, goal: e.target.value as any }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                      >
-                        <option value="fat_loss">Weight Loss (-20% Deficit)</option>
-                        <option value="maintenance">Maintain (TDEE Fit)</option>
-                        <option value="muscle_gain">Weight Gain (+15% Surplus)</option>
-                        <option value="recomp">Body Recomposition (-5% Deficit)</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Diet Type</label>
-                      <select
-                        value={profile.dietType}
-                        onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                      >
-                        <option value="pure_veg">Pure Vegetarian (Lacto-Veg)</option>
-                        <option value="eggetarian">Eggetarian (Veg + Eggs)</option>
-                        <option value="non_veg">Non-Vegetarian (Chicken/Fish)</option>
-                        <option value="high_protein_veg">High-Protein Veg</option>
-                        <option value="jain">Jain Food</option>
-                        <option value="sattvic">Sattvic Ayurvedic</option>
-                        <option value="vegan">Vegan (Plant-Based)</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Activity Level</label>
-                      <select
-                        value={profile.activityLevel}
-                        onChange={(e) => setProfile(prev => ({ ...prev, activityLevel: e.target.value as any }))}
-                        className="w-full p-2.5 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                      >
-                        <option value="sedentary">Sedentary (1.2x)</option>
-                        <option value="lightly_active">Lightly Active (1.375x)</option>
-                        <option value="moderately_active">Moderately Active (1.55x)</option>
-                        <option value="very_active">Very Active (1.725x)</option>
-                        <option value="extra_active">Extra Active (1.9x)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Telemetry card */}
-                  <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-[#251C17] dark:to-[#1F1611] p-3.5 rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex flex-col sm:flex-row items-center justify-between gap-3">
-                    <div>
-                      <div className="text-xs font-bold text-slate-900 dark:text-white">
-                        Mifflin-St Jeor Target: <span className="text-[#EA580C]">{macroGoals.calories} kcal/day</span>
-                      </div>
-                      <div className="text-[11px] text-slate-600 dark:text-slate-400 font-semibold mt-0.5">
-                        {macroGoals.proteinGrams}g Protein • {macroGoals.carbsGrams}g Carbs • {macroGoals.fatsGrams}g Healthy Fats
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        haptic.selection();
-                        notify(`Profile saved! Target updated to ${macroGoals.calories} kcal.`);
-                      }}
-                      className="w-full sm:w-auto px-4 py-2 rounded-xl bg-[#EA580C] hover:bg-[#C2410C] text-white text-xs font-bold transition shadow-xs cursor-pointer"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
-
-                  {/* Over-The-Air (OTA) Updates & App Sync Card */}
-                  <div className="p-4 rounded-2xl bg-[#FFFBF5] dark:bg-[#15100E] border border-[#EEDEC1] dark:border-[#2D1F16] flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] flex items-center justify-center shrink-0">
-                        <CloudDownload className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 dark:text-white">Over-The-Air (OTA) Updates</div>
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400">NutriFit v{CURRENT_APP_VERSION} • Commit {CURRENT_COMMIT}</div>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsOTAModalOpen(true);
-                        haptic.selection();
-                      }}
-                      className="px-3.5 py-1.5 rounded-xl bg-amber-100 dark:bg-amber-950/80 hover:bg-amber-200 text-[#EA580C] border border-amber-300 dark:border-amber-800 text-xs font-bold transition active:scale-95 cursor-pointer"
-                    >
-                      Check OTA
-                    </button>
-                  </div>
-                </div>
-
-              </div>
+              {renderSubScreenContent(activeScreen)}
             </div>
           )}
         </div>
       )}
 
       {/* ========================================================
-          MOBILE VIEW / PHONE SIMULATOR MODE
+          SINGLE PHONE VIEW (Mobile or Phone Simulator Mode)
           ======================================================== */}
-      {(desktopMode === 'mobile_preview' || true) && (
-        <div className={`phone-shell ${desktopMode === 'mobile_preview' ? 'hidden lg:block phone-simulator-frame mx-auto' : 'lg:hidden'}`}>
-          
-          {/* Mobile Top App Header */}
-          <header className="sticky top-0 z-40 bg-[#FFFBF5]/90 dark:bg-[#130E0C]/90 backdrop-blur-xl border-b border-[#EEDEC1] dark:border-[#2D2018] px-4 py-2.5 flex items-center justify-between safe-top">
-            <div className="flex items-center space-x-2.5">
-              <img 
-                src="/app-icon.png" 
-                alt="NutriFit" 
-                className="w-8 h-8 rounded-xl object-cover border border-[#EEDEC1] dark:border-[#3A291E]" 
-              />
-              <div>
-                <span className="font-extrabold text-sm text-slate-900 dark:text-white tracking-tight">NutriFit</span>
-                <span className="text-[10px] text-slate-600 dark:text-slate-300 font-semibold block leading-none">Indian AI Planner</span>
-              </div>
+      {(desktopMode === 'single_phone' || desktopMode === 'dual_mockup') && (
+        <div className={`phone-shell bg-[#f6f8f4] dark:bg-[#15100E] ${desktopMode === 'single_phone' ? 'hidden lg:block phone-simulator-frame mx-auto my-6' : 'lg:hidden'}`}>
+          {desktopMode === 'single_phone' && (
+            <div className="p-4 bg-white/95 dark:bg-[#1C1511]/95 border-b border-[#edf0e8] dark:border-[#33251c]">
+              {renderDesktopTopNav()}
             </div>
+          )}
 
-            <div className="flex items-center space-x-2">
-              <button 
-                onClick={() => {
-                  setIsOTAModalOpen(true);
-                  haptic.selection();
-                }}
-                className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 border border-amber-300 dark:border-amber-800 text-[#EA580C] text-[10px] font-black cursor-pointer active:scale-95 transition"
-                title="Check OTA Updates"
-              >
-                <CloudDownload className="w-3 h-3" />
-                <span>v2.2</span>
-              </button>
+          {renderPhoneStatusBar()}
 
-              <div className="flex items-center space-x-1 px-2 py-0.5 rounded-full bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] text-[11px] font-bold">
-                <Flame className="w-3 h-3 fill-[#f59e0b] text-[#f59e0b]" />
-                <span>5d</span>
-              </div>
-
-              <button 
-                onClick={() => {
-                  const next = theme === 'dark' ? 'light' : 'dark';
-                  setTheme(next);
-                  haptic.selection();
-                  notify(`Switched to ${next} theme.`);
-                }}
-                className="w-8 h-8 rounded-full bg-white dark:bg-[#231811] border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-center text-slate-700 dark:text-slate-200 transition"
-                title="Toggle theme"
-              >
-                {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-300" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
-              </button>
-
-              <button 
-                onClick={() => {
-                  setIsProfileModalOpen(true);
-                  haptic.selection();
-                }}
-                className="flex items-center space-x-1.5 p-0.5 pr-2 rounded-full border border-[#EA580C]/50 bg-white dark:bg-[#1C1511] cursor-pointer"
-                title="Edit Profile"
-              >
-                <img src={userAvatar} alt="Profile" className="w-6 h-6 rounded-full object-cover border border-[#EA580C]" />
-                <span className="text-[11px] font-bold text-slate-800 dark:text-white max-w-[65px] truncate">{profile.name.split(' ')[0]}</span>
-              </button>
-            </div>
-          </header>
-
-          {/* Mobile Main Body */}
-          <main className="px-4 pt-3 pb-28 space-y-4">
+          <main className="px-4 pt-2 pb-24 space-y-4">
             {activeScreen === 'dashboard' && renderHomeScreen(false)}
             {activeScreen === 'statistic' && renderStatisticScreen(false)}
-            
-            {activeScreen === 'scanner' && (
+            {activeScreen === 'rewards' && renderRewardsScreen()}
+            {activeScreen === 'menu' && renderMenuScreen()}
+            {activeScreen !== 'dashboard' && activeScreen !== 'statistic' && activeScreen !== 'rewards' && activeScreen !== 'menu' && (
               <div className="space-y-3">
                 <button 
                   onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] px-3 py-1.5 rounded-xl shadow-xs"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
                 </button>
-                <FoodScanner onAddScannedFoodToPlan={(scanned, slot) => {
-                  notify(`Added ${scanned.foodName} to ${slot}!`);
-                  setActiveScreen('dashboard');
-                }} />
-              </div>
-            )}
-
-            {activeScreen === 'coach' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <AICoach profile={profile} macroGoals={macroGoals} />
-              </div>
-            )}
-
-            {activeScreen === 'grocery' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <GroceryList mealPlan={mealPlan} onNotify={notify} />
-              </div>
-            )}
-
-            {activeScreen === 'fasting' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <FastingTimer fastingState={fastingState} setFastingState={setFastingState} />
-              </div>
-            )}
-
-            {activeScreen === 'workouts' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <WorkoutTracker 
-                  profile={profile}
-                  workouts={workouts} 
-                  onAddWorkout={(w) => setWorkouts([...workouts, w])} 
-                  onRemoveWorkout={(id: string) => setWorkouts(workouts.filter(w => w.id !== id))} 
-                />
-              </div>
-            )}
-
-            {activeScreen === 'custom_recipes' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Menu</span>
-                </button>
-                <CustomRecipeBuilder 
-                  savedRecipes={savedCustomRecipes} 
-                  onSaveCustomRecipe={(r) => {
-                    setSavedCustomRecipes([...savedCustomRecipes, r]);
-                    notify(`Saved custom dish ${r.name}!`);
-                  }} 
-                />
-              </div>
-            )}
-
-            {activeScreen === 'swiggy' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('menu')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Menu</span>
-                </button>
-                <SwiggyGuide />
-              </div>
-            )}
-
-            {activeScreen === 'recipes' && (
-              <div className="space-y-3">
-                <button 
-                  onClick={() => setActiveScreen('dashboard')}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-4 border border-[#EEDEC1] dark:border-[#3A291E] space-y-3">
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white">Indian Recipe Library</h3>
-                  <div className="relative">
-                    <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
-                    <input 
-                      type="text"
-                      placeholder="Search paneer, dal, oats, chilla..."
-                      value={recipeSearch}
-                      onChange={(e) => setRecipeSearch(e.target.value)}
-                      className="w-full bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] rounded-xl pl-9 pr-3 py-2 text-xs font-medium focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-2 max-h-[460px] overflow-y-auto">
-                    {filteredRecipes.map((food) => (
-                      <div 
-                        key={food.id}
-                        onClick={() => setSelectedRecipe(food)}
-                        className="p-2.5 bg-[#f8faf8] dark:bg-[#19120E] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between cursor-pointer"
-                      >
-                        <div className="flex items-center space-x-2.5">
-                          <img src={getIndianFoodImage(food)} alt={food.name} className="w-10 h-10 rounded-xl object-cover" />
-                          <div>
-                            <div className="font-bold text-xs text-slate-900 dark:text-white">{food.name}</div>
-                            <div className="text-[10px] text-slate-400">{food.calories} kcal • {food.protein}g Protein</div>
-                          </div>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-slate-400" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeScreen === 'weekly' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <button 
-                  onClick={() => {
-                    setActiveScreen('dashboard');
-                    haptic.selection();
-                  }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <WeeklyPlanner profile={profile} targetCalories={macroGoals.calories} />
-              </div>
-            )}
-
-            {activeScreen === 'water' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <button 
-                  onClick={() => {
-                    setActiveScreen('dashboard');
-                    haptic.selection();
-                  }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <WaterTracker 
-                  waterLoggedMl={waterAmount}
-                  setWaterLoggedMl={setWaterAmount}
-                  targetMl={Math.max(2500, Math.round(profile.weightKg * 35))}
-                />
-              </div>
-            )}
-
-            {activeScreen === 'steps' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <button 
-                  onClick={() => {
-                    setActiveScreen('dashboard');
-                    haptic.selection();
-                  }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <StepsTracker
-                  profile={profile}
-                  stepsLogs={stepsLogs}
-                  onAddStepsLog={handleAddStepsLog}
-                />
-              </div>
-            )}
-
-            {activeScreen === 'fridge' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <button 
-                  onClick={() => {
-                    setActiveScreen('dashboard');
-                    haptic.selection();
-                  }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <FridgeAI onSelectRecipe={(food) => setSelectedRecipe(food)} />
-              </div>
-            )}
-
-            {activeScreen === 'supplements' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <button 
-                  onClick={() => {
-                    setActiveScreen('dashboard');
-                    haptic.selection();
-                  }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs active:scale-95 transition cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Back to Home</span>
-                </button>
-                <SupplementGuide />
-              </div>
-            )}
-
-            {activeScreen === 'menu' && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <h3 className="text-sm font-black uppercase tracking-wider text-[#9A3412] dark:text-[#FED7AA] px-1">
-                  All 14 Indian Health Tools & AI Companions
-                </h3>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { id: 'weekly', title: '7-Day Thali Plan', icon: Calendar, desc: 'Weekly PDF planner' },
-                    { id: 'water', title: 'Hydration', icon: Droplets, desc: 'Chaas, water & nariyal' },
-                    { id: 'steps', title: 'Steps Tracker', icon: Footprints, desc: 'Strava-style card' },
-                    { id: 'fridge', title: 'Smart Fridge', icon: Refrigerator, desc: 'Cook with what you have' },
-                    { id: 'supplements', title: 'Supplements', icon: Pill, desc: 'Scientific advisor' },
-                    { id: 'scanner', title: 'Food Scanner', icon: Camera, desc: 'Camera AI recognition' },
-                    { id: 'grocery', title: 'Smart Pantry', icon: ShoppingBag, desc: '1-click WhatsApp' },
-                    { id: 'coach', title: 'AI Coach', icon: Bot, desc: 'Desi nutritionist' },
-                    { id: 'fasting', title: 'Fasting Timer', icon: Timer, desc: '16:8 countdown' },
-                    { id: 'workouts', title: 'Workouts', icon: Activity, desc: 'Exercise burn' },
-                    { id: 'recipes', title: 'Recipe Library', icon: ChefHat, desc: '50+ Indian meals' },
-                    { id: 'custom_recipes', title: 'Recipe Builder', icon: SlidersHorizontal, desc: 'Custom macros' },
-                    { id: 'swiggy', title: 'Delivery Swaps', icon: Utensils, desc: 'Healthy orders' },
-                    { id: 'ota', title: 'OTA Updates', icon: CloudDownload, desc: 'Live cloud sync & v2.2' },
-                    { id: 'account', title: 'Profile Settings', icon: User, desc: 'Height & weight' },
-                  ].map(tool => (
-                    <button
-                      key={tool.id}
-                      onClick={() => {
-                        if (tool.id === 'ota') {
-                          setIsOTAModalOpen(true);
-                        } else {
-                          setActiveScreen(tool.id);
-                        }
-                        haptic.selection();
-                      }}
-                      className="p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] hover:border-[#EA580C] text-left cursor-pointer space-y-1.5 shadow-xs active:scale-95 transition"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] dark:bg-[#261B14] text-[#9A3412] dark:text-[#FED7AA] flex items-center justify-center">
-                        <tool.icon className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 dark:text-white">{tool.title}</div>
-                        <div className="text-[10px] text-slate-600 dark:text-slate-300 font-medium line-clamp-1">{tool.desc}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                <button 
-                  onClick={() => setActiveScreen('account')}
-                  className="w-full p-3.5 bg-white dark:bg-[#1C1511] rounded-2xl border border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between text-left cursor-pointer mt-2"
-                >
-                  <div className="flex items-center space-x-3">
-                    <User className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-                    <span className="text-xs font-bold text-slate-800 dark:text-white">Profile & Target Calibration</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
-                </button>
-              </div>
-            )}
-
-            {activeScreen === 'account' && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <button 
-                    onClick={() => setActiveScreen('menu')}
-                    className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#EEDEC1] dark:border-[#3A291E] px-3 py-1.5 rounded-xl shadow-xs"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>Back to Menu</span>
-                  </button>
-
-                  <button 
-                    onClick={() => setIsProfileModalOpen(true)}
-                    className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#EA580C] bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 px-3 py-1.5 rounded-xl shadow-xs cursor-pointer"
-                  >
-                    <User className="w-3.5 h-3.5" />
-                    <span>Full Editor Modal</span>
-                  </button>
-                </div>
-
-                <div className="bg-white dark:bg-[#1C1511] rounded-3xl p-5 border border-[#EEDEC1] dark:border-[#3A291E] shadow-xs space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <img src={userAvatar} alt="Profile" className="w-14 h-14 rounded-full object-cover border-2 border-[#EA580C]" />
-                      <div>
-                        <h3 className="font-black text-base text-slate-900 dark:text-white">{profile.name}</h3>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">{profile.gender === 'female' ? 'Female' : 'Male'} • {profile.age} yrs • {profile.weightKg} kg • {profile.heightCm} cm</p>
-                      </div>
-                    </div>
-
-                    <label className="px-2.5 py-1 rounded-lg bg-[#EA580C] text-white text-[11px] font-bold cursor-pointer hover:bg-[#C2410C]">
-                      Photo
-                      <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
-                    </label>
-                  </div>
-
-                  <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-[#2D2018]">
-                    {/* Name */}
-                    <div>
-                      <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Full Name</label>
-                      <input
-                        type="text"
-                        value={profile.name}
-                        onChange={(e) => setProfile(prev => ({ ...prev, name: e.target.value }))}
-                        className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
-                      />
-                    </div>
-
-                    {/* Metrics 4-grid */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Age (yrs)</label>
-                        <input
-                          type="number"
-                          value={profile.age}
-                          onChange={(e) => setProfile(prev => ({ ...prev, age: Number(e.target.value) }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Height (cm)</label>
-                        <input
-                          type="number"
-                          value={profile.heightCm}
-                          onChange={(e) => setProfile(prev => ({ ...prev, heightCm: Number(e.target.value) }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Weight (kg)</label>
-                        <input
-                          type="number"
-                          step="0.1"
-                          value={profile.weightKg}
-                          onChange={(e) => setProfile(prev => ({ ...prev, weightKg: Number(e.target.value) }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
-                        />
-                      </div>
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Target (kg)</label>
-                        <input
-                          type="number"
-                          step="0.1"
-                          placeholder="e.g. 65"
-                          value={profile.targetWeightKg || ''}
-                          onChange={(e) => setProfile(prev => ({ ...prev, targetWeightKg: Number(e.target.value) }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-900 dark:text-white"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Goal & Diet */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Fitness Goal</label>
-                        <select
-                          value={profile.goal}
-                          onChange={(e) => setProfile(prev => ({ ...prev, goal: e.target.value as any }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                        >
-                          <option value="fat_loss">Weight Loss</option>
-                          <option value="maintenance">Maintain</option>
-                          <option value="muscle_gain">Weight Gain</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-bold text-slate-700 dark:text-slate-200 block mb-1">Diet Type</label>
-                        <select
-                          value={profile.dietType}
-                          onChange={(e) => setProfile(prev => ({ ...prev, dietType: e.target.value as any }))}
-                          className="w-full p-2 rounded-xl bg-[#f8faf8] dark:bg-[#19120E] border border-[#EEDEC1] dark:border-[#3A291E] text-xs font-bold text-slate-800 dark:text-white"
-                        >
-                          <option value="pure_veg">Pure Veg</option>
-                          <option value="eggetarian">Eggetarian</option>
-                          <option value="non_veg">Non-Veg</option>
-                          <option value="high_protein_veg">High-Protein Veg</option>
-                          <option value="jain">Jain Food</option>
-                          <option value="sattvic">Sattvic</option>
-                          <option value="vegan">Vegan</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2">
-                      <div>
-                        <div className="text-xs font-bold text-slate-800 dark:text-slate-200">Daily Target</div>
-                        <div className="text-[11px] text-slate-600 dark:text-slate-300 font-semibold">{macroGoals.calories} kcal ({macroGoals.proteinGrams}g Protein)</div>
-                      </div>
-                      <button
-                        onClick={() => {
-                          haptic.selection();
-                          notify(`Profile details saved successfully!`);
-                        }}
-                        className="px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-bold shadow-2xs cursor-pointer"
-                      >
-                        Save
-                      </button>
-                    </div>
-
-                    {/* Over-The-Air (OTA) Updates & App Sync Card */}
-                    <div className="pt-3 border-t border-[#EEDEC1] dark:border-[#3A291E] flex items-center justify-between">
-                      <div className="flex items-center space-x-2.5">
-                        <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] flex items-center justify-center shrink-0">
-                          <CloudDownload className="w-4 h-4" />
-                        </div>
-                        <div>
-                          <div className="text-xs font-bold text-slate-900 dark:text-white">OTA Updates</div>
-                          <div className="text-[10px] text-slate-500 dark:text-slate-400">NutriFit v{CURRENT_APP_VERSION} ({CURRENT_COMMIT})</div>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setIsOTAModalOpen(true);
-                          haptic.selection();
-                        }}
-                        className="px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-[#EA580C] border border-amber-300 dark:border-amber-800 text-[11px] font-black cursor-pointer active:scale-95"
-                      >
-                        Check OTA
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                {renderSubScreenContent(activeScreen)}
               </div>
             )}
           </main>
 
-          {/* Floating Mobile Bottom Nav */}
-          {renderMobileBottomNav()}
+          {renderFloatingNav(false)}
         </div>
       )}
+
+      {/* If desktopMode is responsive, mobile still needs to render on small screens */}
+      {desktopMode === 'responsive' && (
+        <div className="lg:hidden phone-shell bg-[#f6f8f4] dark:bg-[#15100E]">
+          {renderPhoneStatusBar()}
+          <main className="px-4 pt-2 pb-24 space-y-4">
+            {activeScreen === 'dashboard' && renderHomeScreen(false)}
+            {activeScreen === 'statistic' && renderStatisticScreen(false)}
+            {activeScreen === 'rewards' && renderRewardsScreen()}
+            {activeScreen === 'menu' && renderMenuScreen()}
+            {activeScreen !== 'dashboard' && activeScreen !== 'statistic' && activeScreen !== 'rewards' && activeScreen !== 'menu' && (
+              <div className="space-y-3">
+                <button 
+                  onClick={() => setActiveScreen('dashboard')}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#1C1511] border border-[#edf0e8] dark:border-[#33251c] px-3 py-1.5 rounded-xl shadow-xs"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Back to Home</span>
+                </button>
+                {renderSubScreenContent(activeScreen)}
+              </div>
+            )}
+          </main>
+          {renderFloatingNav(false)}
+        </div>
+      )}
+
 
       {/* ========================================================
           GLOBAL MODALS
